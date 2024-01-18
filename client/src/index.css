@@ -1,0 +1,22 @@
+body {
+    background: white;
+    color: #101010;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+label {
+    display: block;
+}
+
+input {
+    width: 100%;
+}
+
+span { 
+    display: block;
+    color: tomato;
+    font-size: x-small;
+}
