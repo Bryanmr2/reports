@@ -1,18 +1,14 @@
-body {
+.reportForm {
     background: white;
     color: #101010;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     min-height: 100vh;
 }
 
 label {
     display: block;
-}
-
-input {
-    width: 100%;
 }
 
 span { 
