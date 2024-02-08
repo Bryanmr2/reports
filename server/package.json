@@ -21,7 +21,8 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "timeago.js": "^4.0.2"
+    "timeago.js": "^4.0.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

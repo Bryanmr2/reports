@@ -1,23 +1,23 @@
 const express = require("express");
-const path = require("path");
+const cors = require("cors");
 const userRouter = require("../server/src/routes/users");
+const authRoutes = require("./src/routes/auth.routes");
 
 // Intializations
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Settings
 app.set("port", process.env.PORT || 8000);
 
 // Middlewares
-app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => res.send("App is working"));
+app.use(express.urlencoded({ extended: true }));
 console.log(1);
-// Routes
-// app.use(require("./src/routes/authentication"));
-// app.use(require("./src/routes/index"));
-// app.use("/links", require("./src/routes/links"));
+
 app.use("/api", userRouter);
+app.use("/api", authRoutes);
 
 // Starting
 app.listen(app.get("port"), () => {
