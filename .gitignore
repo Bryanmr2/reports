@@ -3,6 +3,6 @@ logs
 *.log
 npm-debug.log*
 *.local
-*/node_modules
-client/node_modules/.cache/default-development
+client/node_modules/
+server/node_modules/
 
