@@ -35,7 +35,7 @@ const NewUser = ({ setIsLoggedIn }) => {
       });
       console.log("Registro exitoso: ", response.data);
       reset();
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     } catch (error) {
       if (error.response) {
         console.error("failed:", error.response.data.message);

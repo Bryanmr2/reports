@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { useLocation } from "react-router-dom";
 
-const CustomAppBar = ({ isLoggedIn, onLogout }) => {
+const CustomAppBar = ({ isLoggedIn }) => {
   console.log("isLoggedIn", isLoggedIn);
   const location = useLocation();
   const excludedRoutes = ["/", "/login"];
@@ -14,6 +14,11 @@ const CustomAppBar = ({ isLoggedIn, onLogout }) => {
 
   const handleGoBack = () => {
     window.history.back();
+  };
+
+  const onLogout = () => {
+    window.localStorage.clear();
+    window.location.reload();
   };
 
   return (
@@ -33,7 +38,7 @@ const CustomAppBar = ({ isLoggedIn, onLogout }) => {
         </Typography>
 
         {isLoggedIn && (
-          <Button variant="contained" onClick={onLogout}>
+          <Button variant="contained" onClick={() => onLogout()}>
             Cerrar Sesión
           </Button>
         )}

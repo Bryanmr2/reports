@@ -25,9 +25,11 @@ const Login = ({ setIsLoggedIn }) => {
         password,
       });
 
-      console.log("Login successful:", response.data);
+      if (response.data.user.token) {
+        window.localStorage.setItem("token", response.data.user.token);
+      }
       setIsLoggedIn(true);
-      navigate("/", { replace: true }); // Reemplaza la ruta actual con la nueva
+      navigate("/", { replace: true });
     } catch (error) {
       if (error.response) {
         console.error("Login failed:", error.response.data.message);

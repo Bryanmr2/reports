@@ -15,16 +15,14 @@ import NewReport from "./components/reports/NewReport";
 import View from "./components/viewReports/View";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    window.localStorage.getItem("token")
+  );
 
   return (
     <div>
       <Router>
-        <CustomAppBar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+        <CustomAppBar isLoggedIn={isLoggedIn} />
         <Routes>
           <Route
             path="/login"

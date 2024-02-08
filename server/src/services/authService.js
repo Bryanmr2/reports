@@ -1,4 +1,5 @@
 const db = require("./db");
+const jwt = require("jsonwebtoken");
 
 const saveUserInDb = async (user) => {
   try {
@@ -23,8 +24,13 @@ const loginUser = async (credentials) => {
       return null;
     }
     if (user[0].password === password) {
-      // Contraseña válida, retornar información del usuario
-      return user[0];
+      // // Contraseña válida, retornar información del usuario
+      const userForToken = {
+        username: user[0].email,
+        id: user[0].id,
+      };
+      const token = jwt.sign(userForToken, process.env.SECRET);
+      return { email: user[0].email, token: token };
     } else {
       // Contraseña incorrecta
       return null;
