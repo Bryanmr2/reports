@@ -10,8 +10,8 @@ import {
 import CustomAppBar from "./components/appbar/CustomAppBar";
 import HomePage from "./components/home/HomePage";
 import Login from "./components/login/Login";
-import NewUser from "./components/createUser/NewUser";
-import NewReport from "./components/reports/NewReport";
+import NewUser from "./components/createUser/newUser";
+import NewReport from "./components/reports/newReport";
 import View from "./components/viewReports/View";
 
 const App = () => {

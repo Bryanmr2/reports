@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const userRouter = require("../server/src/routes/users");
+const userRouter = require("./src/routes/users.routes");
 const authRoutes = require("./src/routes/auth.routes");
+const reportRoutes = require("./src/routes/report.routes");
 
 // Intializations
 const app = express();
@@ -18,6 +19,7 @@ console.log(1);
 
 app.use("/api", userRouter);
 app.use("/api", authRoutes);
+app.use("/api", reportRoutes);
 
 // Starting
 app.listen(app.get("port"), () => {
