@@ -11,29 +11,6 @@ const createReport = async (req, res) => {
       plant,
       shift,
       inspection_area,
-      inspection_description,
-      shipment_type,
-      carrier_company,
-      operator_name,
-      tractor_brand,
-      tractor_color,
-      tractor_model,
-      tractor_plate,
-      tractor_number,
-      trailer_number,
-      shipment_number,
-      total_skids,
-      stamps_number,
-      security_company,
-      guard_names,
-      custody_company,
-      custodian_names,
-      custody_unit_number,
-      departure_time,
-      start_time,
-      inspected_areas,
-      end_time,
-      security_items,
     } = req.body;
 
     if (
@@ -44,30 +21,7 @@ const createReport = async (req, res) => {
       !corporate ||
       !plant ||
       !shift ||
-      !inspection_area ||
-      !inspection_description ||
-      !shipment_type ||
-      !carrier_company ||
-      !operator_name ||
-      !tractor_brand ||
-      !tractor_color ||
-      !tractor_model ||
-      !tractor_plate ||
-      !tractor_number ||
-      !trailer_number ||
-      !shipment_number ||
-      !total_skids ||
-      !stamps_number ||
-      !security_company ||
-      !guard_names ||
-      !custody_company ||
-      !custodian_names ||
-      !custody_unit_number ||
-      !departure_time ||
-      !start_time ||
-      !inspected_areas ||
-      !end_time ||
-      !security_items
+      !inspection_area
     ) {
       return res.status(400).json({ message: "Faltan datos del informe" });
     }

@@ -57,7 +57,7 @@ const NewReport = () => {
       } = data;
 
       const response = await axios.post(
-        "http://localhost:3000/api/createReport",
+        "http://localhost:8000/api/createReport",
         {
           location,
           date,
@@ -203,7 +203,7 @@ const NewReport = () => {
               <NativeSelect
                 {...field}
                 inputProps={{
-                  name: "corporativo",
+                  name: "corporate",
                   id: "uncontrolled-native",
                 }}
               >
@@ -247,7 +247,7 @@ const NewReport = () => {
               <NativeSelect
                 {...field}
                 inputProps={{
-                  name: "turno",
+                  name: "shift",
                   id: "uncontrolled-native",
                 }}
               >
@@ -300,7 +300,7 @@ const NewReport = () => {
               required: "Selecciona un Embarque",
             })}
             inputProps={{
-              name: "embarque",
+              name: "shipment_type",
               id: "uncontrolled-native",
             }}
             onChange={handleEmbarqueChange}
@@ -462,7 +462,7 @@ const NewReport = () => {
               />
               {errors.total_skids && <span>{errors.total_skids.message}</span>}
 
-              <InputLabel htmlFor="stamps_numberr">Número de sellos</InputLabel>
+              <InputLabel htmlFor="stamps_number">Número de sellos</InputLabel>
               <OutlinedInput
                 type="text"
                 {...register("stamps_number", {
@@ -472,7 +472,7 @@ const NewReport = () => {
                   },
                 })}
               />
-              {errors.stamps_numberr && (
+              {errors.stamps_number && (
                 <span>{errors.stamps_number.message}</span>
               )}
 
