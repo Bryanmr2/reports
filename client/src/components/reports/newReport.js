@@ -5,6 +5,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import NativeSelect from "@mui/material/NativeSelect";
+import axios from "axios";
 import "./newReport.css";
 
 const NewReport = () => {
@@ -16,9 +17,92 @@ const NewReport = () => {
     control,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("datos enviados", data);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      console.log("Submit button clicked");
+      console.log("Form data:", data);
+
+      const {
+        location,
+        date,
+        name,
+        dog_name,
+        corporate,
+        plant,
+        shift,
+        inspection_area,
+        inspection_description,
+        shipment_type,
+        carrier_company,
+        operator_name,
+        tractor_brand,
+        tractor_color,
+        tractor_model,
+        tractor_plate,
+        tractor_number,
+        trailer_number,
+        shipment_number,
+        total_skids,
+        stamps_number,
+        security_company,
+        guard_names,
+        custody_company,
+        custodian_names,
+        custody_unit_number,
+        departure_time,
+        start_time,
+        inspected_areas,
+        end_time,
+        security_items,
+      } = data;
+
+      const response = await axios.post(
+        "http://localhost:3000/api/createReport",
+        {
+          location,
+          date,
+          name,
+          dog_name,
+          corporate,
+          plant,
+          shift,
+          inspection_area,
+          inspection_description,
+          shipment_type,
+          carrier_company,
+          operator_name,
+          tractor_brand,
+          tractor_color,
+          tractor_model,
+          tractor_plate,
+          tractor_number,
+          trailer_number,
+          shipment_number,
+          total_skids,
+          stamps_number,
+          security_company,
+          guard_names,
+          custody_company,
+          custodian_names,
+          custody_unit_number,
+          departure_time,
+          start_time,
+          inspected_areas,
+          end_time,
+          security_items,
+        }
+      );
+
+      if (response.ok) {
+        console.log("Informe creado exitosamente");
+        reset();
+      } else {
+        console.error("Error al crear el informe:", response.statusText);
+      }
+      console.log("Success");
+    } catch (error) {
+      console.error("Error de red:", error.message);
+    }
   };
 
   const [embarque, setEmbarque] = useState("");
@@ -38,40 +122,40 @@ const NewReport = () => {
       <h2>Generar Reporte</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="reportForm">
         <div>
-          <InputLabel htmlFor="lugar">Lugar</InputLabel>
+          <InputLabel htmlFor="location">Lugar</InputLabel>
           <OutlinedInput
             type="text"
-            {...register("lugar", {
+            {...register("location", {
               required: {
                 value: true,
                 message: "El lugar es requerido",
               },
             })}
           />
-          {errors.lugar && <span>{errors.lugar.message}</span>}
+          {errors.location && <span>{errors.location.message}</span>}
 
-          <InputLabel htmlFor="fecha">Fecha</InputLabel>
+          <InputLabel htmlFor="date">Fecha</InputLabel>
           <TextField
             id="date"
             type="date"
             InputLabelProps={{
               shrink: true,
             }}
-            {...register("fecha", {
+            {...register("date", {
               required: {
                 value: true,
                 message: "La fecha es requerida",
               },
             })}
           />
-          {errors.fecha && <span>{errors.fecha.message}</span>}
+          {errors.date && <span>{errors.date.message}</span>}
 
           <br />
           <br />
-          <InputLabel htmlFor="nombre">Nombre</InputLabel>
+          <InputLabel htmlFor="name">Nombre</InputLabel>
           <OutlinedInput
             type="text"
-            {...register("nombre", {
+            {...register("name", {
               required: {
                 value: true,
                 message: "El nombre es requerido",
@@ -86,12 +170,12 @@ const NewReport = () => {
               },
             })}
           />
-          {errors.nombre && <span>{errors.nombre.message}</span>}
+          {errors.name && <span>{errors.name.message}</span>}
 
-          <InputLabel htmlFor="nombreCan">Nombre del Can</InputLabel>
+          <InputLabel htmlFor="dog_name">Nombre del Can</InputLabel>
           <OutlinedInput
             type="text"
-            {...register("nombreCan", {
+            {...register("dog_name", {
               required: {
                 value: true,
                 message: "El nombre del perro es requerido",
@@ -106,13 +190,13 @@ const NewReport = () => {
               },
             })}
           />
-          {errors.nombreCan && <span>{errors.nombreCan.message}</span>}
+          {errors.dog_name && <span>{errors.dog_name.message}</span>}
 
-          <InputLabel htmlFor="corporativo" variant="standard">
+          <InputLabel htmlFor="corporate" variant="standard">
             Corporativo
           </InputLabel>
           <Controller
-            name="corporativo"
+            name="corporate"
             control={control}
             defaultValue={""}
             render={({ field }) => (
@@ -140,23 +224,23 @@ const NewReport = () => {
             }}
           />
 
-          <InputLabel htmlFor="planta">Planta</InputLabel>
+          <InputLabel htmlFor="plant">Planta</InputLabel>
           <OutlinedInput
             type="text"
-            {...register("planta", {
+            {...register("plant", {
               required: {
                 value: true,
                 message: "La planta es requerida",
               },
             })}
           />
-          {errors.planta && <span>{errors.planta.message}</span>}
+          {errors.plant && <span>{errors.plant.message}</span>}
 
-          <InputLabel htmlFor="turno" variant="standard">
+          <InputLabel htmlFor="shift" variant="standard">
             Turno
           </InputLabel>
           <Controller
-            name="turno"
+            name="shift"
             control={control}
             defaultValue={""}
             render={({ field }) => (
@@ -179,36 +263,40 @@ const NewReport = () => {
             }}
           />
 
-          <InputLabel htmlFor="areaInsp">Area de inspección</InputLabel>
+          <InputLabel htmlFor="inspection_area">Area de inspección</InputLabel>
           <OutlinedInput
             type="text"
-            {...register("areaInsp", {
+            {...register("inspection_area", {
               required: {
                 value: true,
                 message: "El area es requerida",
               },
             })}
           />
-          {errors.areaInsp && <span>{errors.areaInsp.message}</span>}
+          {errors.inspection_area && (
+            <span>{errors.inspection_area.message}</span>
+          )}
 
-          <InputLabel htmlFor="descripcion">
+          <InputLabel htmlFor="inspection_description">
             Descripción de inspección
           </InputLabel>
           <TextField
             multiline
             rows={4}
             variant="outlined"
-            {...register("descripcion")}
+            {...register("inspection_description")}
           />
-          {errors.descripcion && <span>{errors.descripcion.message}</span>}
+          {errors.inspection_description && (
+            <span>{errors.inspection_description.message}</span>
+          )}
 
           <br />
-          <InputLabel htmlFor="embarque" variant="standard">
+          <InputLabel htmlFor="shipment_type" variant="standard">
             Embarque
           </InputLabel>
 
           <NativeSelect
-            {...register("embarque", {
+            {...register("shipment_type", {
               required: "Selecciona un Embarque",
             })}
             inputProps={{
@@ -230,223 +318,253 @@ const NewReport = () => {
           {["Importacion", "Exportacion", "Consolidado"].includes(embarque) && (
             <>
               <br />
-              <InputLabel htmlFor="compania">Compañía transportista</InputLabel>
+              <InputLabel htmlFor="carrier_company">
+                Compañía transportista
+              </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("compania", {
+                {...register("carrier_company", {
                   required: {
                     value: true,
                     message: "La compañia es requerida",
                   },
                 })}
               />
-              {errors.compania && <span>{errors.compania.message}</span>}
+              {errors.carrier_company && (
+                <span>{errors.carrier_company.message}</span>
+              )}
 
-              <InputLabel htmlFor="nombreOpe">Nombre del operador</InputLabel>
+              <InputLabel htmlFor="operator_name">
+                Nombre del operador
+              </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("nombreOpe", {
+                {...register("operator_name", {
                   required: {
                     value: true,
                     message: "El nombre es requerido",
                   },
                 })}
               />
-              {errors.nombreOpe && <span>{errors.nombreOpe.message}</span>}
+              {errors.operator_name && (
+                <span>{errors.operator_name.message}</span>
+              )}
 
-              <InputLabel htmlFor="marca">Marca</InputLabel>
+              <InputLabel htmlFor="tractor_brand">Marca</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("marca", {
+                {...register("tractor_brand", {
                   required: {
                     value: true,
                     message: "La marca es requerida",
                   },
                 })}
               />
-              {errors.marca && <span>{errors.marca.message}</span>}
+              {errors.tractor_brand && (
+                <span>{errors.tractor_brand.message}</span>
+              )}
 
-              <InputLabel htmlFor="color">Color</InputLabel>
+              <InputLabel htmlFor="tractor_color">Color</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("color", {
+                {...register("tractor_color", {
                   required: {
                     value: true,
                     message: "El Color es requerido",
                   },
                 })}
               />
-              {errors.color && <span>{errors.color.message}</span>}
+              {errors.tractor_color && (
+                <span>{errors.tractor_color.message}</span>
+              )}
 
-              <InputLabel htmlFor="modelo">Modelo</InputLabel>
+              <InputLabel htmlFor="tractor_model">Modelo</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("modelo", {
+                {...register("tractor_model", {
                   required: {
                     value: true,
                     message: "El modelo es requerida",
                   },
                 })}
               />
-              {errors.modelo && <span>{errors.modelo.message}</span>}
+              {errors.tractor_model && (
+                <span>{errors.tractor_model.message}</span>
+              )}
 
-              <InputLabel htmlFor="placas">Placas</InputLabel>
+              <InputLabel htmlFor="tractor_plate">Placas</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("placas", {
+                {...register("tractor_plate", {
                   required: {
                     value: true,
                     message: "Las placas son requeridas",
                   },
                 })}
               />
-              {errors.placas && <span>{errors.placas.message}</span>}
+              {errors.tractor_plate && (
+                <span>{errors.tractor_plate.message}</span>
+              )}
 
-              <InputLabel htmlFor="numTracto">Número de tracto</InputLabel>
+              <InputLabel htmlFor="tractor_number">Número de tracto</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("numTracto", {
+                {...register("tractor_number", {
                   required: {
                     value: true,
                     message: "El número es requerido",
                   },
                 })}
               />
-              {errors.numTracto && <span>{errors.numTracto.message}</span>}
+              {errors.tractor_number && (
+                <span>{errors.tractor_number.message}</span>
+              )}
 
-              <InputLabel htmlFor="numCaja">Número de caja</InputLabel>
+              <InputLabel htmlFor="trailer_number">Número de caja</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("numCaja", {
+                {...register("trailer_number", {
                   required: {
                     value: true,
                     message: "El número es requerido",
                   },
                 })}
               />
-              {errors.numCaja && <span>{errors.numCaja.message}</span>}
+              {errors.trailer_number && (
+                <span>{errors.trailer_number.message}</span>
+              )}
 
-              <InputLabel htmlFor="numEmbarque">Número de embarque</InputLabel>
+              <InputLabel htmlFor="shipment_number">
+                Número de embarque
+              </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("numEmbarque", {
+                {...register("shipment_number", {
                   required: {
                     value: true,
                     message: "El número es requerido",
                   },
                 })}
               />
-              {errors.numEmbarque && <span>{errors.numEmbarque.message}</span>}
+              {errors.shipment_number && (
+                <span>{errors.shipment_number.message}</span>
+              )}
 
-              <InputLabel htmlFor="totalSkids">Total skids </InputLabel>
+              <InputLabel htmlFor="total_skids">Total skids </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("totalSkids", {
+                {...register("total_skids", {
                   required: {
                     value: true,
                     message: "El total es requerido",
                   },
                 })}
               />
-              {errors.totalSkids && <span>{errors.totalSkids.message}</span>}
+              {errors.total_skids && <span>{errors.total_skids.message}</span>}
 
-              <InputLabel htmlFor="numSellos">Número de sellos</InputLabel>
+              <InputLabel htmlFor="stamps_numberr">Número de sellos</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("numSellos", {
+                {...register("stamps_number", {
                   required: {
                     value: true,
                     message: "El número es requerido",
                   },
                 })}
               />
-              {errors.numSellos && <span>{errors.numSellos.message}</span>}
+              {errors.stamps_numberr && (
+                <span>{errors.stamps_number.message}</span>
+              )}
 
-              <InputLabel htmlFor="companiaSeg">
+              <InputLabel htmlFor="security_company">
                 Compañia de Seguridad
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("companiaSeg", {
+                {...register("security_company", {
                   required: {
                     value: true,
                     message: "La compañia es requerida",
                   },
                 })}
               />
-              {errors.companiaSeg && <span>{errors.companiaSeg.message}</span>}
+              {errors.security_company && (
+                <span>{errors.security_company.message}</span>
+              )}
 
-              <InputLabel htmlFor="nombreGuardias">
-                Nombre de guardias
-              </InputLabel>
+              <InputLabel htmlFor="guard_names">Nombre de guardias</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("nombreGuardias", {
+                {...register("guard_names", {
                   required: {
                     value: true,
                     message: "Los nombres son requeridos",
                   },
                 })}
               />
-              {errors.nombreGuardias && (
-                <span>{errors.nombreGuardias.message}</span>
-              )}
+              {errors.guard_names && <span>{errors.guard_names.message}</span>}
 
-              <InputLabel htmlFor="companiaCus">
+              <InputLabel htmlFor="custody_company">
                 Compañia de Custodia
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("companiaCus", {
+                {...register("custody_company", {
                   required: {
                     value: true,
                     message: "La compañia es requerida",
                   },
                 })}
               />
-              {errors.companiaCus && <span>{errors.companiaCus.message}</span>}
+              {errors.custody_company && (
+                <span>{errors.custody_company.message}</span>
+              )}
 
-              <InputLabel htmlFor="nombreCustodios">
+              <InputLabel htmlFor="custodian_names">
                 Nombre de custodios
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("nombreCustodios", {
+                {...register("custodian_names", {
                   required: {
                     value: true,
                     message: "El nombre es requerido",
                   },
                 })}
               />
-              {errors.nombreCustodios && (
-                <span>{errors.nombreCustodios.message}</span>
+              {errors.custodian_names && (
+                <span>{errors.custodian_names.message}</span>
               )}
 
-              <InputLabel htmlFor="numUnidad">
+              <InputLabel htmlFor="custody_unit_number">
                 Número de unidad de custodia
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("numUnidad", {
+                {...register("custody_unit_number", {
                   required: {
                     value: true,
                     message: "El número es requerido",
                   },
                 })}
               />
-              {errors.numUnidad && <span>{errors.numUnidad.message}</span>}
+              {errors.custody_unit_number && (
+                <span>{errors.custody_unit_number.message}</span>
+              )}
 
-              <InputLabel htmlFor="salida">Hora de salida</InputLabel>
+              <InputLabel htmlFor="departure_time">Hora de salida</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("salida", {
+                {...register("departure_time", {
                   required: {
                     value: true,
                     message: "La hora es requerida",
                   },
                 })}
               />
-              {errors.salida && <span>{errors.salida.message}</span>}
+              {errors.departure_time && (
+                <span>{errors.departure_time.message}</span>
+              )}
             </>
           )}
 
@@ -454,61 +572,61 @@ const NewReport = () => {
           {showAdditionalInputs && embarque === "InspeccionCan" && (
             <>
               <br />
-              <InputLabel htmlFor="inicio">Hora de inicio</InputLabel>
+              <InputLabel htmlFor="start_time">Hora de inicio</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("inicio", {
+                {...register("start_time", {
                   required: {
                     value: true,
                     message: "La hora es requerida",
                   },
                 })}
               />
-              {errors.inicio && <span>{errors.inicio.message}</span>}
+              {errors.start_time && <span>{errors.start_time.message}</span>}
 
-              <InputLabel htmlFor="areasInspec">
+              <InputLabel htmlFor="inspected_areas">
                 Áreas inspeccionadas
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("areasInspec", {
+                {...register("inspected_areas", {
                   required: {
                     value: true,
                     message: "Las áreas son requeridas",
                   },
                 })}
               />
-              {errors.areasInspec && <span>{errors.areasInspec.message}</span>}
+              {errors.inspected_areas && (
+                <span>{errors.inspected_areas.message}</span>
+              )}
 
-              <InputLabel htmlFor="finalizacion">
-                Hora de finalización
-              </InputLabel>
+              <InputLabel htmlFor="end_time">Hora de finalización</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("finalizacion", {
+                {...register("end_time", {
                   required: {
                     value: true,
                     message: "La hora es requerida",
                   },
                 })}
               />
-              {errors.finalizacion && (
-                <span>{errors.finalizacion.message}</span>
-              )}
+              {errors.end_time && <span>{errors.end_time.message}</span>}
 
-              <InputLabel htmlFor="elementos">
+              <InputLabel htmlFor="security_items">
                 Elementos de seguridad
               </InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("elementos", {
+                {...register("security_items", {
                   required: {
                     value: true,
                     message: "Los elementos son requeridos",
                   },
                 })}
               />
-              {errors.elementos && <span>{errors.elementos.message}</span>}
+              {errors.security_items && (
+                <span>{errors.security_items.message}</span>
+              )}
             </>
           )}
         </div>

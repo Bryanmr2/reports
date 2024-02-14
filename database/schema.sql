@@ -18,17 +18,16 @@ CREATE TABLE dogs (
 );
 
 CREATE TABLE reports (
-    report_id INT AUTO_INCREMENT PRIMARY KEY,
-    handler_id INT, 
-    dog_id INT, 
-    date DATE,
     location VARCHAR(255),
+    date DATE,
+    name VARCHAR(255),
+    dog_name VARCHAR(255),
     corporate VARCHAR(255),
     plant VARCHAR(255),
     shift VARCHAR(255),
     inspection_area VARCHAR(255),
     inspection_description TEXT,
-    shipment_type ENUM('import', 'export', 'consolidated'),
+    shipment_type ENUM('Importacion', 'Exportacion', 'Consolidado', 'InspeccionCan'),
     carrier_company VARCHAR(255),
     operator_name VARCHAR(255),
     tractor_brand VARCHAR(255),
@@ -39,15 +38,18 @@ CREATE TABLE reports (
     trailer_number VARCHAR(255),
     shipment_number VARCHAR(255),
     total_skids INT,
-    seal_number VARCHAR(255),
+    stamps_number VARCHAR(255),
     security_company VARCHAR(255),
     guard_names VARCHAR(255),
     custody_company VARCHAR(255),
     custodian_names VARCHAR(255),
     custody_unit_number VARCHAR(255),
     departure_time TIME,
+    start_time TIME,
+    inspected_areas VARCHAR(255),
+    end_time VARCHAR(255),
+    security_items VARCHAR(255),
     FOREIGN KEY (handler_id) REFERENCES users(id),
-    FOREIGN KEY (dog_id) REFERENCES dogs(dog_id)
 );
 
 -- Insertar Usuarios
