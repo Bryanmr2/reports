@@ -49,7 +49,6 @@ CREATE TABLE reports (
     inspected_areas VARCHAR(255),
     end_time VARCHAR(255),
     security_items VARCHAR(255),
-    FOREIGN KEY (handler_id) REFERENCES users(id),
 );
 
 -- Insertar Usuarios
