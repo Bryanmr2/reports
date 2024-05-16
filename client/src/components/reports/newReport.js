@@ -6,6 +6,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import NativeSelect from "@mui/material/NativeSelect";
 import axios from "axios";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportPdf from "../pdf/ReportPDF";
 import "./newReport.css";
 
 const NewReport = () => {
@@ -16,76 +18,19 @@ const NewReport = () => {
     reset,
     control,
   } = useForm();
-
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [formData, setFormData] = useState(null);
 
   const onSubmit = async (data) => {
     try {
       console.log("Submit button clicked");
       console.log("Form data:", data);
       setSuccessMessageVisible(true);
-
-      const {
-        location,
-        date,
-        name,
-        dog_name,
-        corporate,
-        plant,
-        shift,
-        inspection_area,
-        inspection_description,
-        shipment_type,
-        carrier_company,
-        operator_name,
-        tractor_brand,
-        tractor_color,
-        tractor_model,
-        tractor_plate,
-        tractor_number,
-        trailer_number,
-        shipment_number,
-        total_skids,
-        stamps_number,
-        security_company,
-        guard_names,
-        custody_company,
-        custodian_names,
-        custody_unit_number,
-        departure_time,
-      } = data;
+      setFormData(data);
 
       const response = await axios.post(
         "http://localhost:8000/api/createReport",
-        {
-          location,
-          date,
-          name,
-          dog_name,
-          corporate,
-          plant,
-          shift,
-          inspection_area,
-          inspection_description,
-          shipment_type,
-          carrier_company,
-          operator_name,
-          tractor_brand,
-          tractor_color,
-          tractor_model,
-          tractor_plate,
-          tractor_number,
-          trailer_number,
-          shipment_number,
-          total_skids,
-          stamps_number,
-          security_company,
-          guard_names,
-          custody_company,
-          custodian_names,
-          custody_unit_number,
-          departure_time,
-        }
+        data
       );
 
       if (response.status === 200) {
@@ -111,7 +56,6 @@ const NewReport = () => {
       {successMessageVisible ? (
         <div>
           <h2>Reporte generado con éxito</h2>
-          {/* Que se vea el reporte aqui */}
           <div
             style={{
               display: "flex",
@@ -120,22 +64,24 @@ const NewReport = () => {
               marginTop: "10%",
             }}
           >
-            <Button onClick={handleNewReport} variant="contained">
+            {formData && (
+              <PDFDownloadLink
+                document={<ReportPdf data={formData} />}
+                fileName="report.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button variant="contained" style={{ width: "235px" }}>
+                    {loading ? "Generando PDF..." : "Descargar reporte"}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            <Button
+              onClick={handleNewReport}
+              variant="contained"
+              style={{ marginTop: "15px" }}
+            >
               Generar nuevo reporte
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: "15px", width: "55%" }}
-            >
-              {" "}
-              Descargar reporte{" "}
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: "15px", width: "55%" }}
-            >
-              {" "}
-              Volver al inicio{" "}
             </Button>
           </div>
         </div>
@@ -325,8 +271,6 @@ const NewReport = () => {
                 name: "shipment_type",
                 id: "uncontrolled-native",
               }}
-              onChange={handleEmbarqueChange}
-              value={embarque}
             >
               <option value="" disabled>
                 Seleccione un Embarque
