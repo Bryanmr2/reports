@@ -27,7 +27,7 @@ CREATE TABLE reports (
     shift VARCHAR(255),
     inspection_area VARCHAR(255),
     inspection_description VARCHAR(255),
-    shipment_type ENUM('Importacion', 'Exportacion', 'Consolidado', 'InspeccionCan'),
+    shipment_type ENUM('Importacion', 'Exportacion', 'Consolidado'),
     carrier_company VARCHAR(255),
     operator_name VARCHAR(255),
     tractor_brand VARCHAR(255),
@@ -45,10 +45,23 @@ CREATE TABLE reports (
     custodian_names VARCHAR(255),
     custody_unit_number VARCHAR(255),
     departure_time TIME,
+);
+
+CREATE TABLE reportsInspect (
+    location VARCHAR(255),
+    date DATE,
+    name VARCHAR(255),
+    dog_name VARCHAR(255),
+    corporate VARCHAR(255),
+    plant VARCHAR(255),
+    shift VARCHAR(255),
+    inspection_area VARCHAR(255),
+    inspection_description VARCHAR(255),
+    shipment_type ENUM('InspeccionCan'),
     start_time TIME,
     inspected_areas VARCHAR(255),
-    end_time VARCHAR(255),
-    security_items VARCHAR(255),
+    end_time TIME,
+    security_items VARCHAR(255)
 );
 
 -- Insertar Usuarios

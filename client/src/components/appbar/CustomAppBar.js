@@ -33,7 +33,7 @@ const CustomAppBar = ({ isLoggedIn }) => {
             Volver
           </Button>
         )}
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: "30%" }}>
           SIIPCCSP
         </Typography>
 

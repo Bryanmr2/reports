@@ -8,7 +8,7 @@ import NativeSelect from "@mui/material/NativeSelect";
 import axios from "axios";
 import "./newReport.css";
 
-const NewReport = () => {
+const NewInspectReport = () => {
   const {
     register,
     handleSubmit,
@@ -36,27 +36,14 @@ const NewReport = () => {
         inspection_area,
         inspection_description,
         shipment_type,
-        carrier_company,
-        operator_name,
-        tractor_brand,
-        tractor_color,
-        tractor_model,
-        tractor_plate,
-        tractor_number,
-        trailer_number,
-        shipment_number,
-        total_skids,
-        stamps_number,
-        security_company,
-        guard_names,
-        custody_company,
-        custodian_names,
-        custody_unit_number,
-        departure_time,
+        start_time,
+        inspected_areas,
+        end_time,
+        security_items,
       } = data;
 
       const response = await axios.post(
-        "http://localhost:8000/api/createReport",
+        "http://localhost:8000/api/createInspectReport",
         {
           location,
           date,
@@ -68,23 +55,10 @@ const NewReport = () => {
           inspection_area,
           inspection_description,
           shipment_type,
-          carrier_company,
-          operator_name,
-          tractor_brand,
-          tractor_color,
-          tractor_model,
-          tractor_plate,
-          tractor_number,
-          trailer_number,
-          shipment_number,
-          total_skids,
-          stamps_number,
-          security_company,
-          guard_names,
-          custody_company,
-          custodian_names,
-          custody_unit_number,
-          departure_time,
+          start_time,
+          inspected_areas,
+          end_time,
+          security_items,
         }
       );
 
@@ -99,6 +73,17 @@ const NewReport = () => {
     }
   };
 
+  const [embarque, setEmbarque] = useState("");
+  const [showAdditionalInputs, setShowAdditionalInputs] = useState(false);
+
+  const handleEmbarqueChange = (event) => {
+    const selectedEmbarque = event.target.value;
+    setEmbarque(selectedEmbarque);
+
+    // Determina si mostrar los inputs adicionales
+    setShowAdditionalInputs(selectedEmbarque === "InspeccionCan");
+  };
+
   const handleNewReport = () => {
     setSuccessMessageVisible(false);
     reset();
@@ -107,7 +92,7 @@ const NewReport = () => {
   return (
     <>
       <br />
-      <h2>Generar Reporte</h2>
+      <h2>Generar Reporte de Inspección </h2>
       {successMessageVisible ? (
         <div>
           <h2>Reporte generado con éxito</h2>
@@ -326,263 +311,72 @@ const NewReport = () => {
                 id: "uncontrolled-native",
               }}
               onChange={handleEmbarqueChange}
-              value={embarque}
+              value={"InspeccionCan"}
             >
               <option value="" disabled>
                 Seleccione un Embarque
               </option>
-              <option value={"Importacion"}>Importacion</option>
-              <option value={"Exportacion"}>Exportacion</option>
-              <option value={"Consolidado"}>Consolidado</option>
+              <option value={"InspeccionCan"} disabled>
+                Inspección canina
+              </option>
             </NativeSelect>
+
             <>
               <br />
-              <InputLabel htmlFor="carrier_company">
-                Compañía transportista
-              </InputLabel>
+              <InputLabel htmlFor="start_time">Hora de inicio</InputLabel>
               <OutlinedInput
                 type="text"
-                {...register("carrier_company", {
-                  required: {
-                    value: true,
-                    message: "La compañia es requerida",
-                  },
-                })}
-              />
-              {errors.carrier_company && (
-                <span>{errors.carrier_company.message}</span>
-              )}
-
-              <InputLabel htmlFor="operator_name">
-                Nombre del operador
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("operator_name", {
-                  required: {
-                    value: true,
-                    message: "El nombre es requerido",
-                  },
-                })}
-              />
-              {errors.operator_name && (
-                <span>{errors.operator_name.message}</span>
-              )}
-
-              <InputLabel htmlFor="tractor_brand">Marca</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("tractor_brand", {
-                  required: {
-                    value: true,
-                    message: "La marca es requerida",
-                  },
-                })}
-              />
-              {errors.tractor_brand && (
-                <span>{errors.tractor_brand.message}</span>
-              )}
-
-              <InputLabel htmlFor="tractor_color">Color</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("tractor_color", {
-                  required: {
-                    value: true,
-                    message: "El Color es requerido",
-                  },
-                })}
-              />
-              {errors.tractor_color && (
-                <span>{errors.tractor_color.message}</span>
-              )}
-
-              <InputLabel htmlFor="tractor_model">Modelo</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("tractor_model", {
-                  required: {
-                    value: true,
-                    message: "El modelo es requerida",
-                  },
-                })}
-              />
-              {errors.tractor_model && (
-                <span>{errors.tractor_model.message}</span>
-              )}
-
-              <InputLabel htmlFor="tractor_plate">Placas</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("tractor_plate", {
-                  required: {
-                    value: true,
-                    message: "Las placas son requeridas",
-                  },
-                })}
-              />
-              {errors.tractor_plate && (
-                <span>{errors.tractor_plate.message}</span>
-              )}
-
-              <InputLabel htmlFor="tractor_number">Número de tracto</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("tractor_number", {
-                  required: {
-                    value: true,
-                    message: "El número es requerido",
-                  },
-                })}
-              />
-              {errors.tractor_number && (
-                <span>{errors.tractor_number.message}</span>
-              )}
-
-              <InputLabel htmlFor="trailer_number">Número de caja</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("trailer_number", {
-                  required: {
-                    value: true,
-                    message: "El número es requerido",
-                  },
-                })}
-              />
-              {errors.trailer_number && (
-                <span>{errors.trailer_number.message}</span>
-              )}
-
-              <InputLabel htmlFor="shipment_number">
-                Número de embarque
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("shipment_number", {
-                  required: {
-                    value: true,
-                    message: "El número es requerido",
-                  },
-                })}
-              />
-              {errors.shipment_number && (
-                <span>{errors.shipment_number.message}</span>
-              )}
-
-              <InputLabel htmlFor="total_skids">Total skids </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("total_skids", {
-                  required: {
-                    value: true,
-                    message: "El total es requerido",
-                  },
-                })}
-              />
-              {errors.total_skids && <span>{errors.total_skids.message}</span>}
-
-              <InputLabel htmlFor="stamps_number">Número de sellos</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("stamps_number", {
-                  required: {
-                    value: true,
-                    message: "El número es requerido",
-                  },
-                })}
-              />
-              {errors.stamps_number && (
-                <span>{errors.stamps_number.message}</span>
-              )}
-
-              <InputLabel htmlFor="security_company">
-                Compañia de Seguridad
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("security_company", {
-                  required: {
-                    value: true,
-                    message: "La compañia es requerida",
-                  },
-                })}
-              />
-              {errors.security_company && (
-                <span>{errors.security_company.message}</span>
-              )}
-
-              <InputLabel htmlFor="guard_names">Nombre de guardias</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("guard_names", {
-                  required: {
-                    value: true,
-                    message: "Los nombres son requeridos",
-                  },
-                })}
-              />
-              {errors.guard_names && <span>{errors.guard_names.message}</span>}
-
-              <InputLabel htmlFor="custody_company">
-                Compañia de Custodia
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("custody_company", {
-                  required: {
-                    value: true,
-                    message: "La compañia es requerida",
-                  },
-                })}
-              />
-              {errors.custody_company && (
-                <span>{errors.custody_company.message}</span>
-              )}
-
-              <InputLabel htmlFor="custodian_names">
-                Nombre de custodios
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("custodian_names", {
-                  required: {
-                    value: true,
-                    message: "El nombre es requerido",
-                  },
-                })}
-              />
-              {errors.custodian_names && (
-                <span>{errors.custodian_names.message}</span>
-              )}
-
-              <InputLabel htmlFor="custody_unit_number">
-                Número de unidad de custodia
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("custody_unit_number", {
-                  required: {
-                    value: true,
-                    message: "El número es requerido",
-                  },
-                })}
-              />
-              {errors.custody_unit_number && (
-                <span>{errors.custody_unit_number.message}</span>
-              )}
-
-              <InputLabel htmlFor="departure_time">Hora de salida</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("departure_time", {
+                {...register("start_time", {
                   required: {
                     value: true,
                     message: "La hora es requerida",
                   },
                 })}
               />
-              {errors.departure_time && (
-                <span>{errors.departure_time.message}</span>
+              {errors.start_time && <span>{errors.start_time.message}</span>}
+
+              <InputLabel htmlFor="inspected_areas">
+                Áreas inspeccionadas
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                {...register("inspected_areas", {
+                  required: {
+                    value: true,
+                    message: "Las áreas son requeridas",
+                  },
+                })}
+              />
+              {errors.inspected_areas && (
+                <span>{errors.inspected_areas.message}</span>
+              )}
+
+              <InputLabel htmlFor="end_time">Hora de finalización</InputLabel>
+              <OutlinedInput
+                type="text"
+                {...register("end_time", {
+                  required: {
+                    value: true,
+                    message: "La hora es requerida",
+                  },
+                })}
+              />
+              {errors.end_time && <span>{errors.end_time.message}</span>}
+
+              <InputLabel htmlFor="security_items">
+                Elementos de seguridad
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                {...register("security_items", {
+                  required: {
+                    value: true,
+                    message: "Los elementos son requeridos",
+                  },
+                })}
+              />
+              {errors.security_items && (
+                <span>{errors.security_items.message}</span>
               )}
             </>
           </div>
@@ -595,4 +389,4 @@ const NewReport = () => {
   );
 };
 
-export default NewReport;
+export default NewInspectReport;

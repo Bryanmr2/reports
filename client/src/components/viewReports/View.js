@@ -40,7 +40,7 @@ const View = () => {
 
   return (
     <div>
-      <h2>Consultar Reportes</h2>
+      <h2 style={{ display: "flex", marginLeft: "2%" }}>Consultar Reportes</h2>
 
       <div className="view-container">
         <InputLabel htmlFor="userSelect">Seleccionar Usuario:</InputLabel>

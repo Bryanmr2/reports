@@ -12,6 +12,7 @@ import HomePage from "./components/home/HomePage";
 import Login from "./components/login/Login";
 import NewUser from "./components/createUser/newUser";
 import NewReport from "./components/reports/newReport";
+import NewInspectReport from "./components/reports/newInspectReport";
 import View from "./components/viewReports/View";
 
 const App = () => {
@@ -39,6 +40,16 @@ const App = () => {
             path="/newreport"
             element={
               isLoggedIn ? <NewReport /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/newreport-inspection"
+            element={
+              isLoggedIn ? (
+                <NewInspectReport />
+              ) : (
+                <Navigate to="/login" replace />
+              )
             }
           />
           <Route
