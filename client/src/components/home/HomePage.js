@@ -28,7 +28,7 @@ const HomePage = () => {
               Generar Reporte de Inspección
             </Button>
           </Link>
-          <Link to="/view">
+          <Link to="/inspections">
             <Button
               variant="contained"
               color="primary"

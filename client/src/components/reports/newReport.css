@@ -1,36 +1,33 @@
 .reportForm {
-    background: white;
-    color: #101010;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    min-height: 100vh;
-    padding: 0;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+  background: white;
+  color: #101010;
+  min-height: 130vh;
+  padding: 0;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h2 {
-    text-align: center;
+  text-align: center;
 }
 
 fieldset {
-    padding: 0!important;
+  padding: 0 !important;
 }
 
 .reportForm div > * {
-    margin-bottom: 2%;
-    width: 70vw;
-    max-width: 500px;
-  }
-
-label {
-    display: block;
+  margin-bottom: 2%;
+  width: 70vw;
+  max-width: 500px;
 }
 
-span { 
-    display: block;
-    color: tomato;
-    font-size: x-small;
+label {
+  display: block;
+}
+
+span {
+  display: block;
+  color: tomato;
+  font-size: x-small;
 }

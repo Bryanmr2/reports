@@ -6,6 +6,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import NativeSelect from "@mui/material/NativeSelect";
 import axios from "axios";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InspectPdf from "../pdf/InspectPDF";
 import "./newReport.css";
 
 const NewInspectReport = () => {
@@ -18,48 +20,18 @@ const NewInspectReport = () => {
   } = useForm();
 
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [formData, setFormData] = useState(null);
 
   const onSubmit = async (data) => {
     try {
       console.log("Submit button clicked");
       console.log("Form data:", data);
       setSuccessMessageVisible(true);
-
-      const {
-        location,
-        date,
-        name,
-        dog_name,
-        corporate,
-        plant,
-        shift,
-        inspection_area,
-        inspection_description,
-        shipment_type,
-        start_time,
-        inspected_areas,
-        end_time,
-        security_items,
-      } = data;
+      setFormData(data);
 
       const response = await axios.post(
         "http://localhost:8000/api/createInspectReport",
-        {
-          location,
-          date,
-          name,
-          dog_name,
-          corporate,
-          plant,
-          shift,
-          inspection_area,
-          inspection_description,
-          shipment_type,
-          start_time,
-          inspected_areas,
-          end_time,
-          security_items,
-        }
+        data
       );
 
       if (response.status === 200) {
@@ -71,17 +43,6 @@ const NewInspectReport = () => {
     } catch (error) {
       console.error("Error de red:", error.message);
     }
-  };
-
-  const [embarque, setEmbarque] = useState("");
-  const [showAdditionalInputs, setShowAdditionalInputs] = useState(false);
-
-  const handleEmbarqueChange = (event) => {
-    const selectedEmbarque = event.target.value;
-    setEmbarque(selectedEmbarque);
-
-    // Determina si mostrar los inputs adicionales
-    setShowAdditionalInputs(selectedEmbarque === "InspeccionCan");
   };
 
   const handleNewReport = () => {
@@ -105,22 +66,24 @@ const NewInspectReport = () => {
               marginTop: "10%",
             }}
           >
-            <Button onClick={handleNewReport} variant="contained">
+            {formData && (
+              <PDFDownloadLink
+                document={<InspectPdf data={formData} />}
+                fileName="inspect_report.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button variant="contained" style={{ width: "235px" }}>
+                    {loading ? "Generando PDF..." : "Descargar reporte"}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            <Button
+              onClick={handleNewReport}
+              variant="contained"
+              style={{ marginTop: "15px" }}
+            >
               Generar nuevo reporte
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: "15px", width: "55%" }}
-            >
-              {" "}
-              Descargar reporte{" "}
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: "15px", width: "55%" }}
-            >
-              {" "}
-              Volver al inicio{" "}
             </Button>
           </div>
         </div>
@@ -301,7 +264,6 @@ const NewInspectReport = () => {
             <InputLabel htmlFor="shipment_type" variant="standard">
               Embarque
             </InputLabel>
-
             <NativeSelect
               {...register("shipment_type", {
                 required: "Selecciona un Embarque",
@@ -310,79 +272,77 @@ const NewInspectReport = () => {
                 name: "shipment_type",
                 id: "uncontrolled-native",
               }}
-              onChange={handleEmbarqueChange}
-              value={"InspeccionCan"}
             >
               <option value="" disabled>
                 Seleccione un Embarque
               </option>
-              <option value={"InspeccionCan"} disabled>
-                Inspección canina
-              </option>
+              <option value={"InspeccionCan"}>Inspección Canina</option>
             </NativeSelect>
+            {errors.shipment_type && (
+              <span>{errors.shipment_type.message}</span>
+            )}
 
-            <>
-              <br />
-              <InputLabel htmlFor="start_time">Hora de inicio</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("start_time", {
-                  required: {
-                    value: true,
-                    message: "La hora es requerida",
-                  },
-                })}
-              />
-              {errors.start_time && <span>{errors.start_time.message}</span>}
+            <InputLabel htmlFor="start_time">Hora de inicio</InputLabel>
+            <OutlinedInput
+              type="time"
+              {...register("start_time", {
+                required: {
+                  value: true,
+                  message: "La hora de inicio es requerida",
+                },
+              })}
+            />
+            {errors.start_time && <span>{errors.start_time.message}</span>}
 
-              <InputLabel htmlFor="inspected_areas">
-                Áreas inspeccionadas
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("inspected_areas", {
-                  required: {
-                    value: true,
-                    message: "Las áreas son requeridas",
-                  },
-                })}
-              />
-              {errors.inspected_areas && (
-                <span>{errors.inspected_areas.message}</span>
-              )}
+            <InputLabel htmlFor="inspected_areas">
+              Áreas inspeccionadas
+            </InputLabel>
+            <OutlinedInput
+              type="text"
+              {...register("inspected_areas", {
+                required: {
+                  value: true,
+                  message: "Las áreas inspeccionadas son requeridas",
+                },
+              })}
+            />
+            {errors.inspected_areas && (
+              <span>{errors.inspected_areas.message}</span>
+            )}
 
-              <InputLabel htmlFor="end_time">Hora de finalización</InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("end_time", {
-                  required: {
-                    value: true,
-                    message: "La hora es requerida",
-                  },
-                })}
-              />
-              {errors.end_time && <span>{errors.end_time.message}</span>}
+            <InputLabel htmlFor="end_time">Hora de finalización</InputLabel>
+            <OutlinedInput
+              type="time"
+              {...register("end_time", {
+                required: {
+                  value: true,
+                  message: "La hora de finalización es requerida",
+                },
+              })}
+            />
+            {errors.end_time && <span>{errors.end_time.message}</span>}
 
-              <InputLabel htmlFor="security_items">
-                Elementos de seguridad
-              </InputLabel>
-              <OutlinedInput
-                type="text"
-                {...register("security_items", {
-                  required: {
-                    value: true,
-                    message: "Los elementos son requeridos",
-                  },
-                })}
-              />
-              {errors.security_items && (
-                <span>{errors.security_items.message}</span>
-              )}
-            </>
+            <InputLabel htmlFor="security_items">
+              Elementos de seguridad
+            </InputLabel>
+            <TextField
+              multiline
+              rows={4}
+              variant="outlined"
+              {...register("security_items")}
+            />
+            {errors.security_items && (
+              <span>{errors.security_items.message}</span>
+            )}
+
+            <Button
+              type="submit"
+              variant="contained"
+              style={{ marginTop: "15px" }}
+            >
+              Generar reporte
+            </Button>
           </div>
-          <Button type="submit" variant="contained">
-            Enviar
-          </Button>
         </form>
       )}
     </>

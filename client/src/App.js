@@ -53,7 +53,7 @@ const App = () => {
             }
           />
           <Route
-            path="/view"
+            path="/inspections"
             element={isLoggedIn ? <View /> : <Navigate to="/login" replace />}
           />
         </Routes>
