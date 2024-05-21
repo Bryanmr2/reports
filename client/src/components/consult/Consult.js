@@ -15,9 +15,9 @@ import {
   Paper,
   Box,
 } from "@mui/material";
-import "./view.css";
+import "./consult.css";
 
-const View = () => {
+const Consult = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -66,74 +66,73 @@ const View = () => {
 
   return (
     <div>
-      <h2 style={{ display: "flex", marginLeft: "2%" }}>
-        Consultar Inspecciones
-      </h2>
-
-      <div className="view-container">
-        <Box>
-          <InputLabel htmlFor="userSelect">Seleccionar Usuario:</InputLabel>
-          <Select
-            id="userSelect"
-            value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}
-            fullWidth
-          >
-            <MenuItem value="">
-              <em>-- Seleccione un usuario --</em>
-            </MenuItem>
-            {users.map((user) => (
-              <MenuItem key={user.id} value={user.id}>
-                {user.name}
+      <h2>Consultar Inspecciones</h2>
+      <div>
+        <div className="view-container">
+          <Box>
+            <InputLabel htmlFor="userSelect">Seleccionar Usuario:</InputLabel>
+            <Select
+              id="userSelect"
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+              fullWidth
+            >
+              <MenuItem value="">
+                <em>-- Seleccione un usuario --</em>
               </MenuItem>
-            ))}
-          </Select>
-        </Box>
+              {users.map((user) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
 
-        <Box sx={{ marginTop: "20px" }}>
-          <InputLabel htmlFor="startDate">Fecha de inicio:</InputLabel>
-          <TextField
-            type="date"
-            id="startDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            fullWidth
-          />
-        </Box>
+          <Box sx={{ marginTop: "20px" }}>
+            <InputLabel htmlFor="startDate">Fecha de inicio:</InputLabel>
+            <TextField
+              type="date"
+              id="startDate"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              fullWidth
+            />
+          </Box>
 
-        <Box sx={{ marginTop: "20px" }}>
-          <InputLabel htmlFor="endDate">Fecha de finalización:</InputLabel>
-          <TextField
-            type="date"
-            id="endDate"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            fullWidth
-          />
-        </Box>
+          <Box sx={{ marginTop: "20px" }}>
+            <InputLabel htmlFor="endDate">Fecha de finalización:</InputLabel>
+            <TextField
+              type="date"
+              id="endDate"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              fullWidth
+            />
+          </Box>
 
-        <Box sx={{ marginTop: "20px" }}>
-          <TextField
-            label="Filtrar por ID"
-            onChange={(e) => setFilterID(e.target.value)}
-            style={{ margin: "15px 0" }}
-            fullWidth
-          />
-        </Box>
+          <Box sx={{ marginTop: "20px" }}>
+            <TextField
+              label="Filtrar por ID"
+              onChange={(e) => setFilterID(e.target.value)}
+              style={{ margin: "15px 0" }}
+              fullWidth
+            />
+          </Box>
 
-        <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleFetchReports}
-            fullWidth
-            style={{ marginTop: "16px" }}
-          >
-            Consultar
-          </Button>
-        </Box>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleFetchReports}
+              fullWidth
+              style={{ marginTop: "16px" }}
+            >
+              Consultar
+            </Button>
+          </Box>
+        </div>
 
-        <Box sx={{ marginTop: "40px" }}>
+        <Box sx={{ marginTop: "40px", padding: "1%" }}>
           <h3>Reportes:</h3>
           <TableContainer component={Paper}>
             <Table aria-label="table">
@@ -161,4 +160,4 @@ const View = () => {
   );
 };
 
-export default View;
+export default Consult;

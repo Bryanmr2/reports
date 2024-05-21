@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReportPdf = ({ data }) => (
+const ShipmentPdf = ({ data }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
@@ -156,4 +156,4 @@ const ReportPdf = ({ data }) => (
   </Document>
 );
 
-export default ReportPdf;
+export default ShipmentPdf;
