@@ -26,14 +26,13 @@ const NewOperator = ({ setIsLoggedIn }) => {
       const response = await axios.post("http://localhost:8000/api/operator", {
         name,
         last_name,
+        curp,
         birth,
         number,
         adress,
-        curp,
       });
       console.log("Registro exitoso: ", response.data);
       reset();
-      navigate("/login", { replace: true });
     } catch (error) {
       if (error.response) {
         console.error("failed:", error.response.data.message);

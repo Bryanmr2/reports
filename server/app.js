@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const userRouter = require("./src/routes/users.routes");
+const operatorRoutes = require("./src/routes/operator.routes");
+const dogRoutes = require("./src/routes/dog.routes");
 const authRoutes = require("./src/routes/auth.routes");
 const reportRoutes = require("./src/routes/report.routes");
 
@@ -18,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 console.log(1);
 
 app.use("/api", userRouter);
+
+app.use("/api", operatorRoutes);
+app.use("/api", dogRoutes);
+
 app.use("/api", authRoutes);
 app.use("/api", reportRoutes);
 
