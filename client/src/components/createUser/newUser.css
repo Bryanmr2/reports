@@ -1,27 +1,26 @@
 .create-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: white;
-    color: #101010;
-    padding: 0;
-    width: -moz-fit-content;
-    flex-wrap: wrap;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: white;
+  color: #101010;
+  padding: 0;
+  width: -moz-fit-content;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-
 label {
-    display: block;
+  display: block;
 }
 
 input {
-    width: 100%;
+  width: 100%;
 }
 
-span { 
-    display: block;
-    color: tomato;
-    font-size: x-small;
+span {
+  display: block;
+  color: tomato;
+  font-size: x-small;
 }
