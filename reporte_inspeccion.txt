@@ -1,0 +1,80 @@
+19/01/2024   - FECHA
+Planta Medical  - LUGAR
+Empalme son  - CIUDAD / ESTADO
+
+M:Abdeel Briseño - OPERADOR
+K9-ulises - CAN
+
+Inicio      02:10 - TIEMPO DE INICIO
+Termino 03:10 - TIEMPO DE SALIDA
+
+Se realiza inspecion k9 interior planta,  pseudos Benzodiacepina ,
+mentafetamina y cristal - DESCRIPCION - INSPECCION
+
+[Sala de entrenamiento
+Comedor,percheros y lavanderia
+Lokers #43 y baños #43
+Calibracion
+Machin shop ,Bullpen moldeo
+Almacen mantenimiento
+Taller mantenimiento
+Baños 41 y 42
+Almacen de recibo
+Rmas,mrb
+Almacen de miselaneos
+Lokers #41 
+Bullpen DYT  ] - AREAS DE INSPECCION
+
+[Benzodiacepina - positivo
+Mentafetamina - positivo             
+Cristal - positivo ] - PSEUDOS      
+
+Guardia sisps - EMPRESA EXTERNA
+Andrea Suastegui - OPERADOR EXTERNO
+
+Inspecion k9 sin novedad - REPORTE DE INCIDENCIA
+
+INSPECCION
+ID
+FECHA
+LUGAR
+CIUDAD
+OPERADOR 
+PERRO - TODAS LAS INSPECCIONES LLEVAN UN K9
+TIEMPO_INICIO_INSPECCION
+TIEMPO_SALIDA_INSPECCION
+DESCRIPCION_INSPECCION
+TIPO_INSPECCION = [PLANTA, EMBARQUE]
+PSEUDOS_INSPECCION
+EMPRESA_INSPECCION
+OPERADOR_EXTERNO_INSPECCION
+
+INSPECCION_EMBARQUE
+PLACAS_CAMION
+NUMERO_CAMION
+COMPAÑIA_CAMION
+CHOFER
+NUMERO_CAJA
+PLACAS_CAJA
+SELLO
+inspeccion_id
+
+INSPECCION_PLANTA
+NOMBRE_PLANTA
+DIRECCION_PLANTA
+AREAS_INSPECCION
+inspeccion_id
+
+OPERADOR
+ID
+NOMBRE COMPLETO
+
+PERROS
+ID
+NOMBRE PERRO
+RAZA
+
+INCIDENCIA
+ID
+DESCRIPCION_INCIDENCIA
+LUGAR_INCIDENCIA
