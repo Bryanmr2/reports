@@ -1,6 +1,6 @@
 const { getDogs, postDogs } = require("../services/dogsService");
 
-const getDogsHandler = async (req, res) => {
+const  getDogsHandler = async (req, res) => {
   try {
     const dogs = await getDogs();
     res.status(200).json(dogs);

@@ -133,7 +133,7 @@ const Consult = () => {
         </div>
 
         <Box sx={{ marginTop: "40px", padding: "1%" }}>
-          <h3>Reportes:</h3>
+          <h3>Inspecciones:</h3>
           <TableContainer component={Paper}>
             <Table aria-label="table">
               <TableHead>

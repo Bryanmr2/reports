@@ -16,7 +16,7 @@ const HomePage = () => {
               color="primary"
               style={{ width: "100%" }}
             >
-              Generar Reporte
+              Generar Inspección
             </Button>
           </Link>
           <Link to="/inspections">
@@ -25,7 +25,7 @@ const HomePage = () => {
               color="primary"
               style={{ marginTop: "10px", width: "100%" }}
             >
-              Consultar Reportes
+              Consultar Inspecciones
             </Button>
           </Link>
           <Link to="/operators/new">

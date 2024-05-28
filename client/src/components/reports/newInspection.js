@@ -55,7 +55,7 @@ const NewInspection = ({ reportType }) => {
   return (
     <>
       <br />
-      <h2>Generar Reporte</h2>
+      <h2>Generar Inspección</h2>
       {successMessageVisible ? (
         <div>
           <h2>Reporte generado con éxito</h2>
@@ -90,25 +90,13 @@ const NewInspection = ({ reportType }) => {
               variant="contained"
               style={{ marginTop: "15px" }}
             >
-              Generar nuevo reporte
+              Generar nueva inspección
             </Button>
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="reportForm">
           <div>
-            <InputLabel htmlFor="location">Lugar</InputLabel>
-            <OutlinedInput
-              type="text"
-              {...register("location", {
-                required: {
-                  value: true,
-                  message: "El lugar es requerido",
-                },
-              })}
-            />
-            {errors.location && <span>{errors.location.message}</span>}
-
             <InputLabel htmlFor="date">Fecha</InputLabel>
             <TextField
               id="date"
@@ -169,23 +157,23 @@ const NewInspection = ({ reportType }) => {
               {errors.dog_name && <span>{errors.dog_name.message}</span>}
             </>
 
-            <InputLabel htmlFor="corporate" variant="standard">
-              Corporativo
+            <InputLabel htmlFor="plant" variant="standard">
+              Planta
             </InputLabel>
             <Controller
-              name="corporate"
+              name="plant"
               control={control}
               defaultValue={""}
               render={({ field }) => (
                 <NativeSelect
                   {...field}
                   inputProps={{
-                    name: "corporate",
+                    name: "plant",
                     id: "uncontrolled-native",
                   }}
                 >
                   <option value="" disabled>
-                    Seleccione un corporativo
+                    Seleccione una planta
                   </option>
                   <option value={"TE Connectivy"}>TE Connectivy</option>
                   <option value={"Leoni"}>Leoni</option>
@@ -195,20 +183,8 @@ const NewInspection = ({ reportType }) => {
                   <option value={"The ILS Company"}>The ILS Company</option>
                 </NativeSelect>
               )}
-              rules={{ required: "Selecciona un corporativo" }}
+              rules={{ required: "Selecciona una planta" }}
             />
-
-            <InputLabel htmlFor="plant">Planta</InputLabel>
-            <OutlinedInput
-              type="text"
-              {...register("plant", {
-                required: {
-                  value: true,
-                  message: "La planta es requerida",
-                },
-              })}
-            />
-            {errors.plant && <span>{errors.plant.message}</span>}
 
             <InputLabel htmlFor="shift" variant="standard">
               Turno
@@ -236,7 +212,7 @@ const NewInspection = ({ reportType }) => {
             />
 
             <InputLabel htmlFor="inspection_area">
-              Area de inspección
+              Áreas inspeccionadas
             </InputLabel>
             <OutlinedInput
               type="text"
@@ -252,7 +228,7 @@ const NewInspection = ({ reportType }) => {
             )}
 
             <InputLabel htmlFor="inspection_description">
-              Descripción de inspección
+              Descripción de Incidencias
             </InputLabel>
             <TextField
               multiline
@@ -266,11 +242,11 @@ const NewInspection = ({ reportType }) => {
 
             <br />
             <InputLabel htmlFor="shipment_type" variant="standard">
-              Embarque
+              Asunto
             </InputLabel>
             <NativeSelect
               {...register("shipment_type", {
-                required: "Selecciona un Embarque",
+                required: "Selecciona un asunto",
                 onChange: (e) => setShipmentType(e.target.value),
               })}
               inputProps={{
@@ -299,21 +275,17 @@ const NewInspection = ({ reportType }) => {
                 />
                 {errors.start_time && <span>{errors.start_time.message}</span>}
 
-                <InputLabel htmlFor="inspected_areas">
-                  Áreas inspeccionadas
-                </InputLabel>
+                <InputLabel htmlFor="mark_time">Hora de marcaje</InputLabel>
                 <OutlinedInput
-                  type="text"
-                  {...register("inspected_areas", {
+                  type="time"
+                  {...register("start_time", {
                     required: {
                       value: true,
-                      message: "Las áreas inspeccionadas son requeridas",
+                      message: "La hora de inicio es requerida",
                     },
                   })}
                 />
-                {errors.inspected_areas && (
-                  <span>{errors.inspected_areas.message}</span>
-                )}
+                {errors.start_time && <span>{errors.start_time.message}</span>}
 
                 <InputLabel htmlFor="end_time">Hora de finalización</InputLabel>
                 <OutlinedInput
@@ -327,18 +299,39 @@ const NewInspection = ({ reportType }) => {
                 />
                 {errors.end_time && <span>{errors.end_time.message}</span>}
 
-                <InputLabel htmlFor="security_items">
-                  Elementos de seguridad
+                <InputLabel htmlFor="result">Resultado</InputLabel>
+                <TextField
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  {...register("result")}
+                />
+
+                <InputLabel htmlFor="recomendations">
+                  Recomendaciones
                 </InputLabel>
                 <TextField
                   multiline
                   rows={4}
                   variant="outlined"
-                  {...register("security_items")}
+                  {...register("recomentations")}
                 />
-                {errors.security_items && (
-                  <span>{errors.security_items.message}</span>
-                )}
+
+                <InputLabel htmlFor="coments">Comentarios</InputLabel>
+                <TextField
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  {...register("coments")}
+                />
+
+                <InputLabel htmlFor="Evidence">Evidencia</InputLabel>
+                <TextField
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  {...register("Evidence")}
+                />
               </>
             ) : (
               shipmentType && (
@@ -620,7 +613,7 @@ const NewInspection = ({ reportType }) => {
                 marginTop: "10px",
               }}
             >
-              Generar reporte
+              Generar Inspección
             </Button>
           </Box>
         </form>
