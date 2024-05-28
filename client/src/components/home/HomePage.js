@@ -28,13 +28,13 @@ const HomePage = () => {
               Consultar Inspecciones
             </Button>
           </Link>
-          <Link to="/operators/new">
+          <Link to="/operators">
             <Button
               variant="contained"
               color="primary"
               style={{ marginTop: "10px", width: "100%" }}
             >
-              Registrar Operadores
+              Operadores
             </Button>
           </Link>
           <Link to="/dogs/new">

@@ -11,7 +11,8 @@ import HomePage from "./components/home/HomePage";
 import Login from "./components/login/Login";
 import NewUser from "./components/createUser/newUser";
 import NewInspection from "./components/reports/newInspection";
-import NewOperator from "./components/createOperator/newOperator";
+import OperatorView from "./components/operators/operatorView";
+import NewOperator from "./components/operators/createOperator/newOperator";
 import NewDog from "./components/createDogs/newDog";
 import Consult from "./components/consult/Consult.js";
 
@@ -46,6 +47,12 @@ const App = () => {
             path="/inspections/new"
             element={
               isLoggedIn ? <NewInspection /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/operators"
+            element={
+              isLoggedIn ? <OperatorView /> : <Navigate to="/login" replace />
             }
           />
           <Route

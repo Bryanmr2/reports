@@ -1,9 +1,14 @@
-const { getOperator, postOperator } = require("../services/operatorService");
+const {
+  getOperator,
+  postOperator,
+  deleteOperator,
+  editOperator,
+} = require("../services/operatorService");
 
 const getOperatorsHandler = async (req, res) => {
   try {
-    const dogs = await getOperator();
-    res.status(200).json(dogs);
+    const operator = await getOperator();
+    res.status(200).json(operator);
   } catch (error) {
     console.error("Error al obtener operadores:", error.message);
     res.status(500).json({ error: error.message });
@@ -29,4 +34,40 @@ const postOperatorsHandler = async (req, res) => {
   }
 };
 
-module.exports = { getOperatorsHandler, postOperatorsHandler };
+const deleteOperatorHandler = async (req, res) => {
+  const operatorId = req.params.id;
+  try {
+    await deleteOperator(operatorId);
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error al eliminar operador:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const editOperatorHandler = async (req, res) => {
+  const operatorId = req.params.id;
+  const { name, last_name, curp, birth, number, address } = req.body;
+  try {
+    const newData = {
+      name: name,
+      last_name: last_name,
+      curp: curp,
+      birth: birth,
+      number: number,
+      address: address,
+    };
+    await editOperator(operatorId, newData);
+    res.status(200).json({ message: "Operador actualizado correctamente" });
+  } catch (error) {
+    console.error("Error al editar operador:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getOperatorsHandler,
+  postOperatorsHandler,
+  deleteOperatorHandler,
+  editOperatorHandler,
+};

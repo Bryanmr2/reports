@@ -41,4 +41,38 @@ const postOperator = async (operator) => {
   }
 };
 
-module.exports = { getOperator, postOperator };
+const deleteOperator = async (operatorId) => {
+  try {
+    const { error } = await supabase
+      .from("operator")
+      .delete()
+      .eq("id", operatorId);
+    if (error) {
+      throw new Error(error.message);
+    }
+  } catch (error) {
+    console.error("Error al eliminar operador:", error.message);
+    throw error;
+  }
+};
+
+const editOperator = async (operatorId, newData) => {
+  try {
+    const { data, error } = await supabase
+      .from("operator")
+      .update(newData)
+      .eq("id", operatorId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error al actualizar operador:", error.message);
+    throw error;
+  }
+};
+
+module.exports = { getOperator, postOperator, deleteOperator, editOperator };
