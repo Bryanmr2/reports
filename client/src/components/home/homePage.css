@@ -1,19 +1,18 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 .options {
-    display: flex;
-    flex-direction: column;
-    
+  display: flex;
+  flex-direction: column;
+  width: 55%;
 }
 
 .home-container {
-    height: 80vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-

@@ -10,7 +10,7 @@ const HomePage = () => {
       <div className="home-container">
         <h2>Elige una opción</h2>
         <div className="options">
-          <Link to="/inspections/new">
+          {/* <Link to="/inspections/new">
             <Button
               variant="contained"
               color="primary"
@@ -18,14 +18,14 @@ const HomePage = () => {
             >
               Generar Inspección
             </Button>
-          </Link>
+          </Link> */}
           <Link to="/inspections">
             <Button
               variant="contained"
               color="primary"
               style={{ marginTop: "10px", width: "100%" }}
             >
-              Consultar Inspecciones
+              Inspecciones
             </Button>
           </Link>
           <Link to="/operators">
@@ -37,13 +37,13 @@ const HomePage = () => {
               Operadores
             </Button>
           </Link>
-          <Link to="/dogs/new">
+          <Link to="/dogs">
             <Button
               variant="contained"
               color="primary"
               style={{ marginTop: "10px", width: "100%" }}
             >
-              Registrar Perros
+              Perros
             </Button>
           </Link>
         </div>

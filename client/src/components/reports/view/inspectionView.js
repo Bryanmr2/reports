@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Button,
   Select,
-  MenuItem,
   InputLabel,
   TextField,
   Table,
@@ -15,39 +14,15 @@ import {
   Paper,
   Box,
 } from "@mui/material";
-import "./consult.css";
+import { Link } from "react-router-dom";
+import "./inspectionView.css";
 
-const Consult = () => {
-  const [users, setUsers] = useState([]);
+const InspectionView = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reports, setReports] = useState([]);
   const [filterID, setFilterID] = useState("");
-
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get("/api/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    getUsers();
-    fetchReportsForToday();
-  }, []);
-
-  const fetchReportsForToday = async () => {
-    const today = new Date().toISOString().split("T")[0];
-    try {
-      const response = await axios.get(`/api/reports/today`);
-      setReports(response.data);
-    } catch (error) {
-      console.error("Error fetching today's reports:", error);
-    }
-  };
 
   const handleFetchReports = () => {
     axios
@@ -76,16 +51,7 @@ const Consult = () => {
               value={selectedUser}
               onChange={(e) => setSelectedUser(e.target.value)}
               fullWidth
-            >
-              <MenuItem value="">
-                <em>-- Seleccione un usuario --</em>
-              </MenuItem>
-              {users.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                  {user.name}
-                </MenuItem>
-              ))}
-            </Select>
+            ></Select>
           </Box>
 
           <Box sx={{ marginTop: "20px" }}>
@@ -110,11 +76,10 @@ const Consult = () => {
             />
           </Box>
 
-          <Box sx={{ marginTop: "20px" }}>
+          <Box className="inspect-filter">
             <TextField
               label="Filtrar por ID"
               onChange={(e) => setFilterID(e.target.value)}
-              style={{ margin: "15px 0" }}
               fullWidth
             />
           </Box>
@@ -125,7 +90,7 @@ const Consult = () => {
               color="primary"
               onClick={handleFetchReports}
               fullWidth
-              style={{ marginTop: "16px" }}
+              style={{ marginTop: "70px" }}
             >
               Consultar
             </Button>
@@ -133,7 +98,18 @@ const Consult = () => {
         </div>
 
         <Box sx={{ marginTop: "40px", padding: "1%" }}>
-          <h3>Inspecciones:</h3>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "10px",
+            }}
+          >
+            <h3>Inspecciones:</h3>
+            <Button variant="outlined" component={Link} to="/inspections/new">
+              Crear Nueva Inspección
+            </Button>
+          </div>
           <TableContainer component={Paper}>
             <Table aria-label="table">
               <TableHead>
@@ -160,4 +136,4 @@ const Consult = () => {
   );
 };
 
-export default Consult;
+export default InspectionView;

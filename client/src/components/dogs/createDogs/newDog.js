@@ -24,7 +24,7 @@ const NewDog = ({ setIsLoggedIn }) => {
     const { name, breed, age, gender, color } = data;
 
     try {
-      const response = await axios.post("http://localhost:8000/api/dogs", {
+      const response = await axios.post("http://localhost:8000/api/dog", {
         name,
         breed,
         age,
@@ -127,8 +127,8 @@ const NewDog = ({ setIsLoggedIn }) => {
                     },
                   })}
                 >
-                  <MenuItem value="male">Macho</MenuItem>
-                  <MenuItem value="female">Hembra</MenuItem>
+                  <MenuItem value="Macho">Macho</MenuItem>
+                  <MenuItem value="Hembra">Hembra</MenuItem>
                 </Select>
 
                 <InputLabel htmlFor="color" style={{ marginTop: "10%" }}>

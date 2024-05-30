@@ -40,4 +40,35 @@ const postDogs = async (dog) => {
   }
 };
 
-module.exports = { getDogs, postDogs };
+const deleteDog = async (dogId) => {
+  try {
+    const { error } = await supabase.from("dog").delete().eq("id", dogId);
+    if (error) {
+      throw new Error(error.message);
+    }
+  } catch (error) {
+    console.error("Error al eliminar perro:", error.message);
+    throw error;
+  }
+};
+
+const editDog = async (dogId, newData) => {
+  try {
+    const { data, error } = await supabase
+      .from("dog")
+      .update(newData)
+      .eq("id", dogId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error al editar perro:", error.message);
+    throw error;
+  }
+};
+
+module.exports = { getDogs, postDogs, deleteDog, editDog };

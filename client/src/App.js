@@ -11,10 +11,11 @@ import HomePage from "./components/home/HomePage";
 import Login from "./components/login/Login";
 import NewUser from "./components/createUser/newUser";
 import NewInspection from "./components/reports/newInspection";
+import InspectionView from "./components/reports/view/inspectionView";
 import OperatorView from "./components/operators/operatorView";
 import NewOperator from "./components/operators/createOperator/newOperator";
-import NewDog from "./components/createDogs/newDog";
-import Consult from "./components/consult/Consult.js";
+import NewDog from "./components/dogs/createDogs/newDog";
+import DogView from "./components/dogs/dogView";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -40,7 +41,7 @@ const App = () => {
           <Route
             path="/inspections"
             element={
-              isLoggedIn ? <Consult /> : <Navigate to="/login" replace />
+              isLoggedIn ? <InspectionView /> : <Navigate to="/login" replace />
             }
           />
           <Route
@@ -59,6 +60,12 @@ const App = () => {
             path="/operators/new"
             element={
               isLoggedIn ? <NewOperator /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/dogs"
+            element={
+              isLoggedIn ? <DogView /> : <Navigate to="/login" replace />
             }
           />
           <Route
