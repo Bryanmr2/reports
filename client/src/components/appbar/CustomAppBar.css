@@ -1,0 +1,27 @@
+.back-button {
+  position: absolute;
+  color: white;
+}
+
+.siipccsp {
+  flex-grow: 1;
+  position: absolute !important;
+  margin-left: 30% !important;
+}
+
+.logout-button {
+  margin-left: 226px !important;
+  position: absolute !important;
+}
+
+@media (min-width: 1000px) {
+  .siipccsp {
+    flex-grow: 1 !important;
+    margin-left: 45% !important;
+  }
+
+  .logout-button {
+    margin-left: 85% !important;
+    position: absolute !important;
+  }
+}

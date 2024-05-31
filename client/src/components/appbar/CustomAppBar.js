@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { useLocation } from "react-router-dom";
+import "./CustomAppBar.css";
 
 const CustomAppBar = ({ isLoggedIn }) => {
   console.log("isLoggedIn", isLoggedIn);
@@ -28,17 +29,19 @@ const CustomAppBar = ({ isLoggedIn }) => {
           <Button
             startIcon={<ArrowCircleLeftIcon sx={{ color: "white" }} />}
             onClick={handleGoBack}
-            sx={{ position: "absolute", color: "white" }}
-          >
-            Volver
-          </Button>
+            className="back-button"
+          ></Button>
         )}
-        <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: "30%" }}>
+        <Typography variant="h6" className="siipccsp">
           SIIPCCSP
         </Typography>
 
         {isLoggedIn && (
-          <Button variant="contained" onClick={() => onLogout()}>
+          <Button
+            variant="contained"
+            className="logout-button"
+            onClick={() => onLogout()}
+          >
             Cerrar Sesión
           </Button>
         )}

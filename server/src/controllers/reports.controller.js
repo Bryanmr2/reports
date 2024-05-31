@@ -1,9 +1,7 @@
-const {
-  createReportInDB,
-  createInspectReportInDB,
-} = require("../services/reportService");
+const { createReportInDB } = require("../services/reportService");
+const pdfService = require("../services/pdfService");
 
-const createReport = async (req, res) => {
+const createInspection = async (req, res) => {
   try {
     const {
       location,
@@ -16,21 +14,19 @@ const createReport = async (req, res) => {
       inspection_area,
     } = req.body;
 
-    if (
-      !location ||
-      !date ||
-      !name ||
-      !dog_name ||
-      !corporate ||
-      !plant ||
-      !shift ||
-      !inspection_area
-    ) {
-      return res.status(400).json({ message: "Faltan datos del reporte" });
-    }
+    // const results = await createReportInDB(req.body);
+    // if (results) {
+    const stream = res.writeHead(200, {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment;filename=invoice.pdf`,
+    });
+    pdfService.buildPDF(
+      (chunk) => stream.write(chunk),
+      () => stream.end(),
+      req.body
+    );
+    // }
 
-    const results = await createReportInDB(req.body);
-    res.send(results);
     console.log("Reporte enviado");
   } catch (err) {
     console.error("Error durante la creación del reporte:", err.message);
@@ -38,55 +34,6 @@ const createReport = async (req, res) => {
   }
 };
 
-const createInspectReport = async (req, res) => {
-  try {
-    const {
-      location,
-      date,
-      name,
-      dog_name,
-      corporate,
-      plant,
-      shift,
-      inspection_area,
-      start_time,
-      inspected_areas,
-      end_time,
-      security_items,
-    } = req.body;
-
-    if (
-      !location ||
-      !date ||
-      !name ||
-      !dog_name ||
-      !corporate ||
-      !plant ||
-      !shift ||
-      !inspection_area ||
-      !start_time ||
-      !inspected_areas ||
-      !end_time ||
-      !security_items
-    ) {
-      return res
-        .status(400)
-        .json({ message: "Faltan datos del reporte de inspección" });
-    }
-
-    const results = await createInspectReportInDB(req.body);
-    res.send(results);
-    console.log("Reporte de inspección enviado");
-  } catch (err) {
-    console.error(
-      "Error durante la creación del reporte de inspección:",
-      err.message
-    );
-    res.status(500).json({ message: "Error en el servidor" });
-  }
-};
-
 module.exports = {
-  createReport,
-  createInspectReport,
+  createInspection,
 };

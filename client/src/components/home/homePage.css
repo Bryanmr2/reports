@@ -8,6 +8,11 @@ body {
   width: 55%;
 }
 
+.option-buttons {
+  margin-bottom: 8px !important;
+  width: 100%;
+}
+
 .home-container {
   height: 80vh;
   width: 100vw;
@@ -15,4 +20,16 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .option-buttons {
+    width: 380px;
+    margin-bottom: 8px !important;
+  }
 }

@@ -1,0 +1,49 @@
+.dog-filters {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dog-filter-id {
+  width: 80% !important;
+}
+
+.dog-consult {
+  margin-top: 8px !important;
+  margin-bottom: 50px;
+  width: 80%;
+}
+
+.dog-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media (min-width: 1024px) {
+  .dog-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .dog-filter-id {
+    margin: 15px 0px;
+    width: 20% !important;
+  }
+
+  .dog-consult {
+    height: 40px;
+    margin-top: 20px !important;
+    margin-left: 14px !important;
+    margin-bottom: 15px !important;
+    width: 10%;
+  }
+
+  .dog-table {
+    margin-top: 20px;
+    padding: 1%;
+  }
+}

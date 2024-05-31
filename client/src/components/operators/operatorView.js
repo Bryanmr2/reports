@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import "./operatorView.css";
 
 const OperatorView = () => {
   const [operators, setOperators] = useState([]);
@@ -114,11 +115,29 @@ const OperatorView = () => {
     <div>
       <h2>Consultar Operadores</h2>
       <div>
+        <div className="operator-filters">
+          <TextField
+            label="Filtrar por ID"
+            value={filterID}
+            onChange={(e) => setFilterID(e.target.value)}
+            className="operator-filter-id"
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFetchOperators}
+            className="operator-consult"
+          >
+            Consultar
+          </Button>
+        </div>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             padding: "10px",
+            marginTop: "50px",
           }}
         >
           <h3>Operadores:</h3>
@@ -126,32 +145,7 @@ const OperatorView = () => {
             Crear Nuevo Operador
           </Button>
         </div>
-        <div style={{ display: "flex", padding: "10px" }}>
-          <TextField
-            label="Filtrar por ID"
-            value={filterID}
-            onChange={(e) => setFilterID(e.target.value)}
-            style={{ margin: "15px 0", width: "20%" }}
-            fullWidth
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleFetchOperators}
-            fullWidth
-            style={{
-              marginTop: "22px",
-              marginLeft: "14px",
-              height: "40px",
-              width: "15%",
-            }}
-          >
-            Consultar
-          </Button>
-        </div>
-
-        <Box sx={{ marginTop: "40px", padding: "1%" }}>
+        <Box className="operator-table">
           <TableContainer component={Paper}>
             <Table aria-label="table">
               <TableHead>

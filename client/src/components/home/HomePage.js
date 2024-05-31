@@ -23,7 +23,7 @@ const HomePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", width: "100%" }}
+              className="option-buttons"
             >
               Inspecciones
             </Button>
@@ -32,7 +32,7 @@ const HomePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", width: "100%" }}
+              className="option-buttons"
             >
               Operadores
             </Button>
@@ -41,7 +41,7 @@ const HomePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", width: "100%" }}
+              className="option-buttons"
             >
               Perros
             </Button>

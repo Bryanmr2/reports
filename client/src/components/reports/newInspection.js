@@ -32,7 +32,7 @@ const NewInspection = ({ reportType }) => {
       setFormData(data);
 
       const response = await axios.post(
-        `http://localhost:8000/api/create${reportType}Report`,
+        `http://localhost:8000/api/createInspection`,
         data
       );
 
@@ -67,7 +67,7 @@ const NewInspection = ({ reportType }) => {
               marginTop: "10%",
             }}
           >
-            {formData && shipmentType && (
+            {/* {formData && shipmentType && (
               <PDFDownloadLink
                 document={
                   shipmentType === "InspeccionCanina" ? (
@@ -84,7 +84,7 @@ const NewInspection = ({ reportType }) => {
                   </Button>
                 )}
               </PDFDownloadLink>
-            )}
+            )} */}
             <Button
               onClick={handleNewReport}
               variant="contained"

@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import "./dogsView.css";
 
 const DogView = () => {
   const [dogs, setDogs] = useState([]);
@@ -112,6 +113,24 @@ const DogView = () => {
     <div>
       <h2>Consultar Perros</h2>
       <div>
+        <div className="dog-filters">
+          <TextField
+            label="Filtrar por ID"
+            value={filterID}
+            onChange={(e) => setFilterID(e.target.value)}
+            className="dog-filter-id"
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFetchDogs}
+            className="dog-consult"
+          >
+            Consultar
+          </Button>
+        </div>
+
         <div
           style={{
             display: "flex",
@@ -124,32 +143,8 @@ const DogView = () => {
             Crear Nuevo Perro
           </Button>
         </div>
-        <div style={{ display: "flex", padding: "10px" }}>
-          <TextField
-            label="Filtrar por ID"
-            value={filterID}
-            onChange={(e) => setFilterID(e.target.value)}
-            style={{ margin: "15px 0", width: "20%" }}
-            fullWidth
-          />
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleFetchDogs}
-            fullWidth
-            style={{
-              marginTop: "22px",
-              marginLeft: "14px",
-              height: "40px",
-              width: "15%",
-            }}
-          >
-            Consultar
-          </Button>
-        </div>
-
-        <Box sx={{ marginTop: "40px", padding: "1%" }}>
+        <Box className="dog-table">
           <TableContainer component={Paper}>
             <Table aria-label="table">
               <TableHead>

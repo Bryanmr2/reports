@@ -1,0 +1,46 @@
+.operator-filters {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.operator-filter-id {
+  width: 80%;
+}
+
+.operator-consult {
+  margin-top: 18px !important;
+  width: 80%;
+}
+
+.operator-table {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .operator-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .operator-filter-id {
+    width: 20%;
+  }
+
+  .operator-consult {
+    height: 40px;
+    margin-top: 22px;
+    margin-left: 14px !important;
+    margin-bottom: 15px !important;
+    width: 10%;
+  }
+
+  .operator-table {
+    margin-top: 20px;
+    padding: 1%;
+  }
+}
