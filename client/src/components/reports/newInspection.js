@@ -36,6 +36,8 @@ const NewInspection = ({ reportType }) => {
         data
       );
 
+      console.log(response);
+
       if (response.status === 200) {
         console.log("Informe creado exitosamente");
       } else {
