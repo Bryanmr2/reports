@@ -9,7 +9,7 @@ function buildPDF(dataCallback, endCallback, reportData) {
 
   // Adding header information
   doc.fontSize(10);
-  doc.text("Hermosillo, Sonora. A 13 de septiembre del 2020.", 273, 65);
+  doc.text(`Hermosillo, Sonora. a ${reportData.date}`, 338, 65);
   doc.text("Asunto: Reporte de inspección canina.", 322, 80);
 
   // Add the dog image from the provided assets
@@ -29,6 +29,7 @@ function buildPDF(dataCallback, endCallback, reportData) {
   doc.fontSize(12).text(`Atención: ${reportData.name}`, 50, 175);
   doc.fontSize(12).text(`Coordinador de seguridad patrimonial.`, 50, 190);
   doc.fontSize(12).text(`Planta: INDUSTRIAL`, 420, 170);
+  doc.fontSize(12).text(`Turno: ${reportData.shift}`, 420, 187);
 
   // Table header
   doc.fontSize(10).text("HORA", 60, 220, { bold: true });
@@ -60,8 +61,8 @@ function buildPDF(dataCallback, endCallback, reportData) {
   doc.moveTo(550, 235).lineTo(550, 265).stroke();
 
   // Areas and incidents table header
-  doc.fontSize(10).text("ÁREAS INSPECCIONADAS", 50, 295, { bold: true });
-  doc.fontSize(10).text("INCIDENCIAS", 300, 295, { bold: true });
+  doc.fontSize(10).text("ÁREAS INSPECCIONADAS", 55, 295, { bold: true });
+  doc.fontSize(10).text("INCIDENCIAS", 295, 295, { bold: true });
 
   // Draw header lines for areas and incidents
   doc.moveTo(50, 290).lineTo(550, 290).stroke();
@@ -96,7 +97,7 @@ function buildPDF(dataCallback, endCallback, reportData) {
 
   let y = 325;
   areas.forEach((area) => {
-    doc.text(area, 50, y);
+    doc.text(area, 55, y);
     doc.text("NINGUNA", 300, y);
 
     // Draw content lines

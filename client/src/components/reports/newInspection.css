@@ -31,3 +31,9 @@ span {
   color: tomato;
   font-size: x-small;
 }
+
+@media (min-width: 1024px) {
+  .reportForm {
+    margin-right: 45%;
+  }
+}

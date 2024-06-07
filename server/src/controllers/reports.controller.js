@@ -3,16 +3,7 @@ const pdfService = require("../services/pdfService");
 
 const createInspection = async (req, res) => {
   try {
-    const {
-      location,
-      date,
-      name,
-      dog_name,
-      corporate,
-      plant,
-      shift,
-      inspection_area,
-    } = req.body;
+    const reportData = req.body;
 
     // const results = await createReportInDB(req.body);
     // if (results) {
