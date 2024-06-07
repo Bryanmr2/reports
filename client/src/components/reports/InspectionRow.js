@@ -8,13 +8,15 @@ const InspectionRow = ({ register, position, removeInspectionArea }) => {
       <TextField
         label="Nombre de area"
         fullWidth
-        {...register(`inspection_areas[${position}].area`)}
+        {...register(`inspection_areas[${position}].name`)}
       />
       <Select
         fullWidth
         {...register(`inspection_areas[${position}].incidence`)}
       >
-        <MenuItem value="">Ninguna</MenuItem>
+        <MenuItem value="" disabled>
+          Tipo de incidencia
+        </MenuItem>
         <MenuItem value="Ninguna">Ninguna</MenuItem>
         <MenuItem value="Marcaje">Marcaje</MenuItem>
       </Select>
