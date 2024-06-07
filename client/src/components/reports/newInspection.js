@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box } from "@mui/material";
+import { Box, MenuItem, Select, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
-import NativeSelect from "@mui/material/NativeSelect";
+import PageLayout from "../common/PageLayout";
 import axios from "axios";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import PlantPdf from "../pdf/PlantPDF";
-import ShipmentPdf from "../pdf/ShimpmentPDF";
-import "./newInspection.css";
+import InspectionRow from "./InspectionRow";
 
-const NewInspection = ({ reportType }) => {
+const NewInspection = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     control,
-  } = useForm();
+    getValues,
+    setValue,
+    watch,
+  } = useForm({
+    defaultValues: {
+      date: "",
+      name: "",
+      dog_name: "",
+      plant: "",
+      shift: "",
+      shipment_type: "",
+      time: "",
+      tractor: "",
+      plates: "",
+      company: "",
+      driver: "",
+      box: "",
+      seal: "",
+      inspection_areas: [{ area: "", incidence: "" }],
+      inspection_description: "",
+    },
+  });
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [formData, setFormData] = useState(null);
-  const [shipmentType, setShipmentType] = useState("");
   const [operatorNames, setOperatorNames] = useState([]);
   const [dogNames, setDogNames] = useState([]);
-  const [inspectionAreas, setInspectionAreas] = useState([]);
-  const [newArea, setNewArea] = useState("");
-  const [incidenceOptions, setIncidenceOptions] = useState([
-    "Ninguna",
-    "Marcaje",
-  ]);
 
   useEffect(() => {
     const fetchOperatorNames = async () => {
@@ -60,7 +69,6 @@ const NewInspection = ({ reportType }) => {
       console.log("Submit button clicked");
       console.log("Form data:", data);
       setSuccessMessageVisible(true);
-      setFormData(data);
 
       const response = await axios.post(
         `http://localhost:8000/api/createInspection`,
@@ -85,20 +93,23 @@ const NewInspection = ({ reportType }) => {
     reset();
   };
 
-  const handleAddArea = () => {
-    setInspectionAreas([...inspectionAreas, { area: newArea, incidence: "" }]);
-    setNewArea("");
+  const handleAddNewArea = () => {
+    const currentAreas = getValues("inspection_areas");
+    const newArea = { area: "", incidence: "" };
+    setValue("inspection_areas", [...currentAreas, newArea]);
   };
 
-  const handleIncidenceChange = (index, incidence) => {
-    const updatedAreas = [...inspectionAreas];
-    updatedAreas[index].incidence = incidence;
-    setInspectionAreas(updatedAreas);
+  const removeInspectionArea = (index) => {
+    const currentAreas = getValues("inspection_areas");
+    const updatedAreas = currentAreas.filter((_, i) => i !== index);
+    setValue("inspection_areas", updatedAreas);
   };
+
+  const inspection_areas = watch("inspection_areas");
+  const shipment_type = watch("shipment_type");
+
   return (
-    <>
-      <br />
-      <h2>Generar Inspección</h2>
+    <PageLayout title="Generar Inspección">
       {successMessageVisible ? (
         <div>
           <h2>Reporte generado con éxito</h2>
@@ -120,69 +131,72 @@ const NewInspection = ({ reportType }) => {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="reportForm">
-          <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box>
             <InputLabel htmlFor="date">Fecha</InputLabel>
             <TextField
-              id="date"
-              type="date"
-              InputLabelProps={{ shrink: true }}
               {...register("date", {
                 required: { value: true, message: "La fecha es requerida" },
               })}
+              id="date"
+              type="date"
+              fullWidth
             />
             {errors.date && <span>{errors.date.message}</span>}
-
-            <br />
-            <br />
+          </Box>
+          <Box>
             <InputLabel htmlFor="name">Nombre</InputLabel>
             <Controller
               name="name"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <NativeSelect
+                <Select
                   {...field}
+                  fullWidth
                   inputProps={{ name: "name", id: "uncontrolled-native" }}
                 >
-                  <option value="" disabled>
+                  <MenuItem value="" disabled>
                     Seleccione un nombre
-                  </option>
+                  </MenuItem>
                   {operatorNames.map((name, index) => (
-                    <option key={index} value={name}>
+                    <MenuItem key={index} value={name}>
                       {name}
-                    </option>
+                    </MenuItem>
                   ))}
-                </NativeSelect>
+                </Select>
               )}
               rules={{ required: "Selecciona un nombre" }}
             />
             {errors.name && <span>{errors.name.message}</span>}
-
-            <InputLabel htmlFor="dog_name">Nombre del Can</InputLabel>
+          </Box>
+          <Box>
+            <InputLabel htmlFor="dog_name">Nombre del can</InputLabel>
             <Controller
               name="dog_name"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <NativeSelect
+                <Select
                   {...field}
                   inputProps={{ name: "dog_name", id: "uncontrolled-native" }}
+                  fullWidth
                 >
-                  <option value="" disabled>
+                  <MenuItem value="" disabled>
                     Seleccione un nombre del can
-                  </option>
+                  </MenuItem>
                   {dogNames.map((name, index) => (
-                    <option key={index} value={name}>
+                    <MenuItem key={index} value={name}>
                       {name}
-                    </option>
+                    </MenuItem>
                   ))}
-                </NativeSelect>
+                </Select>
               )}
               rules={{ required: "Selecciona un nombre del can" }}
             />
             {errors.dog_name && <span>{errors.dog_name.message}</span>}
-
+          </Box>
+          <Box>
             <InputLabel htmlFor="plant" variant="standard">
               Planta
             </InputLabel>
@@ -191,24 +205,26 @@ const NewInspection = ({ reportType }) => {
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <NativeSelect
+                <Select
                   {...field}
                   inputProps={{ name: "plant", id: "uncontrolled-native" }}
+                  fullWidth
                 >
-                  <option value="" disabled>
+                  <MenuItem value="" disabled>
                     Seleccione una planta
-                  </option>
-                  <option value="TE Connectivy">TE Connectivy</option>
-                  <option value="Leoni">Leoni</option>
-                  <option value="BD Medical">BD Medical</option>
-                  <option value="EDS mfg México">EDS mfg México</option>
-                  <option value="Latécoere México">Latécoere México</option>
-                  <option value="The ILS Company">The ILS Company</option>
-                </NativeSelect>
+                  </MenuItem>
+                  <MenuItem value="TE Connectivy">TE Connectivy</MenuItem>
+                  <MenuItem value="Leoni">Leoni</MenuItem>
+                  <MenuItem value="BD Medical">BD Medical</MenuItem>
+                  <MenuItem value="EDS mfg México">EDS mfg México</MenuItem>
+                  <MenuItem value="Latécoere México">Latécoere México</MenuItem>
+                  <MenuItem value="The ILS Company">The ILS Company</MenuItem>
+                </Select>
               )}
               rules={{ required: "Selecciona una planta" }}
             />
-
+          </Box>
+          <Box>
             <InputLabel htmlFor="shift" variant="standard">
               Turno
             </InputLabel>
@@ -217,164 +233,127 @@ const NewInspection = ({ reportType }) => {
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <NativeSelect
+                <Select
                   {...field}
                   inputProps={{ name: "shift", id: "uncontrolled-native" }}
+                  fullWidth
                 >
-                  <option value="" disabled>
+                  <MenuItem value="" disabled>
                     Seleccione un turno
-                  </option>
-                  <option value="Diurno">Diurno</option>
-                  <option value="Nocturno">Nocturno</option>
-                </NativeSelect>
+                  </MenuItem>
+                  <MenuItem value="Diurno">Diurno</MenuItem>
+                  <MenuItem value="Nocturno">Nocturno</MenuItem>
+                </Select>
               )}
               rules={{ required: "Selecciona un turno" }}
             />
-
-            <br />
+          </Box>
+          <Box>
             <InputLabel htmlFor="shipment_type" variant="standard">
               Asunto
             </InputLabel>
-            <NativeSelect
+            <Select
               {...register("shipment_type", {
                 required: "Selecciona un asunto",
-                onChange: (e) => setShipmentType(e.target.value),
               })}
-              inputProps={{ name: "shipment_type", id: "uncontrolled-native" }}
+              inputProps={{
+                name: "shipment_type",
+                id: "uncontrolled-native",
+              }}
+              fullWidth
             >
-              <option value="">Seleccione un Embarque</option>
-              <option value="Importacion">Importacion</option>
-              <option value="Exportacion">Exportacion</option>
-              <option value="Consolidado">Consolidado</option>
-              <option value="InspeccionCanina">Inspección Canina</option>
-            </NativeSelect>
-
-            {["Importacion", "Exportacion", "Consolidado"].includes(
-              shipmentType
-            ) && (
-              <>
-                <h3 style={{ marginTop: "30px" }}> Areas Inpsecionadas:</h3>
-                <Box>
-                  <InputLabel htmlFor="time" style={{ marginTop: "20px" }}>
-                    Hora
-                  </InputLabel>
-                  <TextField
-                    id="time"
-                    type="time"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    {...register("time", {
-                      required: "La hora es requerida",
-                    })}
-                  />
-
-                  <InputLabel htmlFor="tractor">Tractor</InputLabel>
-                  <TextField {...register("tractor")} />
-
-                  <InputLabel htmlFor="plates">Placas</InputLabel>
-                  <TextField {...register("plates")} />
-
-                  <InputLabel htmlFor="company">Compañía</InputLabel>
-                  <TextField {...register("company")} />
-
-                  <InputLabel htmlFor="driver">Chofer</InputLabel>
-                  <TextField {...register("driver")} />
-
-                  <InputLabel htmlFor="box">Caja</InputLabel>
-                  <TextField {...register("box")} />
-
-                  <InputLabel htmlFor="seal">Sello</InputLabel>
-                  <TextField {...register("seal")} />
-                </Box>
-
-                <InputLabel htmlFor="shipment_description">
-                  Descripción del Embarque
+              <MenuItem value="">Seleccione un Embarque</MenuItem>
+              <MenuItem value="importacion">Importacion</MenuItem>
+              <MenuItem value="exportacion">Exportacion</MenuItem>
+              <MenuItem value="consolidado">Consolidado</MenuItem>
+              <MenuItem value="inspeccion_canina">Inspección canina</MenuItem>
+            </Select>
+          </Box>
+          {["importacion", "exportacion", "consolidado"].includes(
+            shipment_type
+          ) && (
+            <>
+              <Box>
+                <InputLabel htmlFor="time" style={{ marginTop: "20px" }}>
+                  Hora
                 </InputLabel>
                 <TextField
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  {...register("shipment_description")}
+                  id="time"
+                  type="time"
+                  fullWidth
+                  {...register("time", {
+                    required: "La hora es requerida",
+                  })}
                 />
-                {errors.shipment_description && (
-                  <span>{errors.shipment_description.message}</span>
-                )}
-              </>
-            )}
+              </Box>
+              <Box>
+                <InputLabel htmlFor="tractor">Tractor</InputLabel>
+                <TextField {...register("tractor")} fullWidth />
+              </Box>
+              <Box>
+                <InputLabel htmlFor="plates">Placas</InputLabel>
+                <TextField {...register("plates")} fullWidth />
+              </Box>
+              <Box>
+                <InputLabel htmlFor="company">Compañía</InputLabel>
+                <TextField {...register("company")} fullWidth />
+              </Box>
+              <Box>
+                <InputLabel htmlFor="driver">Chofer</InputLabel>
+                <TextField {...register("driver")} fullWidth />
+              </Box>
+              <Box>
+                <InputLabel htmlFor="box">Caja</InputLabel>
+                <TextField {...register("box")} fullWidth />
+              </Box>
+              <Box>
+                <InputLabel htmlFor="seal">Sello</InputLabel>
+                <TextField {...register("seal")} fullWidth />
+              </Box>
+            </>
+          )}
 
-            {shipmentType === "InspeccionCanina" && (
-              <>
-                <InputLabel htmlFor="inspection_area">
-                  Áreas inspeccionadas
-                </InputLabel>
-                <Box className="areas-buttons">
-                  <OutlinedInput
-                    type="text"
-                    className="areas-input"
-                    onChange={(e) => setNewArea(e.target.value)}
-                    value={newArea}
-                  />
-                  <Button
-                    variant="outlined"
-                    className="add-areas"
-                    onClick={handleAddArea}
-                  >
-                    Agregar
-                  </Button>
-                </Box>
-                <InputLabel htmlFor="inspection_area">Incidencias:</InputLabel>
-                {inspectionAreas.map((area, index) => (
-                  <div key={index}>
-                    <p>{area.area}</p>
-                    <NativeSelect
-                      value={area.incidence}
-                      onChange={(e) =>
-                        handleIncidenceChange(index, e.target.value)
-                      }
-                    >
-                      {incidenceOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </NativeSelect>
-                    <Button
-                      variant="outlined"
-                      className="erase-areas"
-                      color="error"
-                      onClick={() => {
-                        const updatedAreas = [...inspectionAreas];
-                        updatedAreas.splice(index, 1);
-                        setInspectionAreas(updatedAreas);
-                      }}
-                    >
-                      Eliminar
-                    </Button>
-                  </div>
-                ))}
-                <InputLabel htmlFor="inspection_description">
-                  Descripción de Incidencias
-                </InputLabel>
-                <TextField
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  {...register("inspection_description")}
+          {shipment_type === "inspeccion_canina" && (
+            <Box my={2}>
+              <Typography variant="h6">Areas inspeccionadas</Typography>
+              {inspection_areas.map((area, index) => (
+                <InspectionRow
+                  key={index}
+                  register={register}
+                  position={index}
+                  removeInspectionArea={() => removeInspectionArea(index)}
                 />
-                {errors.inspection_description && (
-                  <span>{errors.inspection_description.message}</span>
-                )}
-              </>
-            )}
+              ))}
+              <Box my={1}>
+                <Button variant="contained" onClick={() => handleAddNewArea()}>
+                  Agrear area de inspeccion
+                </Button>
+              </Box>
+            </Box>
+          )}
 
+          <InputLabel htmlFor="inspection_description">
+            Descripción de incidencias
+          </InputLabel>
+          <TextField
+            multiline
+            rows={4}
+            variant="outlined"
+            {...register("inspection_description")}
+            fullWidth
+          />
+          {errors.inspection_description && (
+            <span>{errors.inspection_description.message}</span>
+          )}
+
+          <Box my={2}>
             <Button variant="contained" type="submit">
               Generar Reporte
             </Button>
-          </div>
+          </Box>
         </form>
       )}
-    </>
+    </PageLayout>
   );
 };
 

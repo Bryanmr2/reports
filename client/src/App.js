@@ -44,12 +44,7 @@ const App = () => {
               isLoggedIn ? <InspectionView /> : <Navigate to="/login" replace />
             }
           />
-          <Route
-            path="/inspections/new"
-            element={
-              isLoggedIn ? <NewInspection /> : <Navigate to="/login" replace />
-            }
-          />
+          <Route path="/inspections/new" element={<NewInspection />} />
           <Route
             path="/operators"
             element={
