@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Box,
+  MenuItem,
+  Select,
+  Typography,
+  Modal,
+  IconButton,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import PageLayout from "../common/PageLayout";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import InspectionRow from "./InspectionRow";
 import ShipmentRow from "./ShipmentRow";
@@ -48,6 +57,14 @@ const NewInspection = () => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [operatorNames, setOperatorNames] = useState([]);
   const [dogNames, setDogNames] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalAreas, setModalAreas] = useState([
+    { title: "", description: "" },
+  ]);
+  const [showNextButton, setShowNextButton] = useState(false);
+  const [markingType, setMarkingType] = useState("");
+  const [savedAreas, setSavedAreas] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     const fetchOperatorNames = async () => {
@@ -96,6 +113,14 @@ const NewInspection = () => {
     }
   };
 
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setShowNextButton(false);
+    setModalAreas([{ title: "", description: "" }]);
+    setEditIndex(null);
+  };
+
   const handleNewReport = () => {
     setSuccessMessageVisible(false);
     reset();
@@ -111,6 +136,38 @@ const NewInspection = () => {
     const currentAreas = getValues("inspection_areas");
     const updatedAreas = currentAreas.filter((_, i) => i !== index);
     setValue("inspection_areas", updatedAreas);
+  };
+
+  const handleAddArea = () => {
+    setModalAreas([...modalAreas, { title: "", description: "" }]);
+  };
+
+  const handleRemoveArea = (index) => {
+    const newAreas = modalAreas.filter((_, i) => i !== index);
+    setModalAreas(newAreas);
+  };
+
+  const handleSaveAreas = () => {
+    const newSavedAreas = [...savedAreas];
+    const areaData = { areas: modalAreas, markingType };
+    if (editIndex !== null) {
+      newSavedAreas[editIndex] = areaData;
+    } else {
+      newSavedAreas.push(areaData);
+    }
+    setSavedAreas(newSavedAreas);
+    handleCloseModal();
+  };
+
+  const handleNext = () => {
+    setShowNextButton(true);
+  };
+
+  const handleEditArea = (index) => {
+    setModalAreas(savedAreas[index].areas);
+    setMarkingType(savedAreas[index].markingType);
+    setEditIndex(index);
+    handleOpenModal();
   };
 
   const inspection_areas = watch("inspection_areas");
@@ -234,19 +291,22 @@ const NewInspection = () => {
                   <MenuItem value="" disabled>
                     Seleccione un turno
                   </MenuItem>
-                  <MenuItem value="Diurno">Diurno</MenuItem>
+                  <MenuItem value="Matutino">Matutino</MenuItem>
+                  <MenuItem value="Vespertino">Vespertino</MenuItem>
                   <MenuItem value="Nocturno">Nocturno</MenuItem>
                 </Select>
               )}
             />
           </Box>
           <Box>
-            <InputLabel htmlFor="inspection_type" variant="standard">
-              Tipo de inspeccion
+            <InputLabel htmlFor="shipment_type" variant="standard">
+              Tipo de embarque
             </InputLabel>
             <Select
-              {...register("inspection_type", {
-                required: "Selecciona un tipo de inspeccion",
+              id="shipment_type"
+              defaultValue=""
+              {...register("shipment_type", {
+                required: "Seleccione un tipo de embarque",
               })}
               fullWidth
             >
@@ -260,8 +320,151 @@ const NewInspection = () => {
             </Select>
           </Box>
           {["importacion", "exportacion", "consolidado"].includes(
-            inspection_type
-          ) && <ShipmentRow />}
+            shipment_type
+          ) && (
+            <>
+              <Box my={2}>
+                <Button variant="outlined" onClick={handleOpenModal}>
+                  Agregar áreas de inspección
+                </Button>
+                {savedAreas.length > 0 && (
+                  <Box mt={2} p={2} border={1} borderColor="grey.400">
+                    <Typography variant="h6">Áreas de inspección</Typography>
+                    {savedAreas.map((areaData, index) => (
+                      <Box
+                        key={index}
+                        mb={2}
+                        p={2}
+                        border={1}
+                        borderColor="grey.300"
+                      >
+                        <Typography>
+                          <strong>Tipo de marcaje:</strong>{" "}
+                          {areaData.markingType}
+                        </Typography>
+                        {areaData.areas.map((area, areaIndex) => (
+                          <Box key={areaIndex} mb={1}>
+                            <Typography>
+                              <strong>Título:</strong> {area.title}
+                            </Typography>
+                            <Typography>
+                              <strong>Descripción:</strong> {area.description}
+                            </Typography>
+                          </Box>
+                        ))}
+                        <IconButton onClick={() => handleEditArea(index)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() =>
+                            setSavedAreas(
+                              savedAreas.filter((_, i) => i !== index)
+                            )
+                          }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+              <Modal open={openModal} onClose={handleCloseModal}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    bgcolor: "background.paper",
+                    border: "2px solid #000",
+                    boxShadow: 24,
+                    p: 4,
+                    overflow: "scroll",
+                    maxHeight: "80vh",
+                  }}
+                >
+                  {showNextButton ? (
+                    <>
+                      <InputLabel htmlFor="marking_type">
+                        Tipo de marcaje
+                      </InputLabel>
+                      <Select
+                        id="marking_type"
+                        value={markingType}
+                        onChange={(e) => setMarkingType(e.target.value)}
+                        fullWidth
+                      >
+                        <MenuItem value="">
+                          Seleccione un tipo de marcaje
+                        </MenuItem>
+                        <MenuItem value="ninguna">Ninguna</MenuItem>
+                        <MenuItem value="marcaje">Marcaje</MenuItem>
+                      </Select>
+                      <Button variant="contained" onClick={handleSaveAreas}>
+                        Guardar áreas
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Box>
+                        {modalAreas.map((area, index) => (
+                          <Box
+                            key={index}
+                            mb={2}
+                            id={`area-${index}`}
+                            display="flex"
+                            alignItems="center"
+                          >
+                            <TextField
+                              label="Título del área"
+                              fullWidth
+                              value={area.title}
+                              onChange={(e) => {
+                                const newAreas = [...modalAreas];
+                                newAreas[index].title = e.target.value;
+                                setModalAreas(newAreas);
+                              }}
+                            />
+                            <Box ml={1} flexGrow={1} />
+                            <TextField
+                              label="Descripción del área"
+                              fullWidth
+                              value={area.description}
+                              onChange={(e) => {
+                                const newAreas = [...modalAreas];
+                                newAreas[index].description = e.target.value;
+                                setModalAreas(newAreas);
+                              }}
+                            />
+                            <IconButton
+                              onClick={() =>
+                                setSavedAreas(
+                                  savedAreas.filter((_, i) => i !== index)
+                                )
+                              }
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Box>
+                        ))}
+                      </Box>
+
+                      <Box height="30%" bottom="0">
+                        <Button variant="contained" onClick={handleAddArea}>
+                          Agregar más áreas
+                        </Button>
+                        <Button variant="contained" onClick={handleNext}>
+                          Siguiente
+                        </Button>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </Modal>
+            </>
+          )}
 
           {inspection_type === "inspeccion_canina" && (
             <Box my={2}>
@@ -276,7 +479,7 @@ const NewInspection = () => {
               ))}
               <Box my={1}>
                 <Button variant="contained" onClick={() => handleAddNewArea()}>
-                  Agrear area de inspeccion
+                  Agregar area de inspeccion
                 </Button>
               </Box>
             </Box>
