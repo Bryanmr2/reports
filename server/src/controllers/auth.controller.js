@@ -1,15 +1,14 @@
+// authController.js
 const { saveUserInDb, loginUser } = require("../services/authService");
 
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
-    // Verificar que los campos necesarios estén presentes
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Faltan datos de usuario" });
     }
 
-    const results = await saveUserInDb(req.body);
+    const results = await saveUserInDb({ name, email, password });
     res.send(results);
   } catch (err) {
     console.error("Error durante el registro:", err.message);
@@ -21,12 +20,10 @@ const login = async (req, res) => {
   try {
     const user = await loginUser(req.body);
     if (user) {
-      // Inicio de sesión exitoso
       return res
         .status(200)
         .json({ message: "Inicio de sesión exitoso", user });
     } else {
-      // Credenciales inválidas
       return res.status(401).json({ message: "Credenciales inválidas" });
     }
   } catch (err) {

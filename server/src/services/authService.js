@@ -1,44 +1,52 @@
-const db = require("./db");
-const jwt = require("jsonwebtoken");
+const supabase = require("../config");
+const bcrypt = require("bcrypt");
 
-const saveUserInDb = async (user) => {
-  try {
-    const result = await db.query(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [user.name, user.email, user.password]
-    );
-    return result;
-  } catch (error) {
-    console.error("Error al insertar usuario:", error.message);
-    throw error;
+const saveUserInDb = async ({ name, email, password }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const { user, error } = await supabase.auth.signUp({
+    email,
+    password: hashedPassword,
+  });
+
+  if (error) {
+    throw new Error(error.message);
   }
+
+  const { data, error: insertError } = await supabase
+    .from("users")
+    .insert([{ id: user.id, name, email, password: hashedPassword }]);
+
+  if (insertError) {
+    throw new Error(insertError.message);
+  }
+
+  return { user, data };
 };
 
-const loginUser = async (credentials) => {
-  try {
-    const { email, password } = credentials;
-    const user = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+const loginUser = async ({ email, password }) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    if (user.length === 0) {
-      // Usuario no encontrado
-      return null;
-    }
-    if (user[0].password === password) {
-      // // Contraseña válida, retornar información del usuario
-      const userForToken = {
-        username: user[0].email,
-        id: user[0].id,
-      };
-      const token = jwt.sign(userForToken, process.env.SECRET);
-      return { email: user[0].email, token: token };
-    } else {
-      // Contraseña incorrecta
-      return null;
-    }
-  } catch (error) {
-    console.error("Error en el inicio de sesión:", error.message);
-    throw error;
+  if (error) {
+    throw new Error(error.message);
   }
+
+  const userRecord = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (
+    !userRecord.data ||
+    !(await bcrypt.compare(password, userRecord.data.password))
+  ) {
+    throw new Error("Credenciales inválidas");
+  }
+
+  return data;
 };
 
 module.exports = { saveUserInDb, loginUser };

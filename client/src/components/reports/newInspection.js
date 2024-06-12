@@ -291,8 +291,7 @@ const NewInspection = () => {
                   <MenuItem value="" disabled>
                     Seleccione un turno
                   </MenuItem>
-                  <MenuItem value="Matutino">Matutino</MenuItem>
-                  <MenuItem value="Vespertino">Vespertino</MenuItem>
+                  <MenuItem value="Diurno">Diurno</MenuItem>
                   <MenuItem value="Nocturno">Nocturno</MenuItem>
                 </Select>
               )}
@@ -337,33 +336,40 @@ const NewInspection = () => {
                         p={2}
                         border={1}
                         borderColor="grey.300"
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
                       >
-                        <Typography>
-                          <strong>Tipo de marcaje:</strong>{" "}
-                          {areaData.markingType}
-                        </Typography>
-                        {areaData.areas.map((area, areaIndex) => (
-                          <Box key={areaIndex} mb={1}>
-                            <Typography>
-                              <strong>Título:</strong> {area.title}
-                            </Typography>
-                            <Typography>
-                              <strong>Descripción:</strong> {area.description}
-                            </Typography>
-                          </Box>
-                        ))}
-                        <IconButton onClick={() => handleEditArea(index)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() =>
-                            setSavedAreas(
-                              savedAreas.filter((_, i) => i !== index)
-                            )
-                          }
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                        <Box>
+                          <Typography>
+                            <strong>Tipo de marcaje:</strong>{" "}
+                            {areaData.markingType}
+                          </Typography>
+                          {areaData.areas.map((area, areaIndex) => (
+                            <Box key={areaIndex} mb={1}>
+                              <Typography>
+                                <strong>Título:</strong> {area.title}
+                              </Typography>
+                              <Typography>
+                                <strong>Descripción:</strong> {area.description}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </Box>
+                        <Box>
+                          <IconButton onClick={() => handleEditArea(index)}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() =>
+                              setSavedAreas(
+                                savedAreas.filter((_, i) => i !== index)
+                              )
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
                       </Box>
                     ))}
                   </Box>
@@ -399,10 +405,18 @@ const NewInspection = () => {
                         <MenuItem value="">
                           Seleccione un tipo de marcaje
                         </MenuItem>
-                        <MenuItem value="ninguna">Ninguna</MenuItem>
-                        <MenuItem value="marcaje">Marcaje</MenuItem>
+                        <MenuItem value="Ninguna">Ninguna</MenuItem>
+                        <MenuItem value="Marcaje">Marcaje</MenuItem>
                       </Select>
-                      <Button variant="contained" onClick={handleSaveAreas}>
+                      <Button
+                        variant="contained"
+                        onClick={handleSaveAreas}
+                        sx={{
+                          display: "flex",
+                          marginLeft: "60%",
+                          marginTop: "5%",
+                        }}
+                      >
                         Guardar áreas
                       </Button>
                     </>
@@ -451,7 +465,11 @@ const NewInspection = () => {
                         ))}
                       </Box>
 
-                      <Box height="30%" bottom="0">
+                      <Box
+                        height="30%"
+                        display="flex"
+                        justifyContent="space-between"
+                      >
                         <Button variant="contained" onClick={handleAddArea}>
                           Agregar más áreas
                         </Button>
