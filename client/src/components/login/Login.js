@@ -10,32 +10,44 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (data) => {
+    if (loading) return;
+    setLoading(true);
+
+    const { email, password } = data;
+
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
         email,
         password,
       });
 
-      if (response.data.user.token) {
-        window.localStorage.setItem("token", response.data.user.token);
-      }
-      setIsLoggedIn(true);
+      console.log("Inicio de sesión exitoso:", response.data);
       navigate("/", { replace: true });
     } catch (error) {
       if (error.response) {
-        console.error("Login failed:", error.response.data.message);
+        console.error(
+          "Error durante el inicio de sesión:",
+          error.response.data.message
+        );
+        alert(
+          "Error durante el inicio de sesión: " + error.response.data.message
+        );
       } else {
-        console.error("Error during login:", error.message);
+        console.error("Error:", error.message);
+        alert("Error: " + error.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -1,8 +1,8 @@
-// authController.js
 const { saveUserInDb, loginUser } = require("../services/authService");
 
 const registerUser = async (req, res) => {
   try {
+    console.log("Datos recibidos:", req.body);
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Faltan datos de usuario" });

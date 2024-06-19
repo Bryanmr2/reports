@@ -8,7 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import supabase from "../../config/supabase";
+import axios from "axios";
 import "./newUser.css";
 
 const NewUser = () => {
@@ -19,9 +19,9 @@ const NewUser = () => {
     watch,
     reset,
   } = useForm();
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -29,41 +29,43 @@ const NewUser = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log("Submit button clicked");
-    console.log("Form data:", data);
+    if (loading) return;
+    setLoading(true);
+
     const { name, email, password } = data;
 
     try {
-      const { data: signUpData, error: signUpError } =
-        await supabase.auth.signUp({
+      const response = await axios.post(
+        "http://localhost:8000/api/register",
+        {
+          name,
           email,
           password,
-        });
-
-      if (signUpError) {
-        console.error("SignUp Error: ", signUpError);
-        throw signUpError;
-      }
-      console.log("SignUp Data: ", signUpData);
-
-      if (signUpData.user) {
-        const { data: insertData, error: insertError } = await supabase
-          .from("users")
-          .insert([{ id: signUpData.user.id, name, email }]);
-
-        if (insertError) {
-          console.error("Insert Error: ", insertError);
-          throw insertError;
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-
-        console.log("Insert Data: ", insertData);
-
-        console.log("Registro exitoso");
-        reset();
-        navigate("/login", { replace: true });
-      }
+      );
+      console.log("Registro exitoso:", response.data);
+      reset();
+      navigate("/login", { replace: true });
     } catch (error) {
-      console.error("Error durante el registro:", error.message);
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage.includes("Email rate limit exceeded")) {
+          alert(
+            "Has alcanzado el límite de intentos de registro. Por favor, espera un momento antes de intentar nuevamente."
+          );
+        } else {
+          console.error("Error durante el registro:", errorMessage);
+        }
+      } else {
+        console.error("Error:", error.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -168,23 +170,9 @@ const NewUser = () => {
             {errors.confirmarPassword && (
               <span>{errors.confirmarPassword.message}</span>
             )}
-
-            {/* <InputLabel htmlFor="terminos">
-              Acepto términos y condiciones
-            </InputLabel>
-            <Checkbox
-              {...label}
-              {...register("terminos", {
-                required: {
-                  value: true,
-                  message: "Debe aceptar términos y condiciones para continuar",
-                },
-              })}
-            />
-            {errors.terminos && <span>{errors.terminos.message}</span>} */}
           </div>
-          <Button type="submit" variant="contained">
-            Enviar
+          <Button type="submit" variant="contained" disabled={loading}>
+            {loading ? "Registrando..." : "Enviar"}
           </Button>
         </form>
       </div>
