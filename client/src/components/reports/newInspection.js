@@ -16,7 +16,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import InspectionRow from "./InspectionRow";
-import ShipmentRow from "./ShipmentRow";
 
 const NewInspection = () => {
   const {
@@ -65,6 +64,7 @@ const NewInspection = () => {
   const [markingType, setMarkingType] = useState("");
   const [savedAreas, setSavedAreas] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const shipment_type = watch("shipment_type");
 
   useEffect(() => {
     const fetchOperatorNames = async () => {

@@ -50,7 +50,6 @@ const NewUser = () => {
       );
       console.log("Registro exitoso:", response.data);
       reset();
-      navigate("/login", { replace: true });
     } catch (error) {
       if (error.response) {
         const errorMessage = error.response.data.message;
