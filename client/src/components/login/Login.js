@@ -7,7 +7,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import supabase from "../../config/supabase.js";
 import "./login.css";
 
 const Login = () => {
@@ -19,33 +19,25 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (data) => {
+  const handleLogin = async () => {
     if (loading) return;
     setLoading(true);
 
-    const { email, password } = data;
-
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
+      const { user, error } = await supabase.auth.signIn({
         email,
         password,
       });
 
-      console.log("Inicio de sesión exitoso:", response.data);
+      if (error) {
+        throw error;
+      }
+
+      console.log("Inicio de sesión exitoso", user);
       navigate("/", { replace: true });
     } catch (error) {
-      if (error.response) {
-        console.error(
-          "Error durante el inicio de sesión:",
-          error.response.data.message
-        );
-        alert(
-          "Error durante el inicio de sesión: " + error.response.data.message
-        );
-      } else {
-        console.error("Error:", error.message);
-        alert("Error: " + error.message);
-      }
+      console.error("Error durante el inicio de sesión:", error.message);
+      alert("Error durante el inicio de sesión: " + error.message);
     } finally {
       setLoading(false);
     }
@@ -60,9 +52,14 @@ const Login = () => {
     setShowForgotPassword(true);
   };
 
-  const handleEnviarCorreoClick = () => {
-    console.log("Enviar correo a:", email);
-    // Aquí podrías agregar más lógica según tus necesidades
+  const handleEnviarCorreoClick = async () => {
+    try {
+      await supabase.auth.resetPasswordForEmail(email);
+      alert("Correo de reinicio de contraseña enviado");
+    } catch (error) {
+      console.error("Error al enviar correo:", error.message);
+      alert("Error al enviar correo: " + error.message);
+    }
   };
 
   const handleRegresarClick = () => {

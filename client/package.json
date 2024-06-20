@@ -9,6 +9,7 @@
     "@mui/material": "^5.15.18",
     "@mui/x-date-pickers": "^6.19.0",
     "@react-pdf/renderer": "^3.4.4",
+    "@supabase/supabase-js": "^2.43.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
