@@ -11,7 +11,7 @@ const getOperator = async () => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error("Error al obtener operador:", error.message);
+    console.error("Error al obtener manejador:", error.message);
     throw error;
   }
 };
@@ -36,7 +36,7 @@ const postOperator = async (operator) => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error("Error al insertar operador:", error.message);
+    console.error("Error al insertar manejador:", error.message);
     throw error;
   }
 };
@@ -51,7 +51,7 @@ const deleteOperator = async (operatorId) => {
       throw new Error(error.message);
     }
   } catch (error) {
-    console.error("Error al eliminar operador:", error.message);
+    console.error("Error al eliminar manejador:", error.message);
     throw error;
   }
 };
@@ -70,7 +70,7 @@ const editOperator = async (operatorId, newData) => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error("Error al actualizar operador:", error.message);
+    console.error("Error al actualizar manejador:", error.message);
     throw error;
   }
 };

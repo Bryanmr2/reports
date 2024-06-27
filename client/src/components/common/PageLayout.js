@@ -5,7 +5,11 @@ const PageLayout = ({ children, title }) => {
   return (
     <Container id="layout" maxWidth="sm">
       <>
-        <Typography id="page-title" variant="h4" sx={{ margin: 2 }}>
+        <Typography
+          id="page-title"
+          variant="h4"
+          sx={{ margin: 2, textAlign: "center" }}
+        >
           {title}
         </Typography>
         <Box id="page-content" fullWidth>

@@ -111,7 +111,7 @@ const DogView = () => {
 
   return (
     <div>
-      <h2>Consultar Perros</h2>
+      <h2 style={{ marginLeft: "10px" }}>Consultar Perros</h2>
       <div>
         <div className="dog-filters">
           <TextField

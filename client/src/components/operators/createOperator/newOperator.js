@@ -64,14 +64,14 @@ const NewOperator = ({ setIsLoggedIn }) => {
               variant="contained"
               style={{ marginTop: "15px" }}
             >
-              Registrar un nuevo operador
+              Registrar un nuevo manejador
             </Button>
           </Box>
         </>
       ) : (
         <div>
           <div className="create-container">
-            <h2 style={{ marginBottom: "40px" }}>Registrar Operador</h2>
+            <h2 style={{ marginBottom: "40px" }}>Registrar Manejador</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <InputLabel htmlFor="name">Nombre</InputLabel>
@@ -143,6 +143,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
                 </InputLabel>
                 <OutlinedInput
                   type="date"
+                  sx={{ width: "100%" }}
                   {...register("birth", {
                     required: {
                       value: true,

@@ -41,7 +41,7 @@ const InspectionView = () => {
 
   return (
     <div>
-      <h2>Consultar Inspecciones</h2>
+      <h2 style={{ marginLeft: "10px" }}>Consultar Inspecciones</h2>
       <div>
         <div className="view-container">
           <Box>
@@ -77,8 +77,11 @@ const InspectionView = () => {
           </Box>
 
           <Box className="inspect-filter">
+            <InputLabel htmlFor="inspection-filter">
+              Filtrar por ID:{" "}
+            </InputLabel>
             <TextField
-              label="Filtrar por ID"
+              label="0"
               onChange={(e) => setFilterID(e.target.value)}
               fullWidth
             />

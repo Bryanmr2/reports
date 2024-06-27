@@ -10,7 +10,7 @@ const getOperatorsHandler = async (req, res) => {
     const operator = await getOperator();
     res.status(200).json(operator);
   } catch (error) {
-    console.error("Error al obtener operadores:", error.message);
+    console.error("Error al obtener manejadores:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -29,7 +29,7 @@ const postOperatorsHandler = async (req, res) => {
     });
     res.status(201).json(newOperator);
   } catch (error) {
-    console.error("Error al insertar operadores:", error.message);
+    console.error("Error al insertar manejadores:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -40,7 +40,7 @@ const deleteOperatorHandler = async (req, res) => {
     await deleteOperator(operatorId);
     res.status(204).send();
   } catch (error) {
-    console.error("Error al eliminar operador:", error.message);
+    console.error("Error al eliminar manejador:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -58,9 +58,9 @@ const editOperatorHandler = async (req, res) => {
       address: address,
     };
     await editOperator(operatorId, newData);
-    res.status(200).json({ message: "Operador actualizado correctamente" });
+    res.status(200).json({ message: "Manejador actualizado correctamente" });
   } catch (error) {
-    console.error("Error al editar operador:", error.message);
+    console.error("Error al editar Manejador:", error.message);
     res.status(500).json({ error: error.message });
   }
 };

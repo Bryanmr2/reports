@@ -28,13 +28,13 @@ const HomePage = () => {
               Inspecciones
             </Button>
           </Link>
-          <Link to="/operators">
+          <Link to="/handlers">
             <Button
               variant="contained"
               color="primary"
               className="option-buttons"
             >
-              Operadores
+              Manejadores
             </Button>
           </Link>
           <Link to="/dogs">

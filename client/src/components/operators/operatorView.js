@@ -37,7 +37,7 @@ const OperatorView = () => {
       const response = await axios.get("http://localhost:8000/api/operator");
       setOperators(response.data);
     } catch (error) {
-      console.error("Error al obtener operadores:", error);
+      console.error("Error al obtener manejadores:", error);
     }
   };
 
@@ -62,7 +62,7 @@ const OperatorView = () => {
       await axios.delete(`http://localhost:8000/api/operator/${id}`);
       handleFetchOperators();
     } catch (error) {
-      console.error("Error al eliminar operador:", error);
+      console.error("Error al eliminar manejador:", error);
     }
   };
 
@@ -102,7 +102,7 @@ const OperatorView = () => {
       handleFetchOperators();
       closeEditDialog();
     } catch (error) {
-      console.error("Error al editar operador:", error);
+      console.error("Error al editar manejador:", error);
     }
   };
 
@@ -113,7 +113,7 @@ const OperatorView = () => {
 
   return (
     <div>
-      <h2>Consultar Operadores</h2>
+      <h2 style={{ marginLeft: "10px" }}>Consultar Manejadores</h2>
       <div>
         <div className="operator-filters">
           <TextField
@@ -140,9 +140,9 @@ const OperatorView = () => {
             marginTop: "50px",
           }}
         >
-          <h3>Operadores:</h3>
+          <h3>Manejadores:</h3>
           <Button variant="outlined" component={Link} to="/operators/new">
-            Crear Nuevo Operador
+            Crear Nuevo Manejador
           </Button>
         </div>
         <Box className="operator-table">
@@ -191,7 +191,7 @@ const OperatorView = () => {
       </div>
 
       <Dialog open={editDialogOpen} onClose={closeEditDialog}>
-        <DialogTitle>Editar Operador</DialogTitle>
+        <DialogTitle>Editar Manejador</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -255,7 +255,7 @@ const OperatorView = () => {
         <DialogTitle>Confirmar eliminación</DialogTitle>
         <DialogContent>
           <Typography>
-            ¿Estás seguro de que deseas eliminar este operador?
+            ¿Estás seguro de que deseas eliminar este manejador?
           </Typography>
         </DialogContent>
         <DialogActions>

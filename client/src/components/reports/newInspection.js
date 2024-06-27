@@ -72,7 +72,7 @@ const NewInspection = () => {
         const response = await axios.get("http://localhost:8000/api/operator");
         setOperatorNames(response.data.map((operator) => operator.name));
       } catch (error) {
-        console.error("Error al obtener operadores:", error);
+        console.error("Error al obtener manejadores:", error);
       }
     };
 
@@ -314,13 +314,11 @@ const NewInspection = () => {
               </MenuItem>
               <MenuItem value="importacion">Inspeccion de importacion</MenuItem>
               <MenuItem value="exportacion">Inspeccion de exportacion</MenuItem>
-              <MenuItem value="consolidado">Inspeccion de consolidado</MenuItem>
+
               <MenuItem value="inspeccion_canina">Inspección canina</MenuItem>
             </Select>
           </Box>
-          {["importacion", "exportacion", "consolidado"].includes(
-            shipment_type
-          ) && (
+          {["importacion", "exportacion"].includes(shipment_type) && (
             <>
               <Box my={2}>
                 <Button variant="outlined" onClick={handleOpenModal}>
@@ -484,7 +482,7 @@ const NewInspection = () => {
             </>
           )}
 
-          {inspection_type === "inspeccion_canina" && (
+          {shipment_type === "inspeccion_canina" && (
             <Box my={2}>
               <Typography variant="h6">Areas inspeccionadas</Typography>
               {inspection_areas.map((area, index) => (
@@ -517,7 +515,7 @@ const NewInspection = () => {
               <span>{errors.inspection_description.message}</span>
             )}
           </Box>
-          <Box my={2}>
+          <Box sx={{ margin: 2, textAlign: "center" }}>
             <Button variant="contained" type="submit">
               Generar Reporte
             </Button>

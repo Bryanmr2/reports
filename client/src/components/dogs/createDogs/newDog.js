@@ -120,6 +120,7 @@ const NewDog = ({ setIsLoggedIn }) => {
                   Género
                 </InputLabel>
                 <Select
+                  sx={{ width: "100%" }}
                   {...register("gender", {
                     required: {
                       value: true,

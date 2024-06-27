@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./newUser.css";
 
@@ -19,7 +18,6 @@ const NewUser = () => {
     watch,
     reset,
   } = useForm();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
