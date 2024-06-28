@@ -105,8 +105,8 @@ const App = () => {
             <Route path="/newuser" element={<NewUser />} />
             <Route path="/inspections" element={<InspectionView />} />
             <Route path="/inspections/new" element={<NewInspection />} />
-            <Route path="/operators" element={<OperatorView />} />
-            <Route path="/operators/new" element={<NewOperator />} />
+            <Route path="/handlers" element={<OperatorView />} />
+            <Route path="/handlers/new" element={<NewOperator />} />
             <Route path="/dogs" element={<DogView />} />
             <Route path="/dogs/new" element={<NewDog />} />
           </Routes>
