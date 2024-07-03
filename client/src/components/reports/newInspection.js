@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import InspectionRow from "./InspectionRow";
+import GeneratePDF from "../pdf/GeneratePDF";
 
 const NewInspection = () => {
   const {
@@ -174,16 +175,25 @@ const NewInspection = () => {
   const inspection_type = watch("inspection_type");
 
   return (
-    <PageLayout title="Generar Inspección">
+    <PageLayout title="Inspección">
       {successMessageVisible ? (
         <div>
-          <h2>Reporte generado con éxito</h2>
+          <h2
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "6%",
+            }}
+          >
+            Reporte generado con éxito
+          </h2>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "10%",
+              marginTop: "6%",
             }}
           >
             <Button
@@ -193,6 +203,7 @@ const NewInspection = () => {
             >
               Generar nueva inspección
             </Button>
+            <GeneratePDF data={getValues()} />
           </div>
         </div>
       ) : (
@@ -314,7 +325,6 @@ const NewInspection = () => {
               </MenuItem>
               <MenuItem value="importacion">Inspeccion de importacion</MenuItem>
               <MenuItem value="exportacion">Inspeccion de exportacion</MenuItem>
-
               <MenuItem value="inspeccion_canina">Inspección canina</MenuItem>
             </Select>
           </Box>
