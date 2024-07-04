@@ -12,30 +12,59 @@ import { Button } from "@mui/material";
 import logo from "../../images/logo.jpg";
 import dog from "../../images/dog.png";
 
+const styles = {
+  container: {
+    padding: "10px",
+  },
+  icons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+    width: "100%",
+  },
+  date: {
+    textAlign: "right",
+  },
+  plant: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  description: {
+    marginTop: "20px",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    borderTop: "1px solid #000",
+    padding: 10,
+    fontSize: "10px",
+  },
+};
+
 const PDFDocument = ({ data }) => (
   <Document>
-    <Page>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 10,
-        }}
-      >
-        <Image src={dog} style={{ width: 80, height: 120, marginLeft: 10 }} />
-        <Image src={logo} style={{ width: 80, height: 80, marginRight: 10 }} />
+    <Page style={styles.container}>
+      <View style={styles.icons}>
+        <Image src={dog} style={{ height: 120, marginLeft: 10 }} />
+        <Image src={logo} style={{ height: 80, marginRight: 10 }} />
       </View>
-      <View>
+
+      <View style={styles.date}>
         <Text>Fecha: {data.date}</Text>
         <Text>Asunto: {data.shipment_type}</Text>
-        <Text>{data.plant}</Text>
+      </View>
+
+      <View style={styles.plant}>
         <Text>Atención: {data.name}</Text>
+        <Text>{data.plant}</Text>
         <Text>Nombre del Can: {data.dog_name}</Text>
         <Text>Turno: {data.shift}</Text>
       </View>
-
       {data.inspection_type === "inspeccion_canina" && (
         <View>
           <Text>Descripción de Incidencias: {data.inspection_description}</Text>
@@ -75,7 +104,7 @@ const PDFDocument = ({ data }) => (
 
       {data.inspection_areas.length > 0 && (
         <View>
-          <Text>Áreas de Inspección:</Text>
+          <Text style={{ marginTop: "15px" }}>Áreas de Inspección:</Text>
           {data.inspection_areas.map((area, index) => (
             <View
               key={index}
@@ -96,10 +125,21 @@ const PDFDocument = ({ data }) => (
           ))}
         </View>
       )}
+      <View style={styles.description}>
+        <Text>Descripción de Incidencias: {data.inspection_description}</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>
+          SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y
+          CONSULTURIA EN SEGURIDAD PRIVADA
+        </Text>
+        <Text>
+          Damaris Ivonne Robles López RFC: ROLD7504062M6 Registro No.
+          LSP-R-2019-F-1249
+        </Text>
+        <Text>Correo: gmendoza@siipccp.com Teléfono: 6621 803421</Text>
+      </View>
     </Page>
-    <View>
-      <Text>Descripción de Incidencias: {data.inspection_description}</Text>
-    </View>
   </Document>
 );
 
