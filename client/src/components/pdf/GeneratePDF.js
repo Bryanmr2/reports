@@ -16,7 +16,8 @@ const styles = {
   container: {
     padding: "10px",
   },
-  icons: {
+  iconsContainer: {
+    position: "absolute",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -24,12 +25,35 @@ const styles = {
     marginBottom: 10,
     width: "100%",
   },
-  date: {
+  headerText: {
+    display: "flex",
+    position: "relative",
+    paddingLeft: "2.5cm",
+    paddingRight: "4.5cm",
+    width: "100%",
+    marginTop: "1cm",
+    marginBottom: "1cm",
+  },
+  plantWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  plantOne: {
+    width: "50%",
+  },
+  plantTwo: {
+    width: "50%",
     textAlign: "right",
   },
-  plant: {
-    display: "flex",
-    justifyContent: "space-between",
+  icon: {
+    width: "100px",
+  },
+  date: {
+    textAlign: "right",
+    marginBottom: "20px",
   },
   description: {
     marginTop: "20px",
@@ -44,27 +68,56 @@ const styles = {
     padding: 10,
     fontSize: "10px",
   },
+  table: {
+    display: "table",
+    width: "auto",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+  },
+  tableRow: {
+    flexDirection: "row",
+  },
+  tableCol: {
+    width: "50%",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10,
+  },
 };
 
 const PDFDocument = ({ data }) => (
   <Document>
-    <Page style={styles.container}>
-      <View style={styles.icons}>
-        <Image src={dog} style={{ height: 120, marginLeft: 10 }} />
-        <Image src={logo} style={{ height: 80, marginRight: 10 }} />
+    <Page size="LETTER" style={styles.container}>
+      <View style={styles.iconsContainer}>
+        <Image src={dog} style={styles.icon} />
+        <Image src={logo} style={styles.icon} />
       </View>
 
-      <View style={styles.date}>
-        <Text>Fecha: {data.date}</Text>
-        <Text>Asunto: {data.shipment_type}</Text>
+      <View style={styles.headerText}>
+        <View style={styles.date}>
+          <Text>Fecha: {data.date}</Text>
+          <Text>Asunto: {data.shipment_type}</Text>
+        </View>
+        <View style={styles.plantWrapper}>
+          <View style={styles.plantOne}>
+            <Text style={{ fontWeight: "bold" }}>{data.plant}.-</Text>
+            <Text>Atención: {data.name}</Text>
+            <Text>Can: {data.dog_name}</Text>
+          </View>
+          <View style={styles.plantTwo}>
+            <Text>Planta: Por definir</Text>
+            <Text>Turno: {data.shift}</Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.plant}>
-        <Text>Atención: {data.name}</Text>
-        <Text>{data.plant}</Text>
-        <Text>Nombre del Can: {data.dog_name}</Text>
-        <Text>Turno: {data.shift}</Text>
-      </View>
       {data.inspection_type === "inspeccion_canina" && (
         <View>
           <Text>Descripción de Incidencias: {data.inspection_description}</Text>
@@ -104,30 +157,33 @@ const PDFDocument = ({ data }) => (
 
       {data.inspection_areas.length > 0 && (
         <View>
-          <Text style={{ marginTop: "15px" }}>Áreas de Inspección:</Text>
-          {data.inspection_areas.map((area, index) => (
-            <View
-              key={index}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                borderBottom: "1px solid #000",
-                padding: "4px 0",
-              }}
-            >
-              <View style={{ width: "50%", paddingRight: 8 }}>
-                <Text>Nombre del Área: {area.name}</Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>ÁREAS INSPECCIONADAS</Text>
               </View>
-              <View style={{ width: "50%", paddingLeft: 8 }}>
-                <Text>Incidencia: {area.incidence}</Text>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>INCIDENCIAS</Text>
               </View>
             </View>
-          ))}
+            {data.inspection_areas.map((area, index) => (
+              <View style={styles.tableRow}>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{area.name}</Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{area.incidence}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
       )}
       <View style={styles.description}>
-        <Text>Descripción de Incidencias: {data.inspection_description}</Text>
+        <Text>Descripción de Incidencias: </Text>
+        <Text>{data.inspection_description}</Text>
       </View>
+
       <View style={styles.footer}>
         <Text>
           SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y
