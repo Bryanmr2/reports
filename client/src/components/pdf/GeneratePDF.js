@@ -15,6 +15,7 @@ import dog from "../../images/dog.png";
 const styles = {
   container: {
     padding: "10px",
+    paddingBottom: "50px", // Espacio para el pie de página
   },
   iconsContainer: {
     position: "absolute",
@@ -48,6 +49,9 @@ const styles = {
     width: "50%",
     textAlign: "right",
   },
+  plantBold: {
+    fontWeight: "bold",
+  },
   icon: {
     width: "100px",
   },
@@ -58,6 +62,7 @@ const styles = {
   description: {
     marginTop: "20px",
   },
+  textDescription: { backgroundColor: "#DFDDDD", fontSize: "14" },
   footer: {
     position: "absolute",
     bottom: 0,
@@ -107,7 +112,7 @@ const PDFDocument = ({ data }) => (
         </View>
         <View style={styles.plantWrapper}>
           <View style={styles.plantOne}>
-            <Text style={{ fontWeight: "bold" }}>{data.plant}.-</Text>
+            <Text style={styles.plantBold}>{data.plant}.-</Text>
             <Text>Atención: {data.name}</Text>
             <Text>Can: {data.dog_name}</Text>
           </View>
@@ -167,7 +172,7 @@ const PDFDocument = ({ data }) => (
               </View>
             </View>
             {data.inspection_areas.map((area, index) => (
-              <View style={styles.tableRow}>
+              <View style={styles.tableRow} key={index}>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>{area.name}</Text>
                 </View>
@@ -181,20 +186,17 @@ const PDFDocument = ({ data }) => (
       )}
       <View style={styles.description}>
         <Text>Descripción de Incidencias: </Text>
-        <Text>{data.inspection_description}</Text>
+        <View style={styles.textDescription}>
+          <Text>{data.inspection_description}</Text>
+        </View>
       </View>
 
-      <View style={styles.footer}>
-        <Text>
-          SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y
-          CONSULTURIA EN SEGURIDAD PRIVADA
-        </Text>
-        <Text>
-          Damaris Ivonne Robles López RFC: ROLD7504062M6 Registro No.
-          LSP-R-2019-F-1249
-        </Text>
-        <Text>Correo: gmendoza@siipccp.com Teléfono: 6621 803421</Text>
-      </View>
+      <Text style={styles.footer} fixed>
+        SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y CONSULTURIA
+        EN SEGURIDAD PRIVADA Damaris Ivonne Robles López RFC: ROLD7504062M6
+        Registro No. LSP-R-2019-F-1249 Correo: gmendoza@siipccp.com Teléfono:
+        6621 803421
+      </Text>
     </Page>
   </Document>
 );
