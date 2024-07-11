@@ -7,35 +7,56 @@ import {
   PDFDownloadLink,
   PDFViewer,
   Image,
+  Font,
 } from "@react-pdf/renderer";
 import { Button } from "@mui/material";
 import logo from "../../images/logo.jpg";
 import dog from "../../images/dog.png";
 
+Font.register({
+  family: "Helvetica",
+  fonts: [
+    {
+      src: "https://fonts.gstatic.com/s/helvetica/v1/Helveticabold.ttf",
+      fontWeight: "bold",
+    },
+    {
+      src: "https://fonts.gstatic.com/s/helvetica/v1/Helvetica.ttf",
+      fontWeight: "normal",
+    },
+  ],
+});
+
+const Br = () => "\n";
+
 const styles = {
   container: {
     padding: "10px",
-    paddingBottom: "50px", // Espacio para el pie de página
+    paddingBottom: "80px",
   },
   iconsContainer: {
+    paddingLeft: "35px",
     position: "absolute",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
+    marginTop: 15,
     width: "100%",
   },
   headerText: {
     display: "flex",
     position: "relative",
-    paddingLeft: "2.5cm",
+    paddingLeft: "3.7cm",
     paddingRight: "4.5cm",
     width: "100%",
     marginTop: "1cm",
     marginBottom: "1cm",
+    fontSize: "14",
   },
   plantWrapper: {
+    paddingTop: "0.3cm",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -50,6 +71,7 @@ const styles = {
     textAlign: "right",
   },
   plantBold: {
+    fontFamily: "Helvetica",
     fontWeight: "bold",
   },
   icon: {
@@ -59,19 +81,8 @@ const styles = {
     textAlign: "right",
     marginBottom: "20px",
   },
-  description: {
-    marginTop: "20px",
-  },
-  textDescription: { backgroundColor: "#DFDDDD", fontSize: "14" },
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    textAlign: "center",
-    borderTop: "1px solid #000",
-    padding: 10,
-    fontSize: "10px",
+  tableContainer: {
+    padding: "0px 50px 0px 50px",
   },
   table: {
     display: "table",
@@ -95,6 +106,38 @@ const styles = {
     margin: 5,
     fontSize: 10,
   },
+  description: {
+    padding: "20px 50px 0px 50px",
+    fontSize: "14",
+  },
+  textDescription: {
+    marginTop: "3px",
+    padding: "3px 5px",
+    borderTop: "1px solid black",
+    backgroundColor: "#DFDDDD",
+    fontSize: "14",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    borderTop: "1px solid black",
+    padding: "10px 20px 10px 20px",
+    fontSize: "10",
+    lineHeight: "0.45mm",
+  },
+  footerTextOne: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: "12",
+  },
+  footerTextTwo: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: "12",
+  },
 };
 
 const PDFDocument = ({ data }) => (
@@ -117,8 +160,8 @@ const PDFDocument = ({ data }) => (
             <Text>Can: {data.dog_name}</Text>
           </View>
           <View style={styles.plantTwo}>
-            <Text>Planta: Por definir</Text>
             <Text>Turno: {data.shift}</Text>
+            <Text>Planta: Por definir</Text>
           </View>
         </View>
       </View>
@@ -161,7 +204,7 @@ const PDFDocument = ({ data }) => (
       )}
 
       {data.inspection_areas.length > 0 && (
-        <View>
+        <View style={styles.tableContainer}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <View style={styles.tableCol}>
@@ -191,12 +234,28 @@ const PDFDocument = ({ data }) => (
         </View>
       </View>
 
-      <Text style={styles.footer} fixed>
-        SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y CONSULTURIA
-        EN SEGURIDAD PRIVADA Damaris Ivonne Robles López RFC: ROLD7504062M6
-        Registro No. LSP-R-2019-F-1249 Correo: gmendoza@siipccp.com Teléfono:
-        6621 803421
-      </Text>
+      <View style={styles.footer} fixed>
+        <Text>
+          SISTEMAS INTEGRALES DE INVESTIGACIÓN, PROTECCIÓN, CUSTODIA Y
+          CONSULTURIA EN SEGURIDAD PRIVADA
+        </Text>
+        <View style={styles.footerTextTwo}>
+          <Text>
+            Email: gmendoza@siipccp.com{" "}
+            {
+              "                                                                             "
+            }
+            Teléfono: 6621 803421
+          </Text>
+        </View>
+        <View style={styles.footerTextOne}>
+          <Text>
+            Damaris Ivonne Robles López {"            "}
+            RFC: ROLD7504062M6 {"           "}
+            Registro No. LSP-R-2019-F-1249
+          </Text>
+        </View>
+      </View>
     </Page>
   </Document>
 );

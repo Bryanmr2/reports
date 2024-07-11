@@ -1965,25 +1965,25 @@
     cross-fetch "^3.1.5"
     jay-peg "^1.0.2"
 
-"@react-pdf/layout@^3.12.1":
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/@react-pdf/layout/-/layout-3.12.1.tgz#643cc00117846095b8d7f90e09972a4f148b85dd"
-  integrity sha512-BxSeykDxvADlpe4OGtQ7NH46QXq3uImAYsTHOPLCwbXMniQ1O3uCBx7H+HthxkCNshgYVPp9qS3KyvQv/oIZwg==
+"@react-pdf/layout@3.11.5", "@react-pdf/layout@^3.12.1":
+  version "3.11.5"
+  resolved "https://registry.yarnpkg.com/@react-pdf/layout/-/layout-3.11.5.tgz#c1caf04e8f58dbecde56ffed7fd5a56d63f3683c"
+  integrity sha512-VLOzWIODUKw0ZTrS9XDkwl3q1OHKG8qd6OyCZZ7Q8/SijAh9ho70HEc/f1ffBFmM0nGrKMG0M3L0/7z1XKmOGw==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@react-pdf/fns" "2.2.1"
     "@react-pdf/image" "^2.3.6"
-    "@react-pdf/pdfkit" "^3.1.10"
+    "@react-pdf/pdfkit" "^3.1.9"
     "@react-pdf/primitives" "^3.1.1"
-    "@react-pdf/stylesheet" "^4.2.5"
+    "@react-pdf/stylesheet" "^4.2.4"
     "@react-pdf/textkit" "^4.4.1"
-    "@react-pdf/types" "^2.5.0"
+    "@react-pdf/types" "^2.4.1"
     cross-fetch "^3.1.5"
     emoji-regex "^10.3.0"
     queue "^6.0.1"
     yoga-layout "^2.0.1"
 
-"@react-pdf/pdfkit@^3.1.10":
+"@react-pdf/pdfkit@^3.1.10", "@react-pdf/pdfkit@^3.1.9":
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/@react-pdf/pdfkit/-/pdfkit-3.1.10.tgz#06c919d6279936a07e75929ed5e1b8c1edc5e1a0"
   integrity sha512-P/qPBtCFo2HDJD0i6NfbmoBRrsOVO8CIogYsefwG4fklTo50zNgnMM5U1WLckTuX8Qt1ThiQuokmTG5arheblA==
@@ -2042,7 +2042,7 @@
     queue "^6.0.1"
     scheduler "^0.17.0"
 
-"@react-pdf/stylesheet@^4.2.5":
+"@react-pdf/stylesheet@^4.2.4":
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@react-pdf/stylesheet/-/stylesheet-4.2.5.tgz#9ab1c76333d725ecad07109a8531a93f0a6995c6"
   integrity sha512-XnmapeCW+hDuNdVwpuvO04WKv71wAs8aH+saIq29Bo2fp1SxznHTcQArTZtK6Wgr/E9BHXeB2iAPpUZuI6G+xA==
@@ -2066,7 +2066,7 @@
     hyphen "^1.6.4"
     unicode-properties "^1.4.1"
 
-"@react-pdf/types@^2.5.0":
+"@react-pdf/types@^2.4.1", "@react-pdf/types@^2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@react-pdf/types/-/types-2.5.0.tgz#3e14a41c5a546faa9811c4105611c7ed7c883e02"
   integrity sha512-XsVRkt0hQ60I4e3leAVt+aZR3KJCaJd179BfJHAv4F4x6Vq3yqkry8lcbUWKGKDw1j3/8sW4FsgGR41SFvsG9A==
