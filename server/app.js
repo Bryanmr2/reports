@@ -4,7 +4,7 @@ const userRouter = require("./src/routes/users.routes");
 const operatorRoutes = require("./src/routes/operator.routes");
 const dogRoutes = require("./src/routes/dog.routes");
 const authRoutes = require("./src/routes/auth.routes");
-const reportRoutes = require("./src/routes/report.routes");
+const inspectionRoutes = require("./src/routes/inspection.routes");
 
 // Inicializaciones
 const app = express();
@@ -30,7 +30,7 @@ app.use("/api", userRouter);
 app.use("/api", operatorRoutes);
 app.use("/api", dogRoutes);
 app.use("/api", authRoutes);
-app.use("/api", reportRoutes);
+app.use("/api", inspectionRoutes);
 
 // Arranque del servidor
 app.listen(app.get("port"), () => {
