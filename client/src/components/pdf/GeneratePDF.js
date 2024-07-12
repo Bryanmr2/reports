@@ -13,6 +13,41 @@ import { Button } from "@mui/material";
 import logo from "../../images/logo.jpg";
 import dog from "../../images/dog.png";
 
+const getInspectionTypeLabel = (type) => {
+  switch (type) {
+    case "site":
+      return "Inspección de Sitio";
+    case "shipment":
+      return "Inspección de Embarque";
+    default:
+      return type;
+  }
+};
+
+const formatDate = (dateString) => {
+  const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${day} de ${month} del ${year}`;
+};
+
 Font.register({
   family: "Helvetica",
   fonts: [
@@ -65,14 +100,17 @@ const styles = {
   },
   plantOne: {
     width: "50%",
+    fontSize: "12",
   },
   plantTwo: {
     width: "50%",
     textAlign: "right",
+    fontSize: "12",
   },
   plantBold: {
     fontFamily: "Helvetica",
     fontWeight: "bold",
+    fontSize: "14",
   },
   icon: {
     width: "100px",
@@ -80,6 +118,7 @@ const styles = {
   date: {
     textAlign: "right",
     marginBottom: "20px",
+    fontSize: "12",
   },
   tableContainer: {
     padding: "0px 50px 0px 50px",
@@ -150,7 +189,7 @@ const PDFDocument = ({ data }) => (
 
       <View style={styles.headerText}>
         <View style={styles.date}>
-          <Text>Fecha: {data.date}</Text>
+          <Text>Hermosillo, Sonora. A {data.date}.</Text>
           <Text>Asunto: {data.shipment_type}</Text>
         </View>
         <View style={styles.plantWrapper}>
@@ -260,36 +299,44 @@ const PDFDocument = ({ data }) => (
   </Document>
 );
 
-const GeneratePDF = ({ data }) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    }}
-  >
-    <PDFDownloadLink
-      document={<PDFDocument data={data} />}
-      fileName="reporte_inspeccion.pdf"
+const GeneratePDF = ({ data }) => {
+  const transformedData = {
+    ...data,
+    shipment_type: getInspectionTypeLabel(data.shipment_type),
+    date: formatDate(data.date),
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
-      {({ loading }) =>
-        loading ? (
-          <Button style={{ marginTop: "6%" }} variant="contained">
-            Generando PDF...
-          </Button>
-        ) : (
-          <Button style={{ marginTop: "6%" }} variant="contained">
-            Descargar PDF
-          </Button>
-        )
-      }
-    </PDFDownloadLink>
-    <div style={{ height: "500px", marginTop: "20px" }}>
-      <PDFViewer style={{ width: "100%", height: "100%" }}>
-        <PDFDocument data={data} />
-      </PDFViewer>
+      <PDFDownloadLink
+        document={<PDFDocument data={transformedData} />}
+        fileName="reporte_inspeccion.pdf"
+      >
+        {({ loading }) =>
+          loading ? (
+            <Button style={{ marginTop: "6%" }} variant="contained">
+              Generando PDF...
+            </Button>
+          ) : (
+            <Button style={{ marginTop: "6%" }} variant="contained">
+              Descargar PDF
+            </Button>
+          )
+        }
+      </PDFDownloadLink>
+      <div style={{ height: "500px", marginTop: "20px" }}>
+        <PDFViewer style={{ width: "100%", height: "100%" }}>
+          <PDFDocument data={transformedData} />
+        </PDFViewer>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default GeneratePDF;
