@@ -323,12 +323,11 @@ const NewInspection = () => {
               <MenuItem value="" disabled>
                 Seleccione un embarque
               </MenuItem>
-              <MenuItem value="importacion">Inspeccion de importacion</MenuItem>
-              <MenuItem value="exportacion">Inspeccion de exportacion</MenuItem>
-              <MenuItem value="inspeccion_canina">Inspección canina</MenuItem>
+              <MenuItem value="site">Inspección de Sitio</MenuItem>
+              <MenuItem value="shipment">Inspección de Embarque</MenuItem>
             </Select>
           </Box>
-          {["importacion", "exportacion"].includes(shipment_type) && (
+          {["shipment"].includes(shipment_type) && (
             <>
               <Box my={2}>
                 <Button variant="outlined" onClick={handleOpenModal}>
@@ -492,7 +491,7 @@ const NewInspection = () => {
             </>
           )}
 
-          {shipment_type === "inspeccion_canina" && (
+          {shipment_type === "site" && (
             <Box my={2}>
               <Typography variant="h6">Areas inspeccionadas</Typography>
               {inspection_areas.map((area, index) => (
