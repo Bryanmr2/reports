@@ -218,44 +218,7 @@ const PDFDocument = ({ data }) => (
         </View>
       </View>
 
-      {data.inspection_type === "site" && (
-        <View>
-          <Text>Descripción de Incidencias: {data.inspection_description}</Text>
-        </View>
-      )}
-
-      {["shipment"].includes(data.inspection_type) && (
-        <View>
-          <Text>Inspecciones de Embarque:</Text>
-          {data.shipment_inspections.map((shipment, index) => (
-            <View
-              key={index}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                borderBottom: "1px solid #000",
-                padding: "4px 0",
-              }}
-            >
-              <View style={{ width: "50%", paddingRight: 8 }}>
-                <Text>Tipo de Embarque: {shipment.shipment_type}</Text>
-                <Text>Hora: {shipment.hour}</Text>
-                <Text>Número de Tractor: {shipment.tractor_number}</Text>
-                <Text>Placas: {shipment.plates}</Text>
-                <Text>Compañía: {shipment.company}</Text>
-                <Text>Conductor: {shipment.driver}</Text>
-                <Text>Número de Caja: {shipment.box_number}</Text>
-                <Text>Número de Sello: {shipment.seal_number}</Text>
-              </View>
-              <View style={{ width: "50%", paddingLeft: 8 }}>
-                <Text>Incidencia: {shipment.incidence}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {data.inspection_areas.length > 0 && (
+      {data.inspection_type === "Inspección de Sitio" && (
         <View style={styles.tableContainer}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
@@ -279,6 +242,34 @@ const PDFDocument = ({ data }) => (
           </View>
         </View>
       )}
+
+      {data.inspection_type === "Inspección de Embarque" && (
+        <View style={styles.tableContainer}>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>ÁREAS INSPECCIONADAS</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>INCIDENCIAS</Text>
+              </View>
+            </View>
+            {data.shipment_inspections.map((shipment, index) => (
+              <View style={styles.tableRow} key={index}>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>
+                    {renderShipmentDetails(shipment)}
+                  </Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{shipment.incidence}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      )}
+
       <View style={styles.description}>
         <Text>Descripción de Incidencias: </Text>
         <View style={styles.textDescription}>
@@ -318,6 +309,8 @@ const GeneratePDF = ({ data }) => {
     inspection_type: getInspectionTypeLabel(data.inspection_type),
     date: formatDate(data.date),
   };
+
+  console.log(transformedData);
 
   return (
     <div
