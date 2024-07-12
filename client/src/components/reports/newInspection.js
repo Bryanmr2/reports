@@ -129,7 +129,7 @@ const NewInspection = () => {
 
   const handleAddNewArea = () => {
     const currentAreas = getValues("inspection_areas");
-    const newArea = { area: "", incidence: "" };
+    const newArea = { name: "", incidence: "" };
     setValue("inspection_areas", [...currentAreas, newArea]);
   };
 
@@ -309,13 +309,13 @@ const NewInspection = () => {
             />
           </Box>
           <Box>
-            <InputLabel htmlFor="shipment_type" variant="standard">
-              Tipo de embarque
+            <InputLabel htmlFor="inspection_type" variant="standard">
+              Tipo de Inspección
             </InputLabel>
             <Select
-              id="shipment_type"
+              id="inspection_type"
               defaultValue=""
-              {...register("shipment_type", {
+              {...register("inspection_type", {
                 required: "Seleccione un tipo de embarque",
               })}
               fullWidth
@@ -327,7 +327,7 @@ const NewInspection = () => {
               <MenuItem value="shipment">Inspección de Embarque</MenuItem>
             </Select>
           </Box>
-          {["shipment"].includes(shipment_type) && (
+          {["shipment"].includes(inspection_type) && (
             <>
               <Box my={2}>
                 <Button variant="outlined" onClick={handleOpenModal}>
@@ -491,7 +491,7 @@ const NewInspection = () => {
             </>
           )}
 
-          {shipment_type === "site" && (
+          {inspection_type === "site" && (
             <Box my={2}>
               <Typography variant="h6">Areas inspeccionadas</Typography>
               {inspection_areas.map((area, index) => (

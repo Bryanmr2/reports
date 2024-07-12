@@ -48,6 +48,19 @@ const formatDate = (dateString) => {
   return `${day} de ${month} del ${year}`;
 };
 
+const renderShipmentDetails = (shipment) => (
+  <>
+    <Text>Tipo de Embarque: {shipment.shipment_type}</Text>
+    <Text>Hora: {shipment.hour}</Text>
+    <Text>Número de Tractor: {shipment.tractor_number}</Text>
+    <Text>Placas: {shipment.plates}</Text>
+    <Text>Compañía: {shipment.company}</Text>
+    <Text>Conductor: {shipment.driver}</Text>
+    <Text>Número de Caja: {shipment.box_number}</Text>
+    <Text>Número de Sello: {shipment.seal_number}</Text>
+  </>
+);
+
 Font.register({
   family: "Helvetica",
   fonts: [
@@ -86,7 +99,7 @@ const styles = {
     paddingLeft: "3.7cm",
     paddingRight: "4.5cm",
     width: "100%",
-    marginTop: "1cm",
+    marginTop: "1.5cm",
     marginBottom: "1cm",
     fontSize: "14",
   },
@@ -190,7 +203,7 @@ const PDFDocument = ({ data }) => (
       <View style={styles.headerText}>
         <View style={styles.date}>
           <Text>Hermosillo, Sonora. A {data.date}.</Text>
-          <Text>Asunto: {data.shipment_type}</Text>
+          <Text>Asunto: {data.inspection_type}</Text>
         </View>
         <View style={styles.plantWrapper}>
           <View style={styles.plantOne}>
@@ -205,13 +218,13 @@ const PDFDocument = ({ data }) => (
         </View>
       </View>
 
-      {data.inspection_type === "inspeccion_canina" && (
+      {data.inspection_type === "site" && (
         <View>
           <Text>Descripción de Incidencias: {data.inspection_description}</Text>
         </View>
       )}
 
-      {["importacion", "exportacion"].includes(data.inspection_type) && (
+      {["shipment"].includes(data.inspection_type) && (
         <View>
           <Text>Inspecciones de Embarque:</Text>
           {data.shipment_inspections.map((shipment, index) => (
@@ -302,7 +315,7 @@ const PDFDocument = ({ data }) => (
 const GeneratePDF = ({ data }) => {
   const transformedData = {
     ...data,
-    shipment_type: getInspectionTypeLabel(data.shipment_type),
+    inspection_type: getInspectionTypeLabel(data.inspection_type),
     date: formatDate(data.date),
   };
 
