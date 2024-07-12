@@ -41,6 +41,8 @@ const formatDate = (dateString) => {
   ];
 
   const date = new Date(dateString);
+  date.setDate(date.getDate() + 1);
+
   const day = date.getDate();
   const month = months[date.getMonth()];
   const year = date.getFullYear();
