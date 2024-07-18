@@ -58,14 +58,18 @@ const NewInspection = () => {
   const [operatorNames, setOperatorNames] = useState([]);
   const [dogNames, setDogNames] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [modalAreas, setModalAreas] = useState([
-    { title: "", description: "" },
-  ]);
-  const [showNextButton, setShowNextButton] = useState(false);
-  const [markingType, setMarkingType] = useState("");
-  const [savedAreas, setSavedAreas] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
-  const shipment_type = watch("shipment_type");
+  const [shipmentInspectionData, setShipmentInspectionData] = useState({
+    shipment_type: "",
+    hour: "",
+    tractor_number: "",
+    plates: "",
+    company: "",
+    driver: "",
+    box_number: "",
+    seal_number: "",
+    incidence: "",
+  });
+  const [shipmentInspections, setShipmentInspections] = useState([]);
 
   useEffect(() => {
     const fetchOperatorNames = async () => {
@@ -115,60 +119,35 @@ const NewInspection = () => {
   };
 
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setShowNextButton(false);
-    setModalAreas([{ title: "", description: "" }]);
-    setEditIndex(null);
-  };
+  const handleCloseModal = () => setOpenModal(false);
 
   const handleNewReport = () => {
     setSuccessMessageVisible(false);
     reset();
   };
 
-  const handleAddNewArea = () => {
-    const currentAreas = getValues("inspection_areas");
-    const newArea = { name: "", incidence: "" };
-    setValue("inspection_areas", [...currentAreas, newArea]);
-  };
-
-  const removeInspectionArea = (index) => {
-    const currentAreas = getValues("inspection_areas");
-    const updatedAreas = currentAreas.filter((_, i) => i !== index);
-    setValue("inspection_areas", updatedAreas);
-  };
-
-  const handleAddArea = () => {
-    setModalAreas([...modalAreas, { title: "", description: "" }]);
-  };
-
-  const handleRemoveArea = (index) => {
-    const newAreas = modalAreas.filter((_, i) => i !== index);
-    setModalAreas(newAreas);
-  };
-
-  const handleSaveAreas = () => {
-    const newSavedAreas = [...savedAreas];
-    const areaData = { areas: modalAreas, markingType };
-    if (editIndex !== null) {
-      newSavedAreas[editIndex] = areaData;
-    } else {
-      newSavedAreas.push(areaData);
-    }
-    setSavedAreas(newSavedAreas);
+  const handleAddNewShipment = () => {
+    setShipmentInspections([...shipmentInspections, shipmentInspectionData]);
+    setShipmentInspectionData({
+      shipment_type: "",
+      hour: "",
+      tractor_number: "",
+      plates: "",
+      company: "",
+      driver: "",
+      box_number: "",
+      seal_number: "",
+      incidence: "",
+    });
     handleCloseModal();
   };
 
-  const handleNext = () => {
-    setShowNextButton(true);
-  };
-
-  const handleEditArea = (index) => {
-    setModalAreas(savedAreas[index].areas);
-    setMarkingType(savedAreas[index].markingType);
-    setEditIndex(index);
-    handleOpenModal();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setShipmentInspectionData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const inspection_areas = watch("inspection_areas");
@@ -321,7 +300,7 @@ const NewInspection = () => {
               fullWidth
             >
               <MenuItem value="" disabled>
-                Seleccione un embarque
+                Seleccione un tipo
               </MenuItem>
               <MenuItem value="site">Inspección de Sitio</MenuItem>
               <MenuItem value="shipment">Inspección de Embarque</MenuItem>
@@ -329,163 +308,151 @@ const NewInspection = () => {
           </Box>
           {["shipment"].includes(inspection_type) && (
             <>
+              <Button variant="outlined" onClick={handleOpenModal}>
+                Agregar Áreas de Inspección
+              </Button>
               <Box my={2}>
-                <Button variant="outlined" onClick={handleOpenModal}>
-                  Agregar áreas de inspección
-                </Button>
-                {savedAreas.length > 0 && (
-                  <Box mt={2} p={2} border={1} borderColor="grey.400">
-                    <Typography variant="h6">Áreas de inspección</Typography>
-                    {savedAreas.map((areaData, index) => (
-                      <Box
-                        key={index}
-                        mb={2}
-                        p={2}
-                        border={1}
-                        borderColor="grey.300"
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Box>
-                          <Typography>
-                            <strong>Tipo de marcaje:</strong>{" "}
-                            {areaData.markingType}
-                          </Typography>
-                          {areaData.areas.map((area, areaIndex) => (
-                            <Box key={areaIndex} mb={1}>
-                              <Typography>
-                                <strong>Título:</strong> {area.title}
-                              </Typography>
-                              <Typography>
-                                <strong>Descripción:</strong> {area.description}
-                              </Typography>
-                            </Box>
-                          ))}
-                        </Box>
-                        <Box>
-                          <IconButton onClick={() => handleEditArea(index)}>
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            onClick={() =>
-                              setSavedAreas(
-                                savedAreas.filter((_, i) => i !== index)
-                              )
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
-                      </Box>
-                    ))}
-                  </Box>
-                )}
+                {shipmentInspections.map((inspection, index) => (
+                  <div key={index}>
+                    <Typography>Tipo: {inspection.shipment_type}</Typography>
+                    <Typography>Hora: {inspection.hour}</Typography>
+                    <Typography>Tracto: {inspection.tractor_number}</Typography>
+                    <Typography>Placas: {inspection.plates}</Typography>
+                    <Typography>Compañía: {inspection.company}</Typography>
+                    <Typography>Chofer: {inspection.driver}</Typography>
+                    <Typography>Caja: {inspection.box_number}</Typography>
+                    <Typography>Sello: {inspection.seal_number}</Typography>
+                    <Typography>Incidencia: {inspection.incidence}</Typography>
+                  </div>
+                ))}
               </Box>
-              <Modal open={openModal} onClose={handleCloseModal}>
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
                 <Box
                   sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: 400,
-                    bgcolor: "background.paper",
-                    border: "2px solid #000",
-                    boxShadow: 24,
                     p: 4,
-                    overflow: "scroll",
-                    maxHeight: "80vh",
+                    backgroundColor: "white",
+                    margin: "auto",
+                    mt: 5,
+                    maxWidth: 500,
+                    height: "80vh",
+                    overflowY: "auto",
                   }}
                 >
-                  {showNextButton ? (
-                    <>
-                      <InputLabel htmlFor="marking_type">
-                        Tipo de marcaje
-                      </InputLabel>
-                      <Select
-                        id="marking_type"
-                        value={markingType}
-                        onChange={(e) => setMarkingType(e.target.value)}
-                        fullWidth
-                      >
-                        <MenuItem value="">
-                          Seleccione un tipo de marcaje
-                        </MenuItem>
-                        <MenuItem value="Ninguna">Ninguna</MenuItem>
-                        <MenuItem value="Marcaje">Marcaje</MenuItem>
-                      </Select>
-                      <Button
-                        variant="contained"
-                        onClick={handleSaveAreas}
-                        sx={{
-                          display: "flex",
-                          marginLeft: "60%",
-                          marginTop: "5%",
-                        }}
-                      >
-                        Guardar áreas
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Box>
-                        {modalAreas.map((area, index) => (
-                          <Box
-                            key={index}
-                            mb={2}
-                            id={`area-${index}`}
-                            display="flex"
-                            alignItems="center"
-                          >
-                            <TextField
-                              label="Título del área"
-                              fullWidth
-                              value={area.title}
-                              onChange={(e) => {
-                                const newAreas = [...modalAreas];
-                                newAreas[index].title = e.target.value;
-                                setModalAreas(newAreas);
-                              }}
-                            />
-                            <Box ml={1} flexGrow={1} />
-                            <TextField
-                              label="Descripción del área"
-                              fullWidth
-                              value={area.description}
-                              onChange={(e) => {
-                                const newAreas = [...modalAreas];
-                                newAreas[index].description = e.target.value;
-                                setModalAreas(newAreas);
-                              }}
-                            />
-                            <IconButton
-                              onClick={() =>
-                                setSavedAreas(
-                                  savedAreas.filter((_, i) => i !== index)
-                                )
-                              }
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </Box>
-                        ))}
-                      </Box>
-
-                      <Box
-                        height="30%"
-                        display="flex"
-                        justifyContent="space-between"
-                      >
-                        <Button variant="contained" onClick={handleAddArea}>
-                          Agregar más áreas
-                        </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                          Siguiente
-                        </Button>
-                      </Box>
-                    </>
-                  )}
+                  <Typography variant="h6" id="modal-title">
+                    Áreas de Inspección
+                  </Typography>
+                  <Box my={2}>
+                    <InputLabel htmlFor="shipment_type">Tipo</InputLabel>
+                    <Select
+                      id="shipment_type"
+                      name="shipment_type"
+                      value={shipmentInspectionData.shipment_type}
+                      onChange={handleChange}
+                      fullWidth
+                    >
+                      <MenuItem value="" disabled>
+                        Seleccione un tipo
+                      </MenuItem>
+                      <MenuItem value="Importación">Importación</MenuItem>
+                      <MenuItem value="Exportación">Exportación</MenuItem>
+                    </Select>
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="hour">Hora</InputLabel>
+                    <TextField
+                      id="hour"
+                      name="hour"
+                      value={shipmentInspectionData.hour}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="tractor_number">Tracto</InputLabel>
+                    <TextField
+                      id="tractor_number"
+                      name="tractor_number"
+                      value={shipmentInspectionData.tractor_number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="plates">Placas</InputLabel>
+                    <TextField
+                      id="plates"
+                      name="plates"
+                      value={shipmentInspectionData.plates}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="company">Compañía</InputLabel>
+                    <TextField
+                      id="company"
+                      name="company"
+                      value={shipmentInspectionData.company}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="driver">Chofer</InputLabel>
+                    <TextField
+                      id="driver"
+                      name="driver"
+                      value={shipmentInspectionData.driver}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="box_number">Caja</InputLabel>
+                    <TextField
+                      id="box_number"
+                      name="box_number"
+                      value={shipmentInspectionData.box_number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="seal_number">Sello</InputLabel>
+                    <TextField
+                      id="seal_number"
+                      name="seal_number"
+                      value={shipmentInspectionData.seal_number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="incidence">Incidencia</InputLabel>
+                    <Select
+                      id="incidence"
+                      name="incidence"
+                      value={shipmentInspectionData.incidence}
+                      onChange={handleChange}
+                      fullWidth
+                    >
+                      <MenuItem value="" disabled>
+                        Seleccione un tipo
+                      </MenuItem>
+                      <MenuItem value="Ninguna">Ninguna</MenuItem>
+                      <MenuItem value="Marcaje">Marcaje</MenuItem>
+                    </Select>
+                  </Box>
+                  <Box mt={2} textAlign="center">
+                    <Button variant="contained" onClick={handleAddNewShipment}>
+                      Guardar
+                    </Button>
+                  </Box>
                 </Box>
               </Modal>
             </>

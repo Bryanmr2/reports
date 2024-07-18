@@ -312,7 +312,7 @@ const GeneratePDF = ({ data }) => {
     date: formatDate(data.date),
   };
 
-  console.log(transformedData);
+  console.log("pdf data:", transformedData);
 
   return (
     <div
