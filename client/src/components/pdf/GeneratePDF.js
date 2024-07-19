@@ -51,16 +51,25 @@ const formatDate = (dateString) => {
 };
 
 const renderShipmentDetails = (shipment) => (
-  <>
-    <Text>Tipo de Embarque: {shipment.shipment_type}</Text>
-    <Text>Hora: {shipment.hour}</Text>
-    <Text>Número de Tractor: {shipment.tractor_number}</Text>
-    <Text>Placas: {shipment.plates}</Text>
-    <Text>Compañía: {shipment.company}</Text>
-    <Text>Conductor: {shipment.driver}</Text>
-    <Text>Número de Caja: {shipment.box_number}</Text>
-    <Text>Número de Sello: {shipment.seal_number}</Text>
-  </>
+  <View>
+    <Text>
+      Tipo de Embarque: {shipment.shipment_type}
+      {"\n"}
+      Hora: {shipment.hour}
+      {"\n"}
+      Número de Tractor: {shipment.tractor_number}
+      {"\n"}
+      Placas: {shipment.plates}
+      {"\n"}
+      Compañía: {shipment.company}
+      {"\n"}
+      Conductor: {shipment.driver}
+      {"\n"}
+      Número de Caja: {shipment.box_number}
+      {"\n"}
+      Número de Sello: {shipment.seal_number}
+    </Text>
+  </View>
 );
 
 Font.register({

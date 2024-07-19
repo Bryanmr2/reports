@@ -37,19 +37,7 @@ const NewInspection = () => {
       shift: "",
       inspection_type: "",
       inspection_description: "",
-      shipment_inspections: [
-        {
-          shipment_type: "",
-          hour: "",
-          tractor_number: "",
-          plates: "",
-          company: "",
-          driver: "",
-          box_number: "",
-          seal_number: "",
-          incidence: "",
-        },
-      ],
+      shipment_inspections: [],
       inspection_areas: [{ name: "", incidence: "" }],
     },
   });
@@ -127,7 +115,10 @@ const NewInspection = () => {
   };
 
   const handleAddNewShipment = () => {
-    setShipmentInspections([...shipmentInspections, shipmentInspectionData]);
+    const currentShipments = getValues("shipment_inspections") || [];
+    const updatedShipments = [...currentShipments, shipmentInspectionData];
+    setValue("shipment_inspections", updatedShipments);
+    setShipmentInspections(updatedShipments);
     setShipmentInspectionData({
       shipment_type: "",
       hour: "",
