@@ -101,7 +101,7 @@ const App = () => {
         <Router>
           <CustomAppBar />
           <Routes>
-            <Route path="/main" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/newuser" element={<NewUser />} />
             <Route path="/inspections" element={<InspectionView />} />
             <Route path="/inspections/new" element={<NewInspection />} />

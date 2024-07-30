@@ -13,7 +13,7 @@ const CustomAppBar = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate("/main");
+    navigate("/");
   };
 
   const onLogout = async () => {
