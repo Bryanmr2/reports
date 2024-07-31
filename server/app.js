@@ -22,7 +22,7 @@ app.use(express.json());
 app.set("port", process.env.PORT);
 
 // Middlewares
-app.get("/", (req, res) => res.send("App is working"));
+app.get("/", (req, res) => res.status(200).send("App is working"));
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
