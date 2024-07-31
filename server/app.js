@@ -12,7 +12,7 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: "https://reports-production.up.railway.app",
+    origin: "https://inspections-git-main-bryanmr2s-projects.vercel.app",
     credentials: true,
   })
 );
