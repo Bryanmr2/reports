@@ -34,7 +34,9 @@ const OperatorView = () => {
 
   const handleFetchOperators = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/operator");
+      const response = await axios.get(
+        "http://reports-production.up.railway.app/api/operator"
+      );
       setOperators(response.data);
     } catch (error) {
       console.error("Error al obtener manejadores:", error);
@@ -59,7 +61,9 @@ const OperatorView = () => {
 
   const handleDeleteOperator = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/operator/${id}`);
+      await axios.delete(
+        `http://reports-production.up.railway.app/api/operator/${id}`
+      );
       handleFetchOperators();
     } catch (error) {
       console.error("Error al eliminar manejador:", error);
@@ -96,7 +100,7 @@ const OperatorView = () => {
   const handleEditOperator = async () => {
     try {
       await axios.put(
-        `http://localhost:8000/api/operator/${editedOperator.id}`,
+        `http://reports-production.up.railway.app/api/operator/${editedOperator.id}`,
         editedOperator
       );
       handleFetchOperators();

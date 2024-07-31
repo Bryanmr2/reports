@@ -62,7 +62,9 @@ const NewInspection = () => {
   useEffect(() => {
     const fetchOperatorNames = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/operator");
+        const response = await axios.get(
+          "http://reports-production.up.railway.app/api/operator"
+        );
         setOperatorNames(response.data.map((operator) => operator.name));
       } catch (error) {
         console.error("Error al obtener manejadores:", error);
@@ -71,7 +73,9 @@ const NewInspection = () => {
 
     const fetchDogNames = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/dog");
+        const response = await axios.get(
+          "http://reports-production.up.railway.app/api/dog"
+        );
         setDogNames(response.data.map((dog) => dog.name));
       } catch (error) {
         console.error("Error al obtener perros:", error);
@@ -89,7 +93,7 @@ const NewInspection = () => {
       setSuccessMessageVisible(true);
 
       const response = await axios.post(
-        `http://localhost:8000/api/createInspection`,
+        `http://reports-production.up.railway.app/api/createInspection`,
         data
       );
 

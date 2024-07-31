@@ -24,13 +24,16 @@ const NewDog = ({ setIsLoggedIn }) => {
     const { name, breed, age, gender, color } = data;
 
     try {
-      const response = await axios.post("http://localhost:8000/api/dog", {
-        name,
-        breed,
-        age,
-        gender,
-        color,
-      });
+      const response = await axios.post(
+        "http://reports-production.up.railway.app/api/dog",
+        {
+          name,
+          breed,
+          age,
+          gender,
+          color,
+        }
+      );
       console.log("Registro exitoso: ", response.data);
       reset();
       setSuccessMessageVisible(true);

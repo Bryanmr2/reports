@@ -21,14 +21,17 @@ const NewOperator = ({ setIsLoggedIn }) => {
     const { name, last_name, birth, number, adress, curp } = data;
 
     try {
-      const response = await axios.post("http://localhost:8000/api/operator", {
-        name,
-        last_name,
-        curp,
-        birth,
-        number,
-        adress,
-      });
+      const response = await axios.post(
+        "http://reports-production.up.railway.app/api/operator",
+        {
+          name,
+          last_name,
+          curp,
+          birth,
+          number,
+          adress,
+        }
+      );
       console.log("Registro exitoso: ", response.data);
       reset();
       setSuccessMessageVisible(true);

@@ -34,7 +34,7 @@ const NewUser = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/register",
+        "http://reports-production.up.railway.app/api/register",
         {
           name,
           email,
