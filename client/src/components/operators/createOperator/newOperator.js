@@ -22,7 +22,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
 
     try {
       const response = await axios.post(
-        "http://reports-production.up.railway.app/api/operator",
+        "reports-production.up.railway.app/api/operator",
         {
           name,
           last_name,
