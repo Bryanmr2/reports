@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 
 // Configuraciones
-app.set("port", process.env.PORT || 8000);
+app.set("port", process.env.PORT);
 
 // Middlewares
 app.get("/", (req, res) => res.send("App is working"));
