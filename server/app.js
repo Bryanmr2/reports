@@ -12,7 +12,7 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: "reports-production.up.railway.app",
+    origin: "https://reports-production.up.railway.app",
     credentials: true,
   })
 );

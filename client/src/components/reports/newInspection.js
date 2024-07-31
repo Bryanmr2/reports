@@ -63,7 +63,7 @@ const NewInspection = () => {
     const fetchOperatorNames = async () => {
       try {
         const response = await axios.get(
-          "reports-production.up.railway.app/api/operator"
+          "https://reports-production.up.railway.app/api/operator"
         );
         setOperatorNames(response.data.map((operator) => operator.name));
       } catch (error) {
@@ -74,7 +74,7 @@ const NewInspection = () => {
     const fetchDogNames = async () => {
       try {
         const response = await axios.get(
-          "reports-production.up.railway.app/api/dog"
+          "https://reports-production.up.railway.app/api/dog"
         );
         setDogNames(response.data.map((dog) => dog.name));
       } catch (error) {
@@ -93,7 +93,7 @@ const NewInspection = () => {
       setSuccessMessageVisible(true);
 
       const response = await axios.post(
-        `reports-production.up.railway.app/api/createInspection`,
+        `https://reports-production.up.railway.app/api/createInspection`,
         data
       );
 

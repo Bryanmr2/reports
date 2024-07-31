@@ -35,7 +35,7 @@ const OperatorView = () => {
   const handleFetchOperators = async () => {
     try {
       const response = await axios.get(
-        "reports-production.up.railway.app/api/operator"
+        "https://reports-production.up.railway.app/api/operator"
       );
       setOperators(response.data);
     } catch (error) {
@@ -62,7 +62,7 @@ const OperatorView = () => {
   const handleDeleteOperator = async (id) => {
     try {
       await axios.delete(
-        `reports-production.up.railway.app/api/operator/${id}`
+        `https://reports-production.up.railway.app/api/operator/${id}`
       );
       handleFetchOperators();
     } catch (error) {
@@ -100,7 +100,7 @@ const OperatorView = () => {
   const handleEditOperator = async () => {
     try {
       await axios.put(
-        `reports-production.up.railway.app/api/operator/${editedOperator.id}`,
+        `https://reports-production.up.railway.app/api/operator/${editedOperator.id}`,
         editedOperator
       );
       handleFetchOperators();

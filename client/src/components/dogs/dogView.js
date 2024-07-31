@@ -35,7 +35,7 @@ const DogView = () => {
   const handleFetchDogs = async () => {
     try {
       const response = await axios.get(
-        "reports-production.up.railway.app/api/dog"
+        "https://reports-production.up.railway.app/api/dog"
       );
       setDogs(response.data);
     } catch (error) {
@@ -59,7 +59,9 @@ const DogView = () => {
 
   const handleDeleteDog = async (id) => {
     try {
-      await axios.delete(`reports-production.up.railway.app/api/dog/${id}`);
+      await axios.delete(
+        `https://reports-production.up.railway.app/api/dog/${id}`
+      );
       handleFetchDogs();
     } catch (error) {
       console.error("Error al eliminar perro:", error);
@@ -96,7 +98,7 @@ const DogView = () => {
   const handleEditDog = async () => {
     try {
       await axios.put(
-        `reports-production.up.railway.app/api/dog/${editedDog.id}`,
+        `https://reports-production.up.railway.app/api/dog/${editedDog.id}`,
         editedDog
       );
       handleFetchDogs();
