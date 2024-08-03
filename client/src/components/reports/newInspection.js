@@ -46,6 +46,7 @@ const NewInspection = () => {
   const [operatorNames, setOperatorNames] = useState([]);
   const [dogNames, setDogNames] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
   const [shipmentInspectionData, setShipmentInspectionData] = useState({
     shipment_type: "",
     hour: "",
@@ -116,6 +117,35 @@ const NewInspection = () => {
   const handleNewReport = () => {
     setSuccessMessageVisible(false);
     reset();
+  };
+
+  const handleEditShipment = (index) => {
+    setShipmentInspectionData(shipmentInspections[index]);
+    setEditIndex(index);
+    handleOpenModal();
+  };
+
+  const handleDeleteShipment = (index) => {
+    const updatedInspections = [...shipmentInspections];
+    updatedInspections.splice(index, 1);
+    setShipmentInspections(updatedInspections);
+    setValue("shipment_inspections", updatedInspections);
+  };
+
+  const handleSaveShipment = () => {
+    const currentShipments = getValues("shipment_inspections") || [];
+    let updatedShipments = [...currentShipments];
+
+    if (editIndex !== null) {
+      updatedShipments[editIndex] = shipmentInspectionData;
+    } else {
+      updatedShipments.push(shipmentInspectionData);
+    }
+
+    setValue("shipment_inspections", updatedShipments);
+    setShipmentInspections(updatedShipments);
+    setEditIndex(null);
+    handleCloseModal();
   };
 
   const handleAddNewShipment = () => {
@@ -315,21 +345,39 @@ const NewInspection = () => {
           </Box>
           {["shipment"].includes(inspection_type) && (
             <>
-              <Button variant="outlined" onClick={handleOpenModal}>
+              <Button
+                sx={{ marginTop: "5px" }}
+                variant="outlined"
+                onClick={handleOpenModal}
+              >
                 Agregar Áreas de Inspección
               </Button>
               <Box my={2}>
                 {shipmentInspections.map((inspection, index) => (
-                  <div key={index}>
-                    <Typography>Tipo: {inspection.shipment_type}</Typography>
-                    <Typography>Hora: {inspection.hour}</Typography>
-                    <Typography>Tracto: {inspection.tractor_number}</Typography>
-                    <Typography>Placas: {inspection.plates}</Typography>
-                    <Typography>Compañía: {inspection.company}</Typography>
-                    <Typography>Chofer: {inspection.driver}</Typography>
-                    <Typography>Caja: {inspection.box_number}</Typography>
-                    <Typography>Sello: {inspection.seal_number}</Typography>
-                    <Typography>Incidencia: {inspection.incidence}</Typography>
+                  <div style={{ display: "flex" }}>
+                    <div key={index}>
+                      <Typography>Tipo: {inspection.shipment_type}</Typography>
+                      <Typography>Hora: {inspection.hour}</Typography>
+                      <Typography>
+                        Tracto: {inspection.tractor_number}
+                      </Typography>
+                      <Typography>Placas: {inspection.plates}</Typography>
+                      <Typography>Compañía: {inspection.company}</Typography>
+                      <Typography>Chofer: {inspection.driver}</Typography>
+                      <Typography>Caja: {inspection.box_number}</Typography>
+                      <Typography>Sello: {inspection.seal_number}</Typography>
+                      <Typography>
+                        Incidencia: {inspection.incidence}
+                      </Typography>
+                      <Box>
+                        <IconButton onClick={() => handleEditShipment(index)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton onClick={() => handleDeleteShipment(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
+                    </div>
                   </div>
                 ))}
               </Box>
@@ -456,8 +504,15 @@ const NewInspection = () => {
                     </Select>
                   </Box>
                   <Box mt={2} textAlign="center">
-                    <Button variant="contained" onClick={handleAddNewShipment}>
-                      Guardar
+                    <Button
+                      variant="contained"
+                      onClick={
+                        editIndex !== null
+                          ? handleSaveShipment
+                          : handleAddNewShipment
+                      }
+                    >
+                      {editIndex !== null ? "Actualizar" : "Guardar"}
                     </Button>
                   </Box>
                 </Box>
