@@ -145,6 +145,18 @@ const NewInspection = () => {
     }));
   };
 
+  const handleAddNewArea = () => {
+    const currentAreas = getValues("inspection_areas") || [];
+    const updatedAreas = [...currentAreas, { name: "", incidence: "" }];
+    setValue("inspection_areas", updatedAreas);
+  };
+
+  const removeInspectionArea = (index) => {
+    const currentAreas = getValues("inspection_areas") || [];
+    const updatedAreas = currentAreas.filter((_, i) => i !== index);
+    setValue("inspection_areas", updatedAreas);
+  };
+
   const inspection_areas = watch("inspection_areas");
   const inspection_type = watch("inspection_type");
 
