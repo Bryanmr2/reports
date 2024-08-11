@@ -1,12 +1,28 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import Logo from "../../images/logo.jpg";
+import { Box } from "@mui/material";
 import "./homePage.css";
 
 const HomePage = () => {
   return (
     <>
       <br />
+      <Box
+        component="img"
+        src={Logo}
+        alt="Logo"
+        sx={{
+          height: 120,
+          position: "absolute",
+          top: "25%",
+          left: "50%",
+          translate: "-50% -50%",
+          borderRadius: "9999px",
+          border: "5px solid white",
+        }}
+      />
       <div className="home-container">
         <h2>Elige una opción</h2>
         <div className="options">
