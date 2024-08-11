@@ -42,4 +42,23 @@ const createInpection = async (inspection) => {
   }
 };
 
-module.exports = createInpection;
+const getInspection = async () => {
+  try {
+    const { data, error } = await supabase.from("inspection").select("*");
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error al obtener inspeccion:", error.message);
+    throw error;
+  }
+};
+
+module.exports = {
+  createInspection,
+  getInspections,
+};

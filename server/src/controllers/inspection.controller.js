@@ -1,4 +1,7 @@
-const createInspection = require("../services/inspectionService");
+const {
+  createInspection,
+  getInspection,
+} = require("../services/inspectionService");
 
 const postInspectionHandler = async (req, res) => {
   try {
@@ -16,6 +19,17 @@ const postInspectionHandler = async (req, res) => {
   }
 };
 
+const getInspectionHandler = async (req, res) => {
+  try {
+    const inspections = await getInspection();
+    res.status(200).json(inspections);
+  } catch (err) {
+    console.error("Error al obtener las inspecciones:", err.message);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
 module.exports = {
   postInspectionHandler,
+  getInspectionHandler,
 };
