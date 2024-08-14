@@ -35,12 +35,16 @@ const NewInspection = () => {
       dog_name: "",
       plant: "",
       shift: "",
-      inspection_type: "",
+      inspection_type: "shipment",
       inspection_description: "",
       shipment_inspections: [],
       inspection_areas: [{ name: "", incidence: "" }],
     },
   });
+
+  useEffect(() => {
+    setValue("inspection_type", "shipment");
+  }, [setValue]);
 
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [operatorNames, setOperatorNames] = useState([]);
@@ -259,16 +263,16 @@ const NewInspection = () => {
             {errors.name && <span>{errors.name.message}</span>}
           </Box>
           <Box>
-            <InputLabel htmlFor="dog_name">Nombre del can</InputLabel>
+            <InputLabel htmlFor="dog_name">Nombre del K9</InputLabel>
             <Controller
               name="dog_name"
               control={control}
               defaultValue=""
-              rules={{ required: "Selecciona un nombre del can" }}
+              rules={{ required: "Selecciona un nombre del K9" }}
               render={({ field }) => (
                 <Select {...field} fullWidth>
                   <MenuItem value="" disabled>
-                    Seleccione un can
+                    Seleccione un K9
                   </MenuItem>
                   {dogNames.map((name, index) => (
                     <MenuItem key={index} value={name}>
@@ -330,7 +334,7 @@ const NewInspection = () => {
             </InputLabel>
             <Select
               id="inspection_type"
-              defaultValue=""
+              defaultValue="shipment"
               {...register("inspection_type", {
                 required: "Seleccione un tipo de embarque",
               })}
@@ -345,13 +349,15 @@ const NewInspection = () => {
           </Box>
           {["shipment"].includes(inspection_type) && (
             <>
-              <Button
-                sx={{ marginTop: "5px" }}
-                variant="outlined"
-                onClick={handleOpenModal}
-              >
-                Agregar Áreas de Inspección
-              </Button>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  sx={{ marginTop: "4%" }}
+                  variant="outlined"
+                  onClick={handleOpenModal}
+                >
+                  Agregar Áreas de Inspección
+                </Button>
+              </Box>
               <Box my={2}>
                 {shipmentInspections.map((inspection, index) => (
                   <div style={{ display: "flex" }}>

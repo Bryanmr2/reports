@@ -220,7 +220,7 @@ const PDFDocument = ({ data }) => (
           <View style={styles.plantOne}>
             <Text style={styles.plantBold}>{data.plant}.-</Text>
             <Text>Atención: {data.name}</Text>
-            <Text>Can: {data.dog_name}</Text>
+            <Text>K9: {data.dog_name}</Text>
           </View>
           <View style={styles.plantTwo}>
             <Text>Turno: {data.shift}</Text>
