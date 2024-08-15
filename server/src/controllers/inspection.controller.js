@@ -15,11 +15,12 @@ const postInspectionHandler = async (req, res) => {
     res.status(201).json(response);
   } catch (err) {
     console.error("Error durante la creación del reporte:", err.message);
-    res.status(500).json({ message: "Error en el servidor" }); 
+    res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
 const getInspectionHandler = async (req, res) => {
+  console.log("Entró getInspectionHandler");
   try {
     const inspections = await getInspection();
     res.status(200).json(inspections);

@@ -95,7 +95,7 @@ const InspectionView = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={handleFetchReports}
+              // onClick={handleFetchReports}
               fullWidth
               style={{ marginTop: "70px" }}
             >
