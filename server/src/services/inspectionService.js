@@ -60,5 +60,5 @@ const getInspection = async () => {
 
 module.exports = {
   createInspection,
-  getInspections,
+  getInspection,
 };
