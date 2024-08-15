@@ -6,7 +6,7 @@ const {
 
 const router = Router();
 
-router.get("/createInspection", getInspectionHandler);
+router.get("/inspections", getInspectionHandler);
 router.post("/createInspection", postInspectionHandler);
 
 module.exports = router;
