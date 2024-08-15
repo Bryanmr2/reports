@@ -1,7 +1,7 @@
 const InspectionFactory = require("../factory/inspectionFactory");
 const supabase = require("../config/supabase");
 
-const createInpection = async (inspection) => {
+const createInspection = async (inspection) => {
   try {
     const newInspection = InspectionFactory.create(
       inspection.inspection_type,
