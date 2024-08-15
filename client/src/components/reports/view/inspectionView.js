@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
@@ -24,16 +24,20 @@ const InspectionView = () => {
   const [reports, setReports] = useState([]);
   const [filterID, setFilterID] = useState("");
 
-  const handleFetchReports = () => {
-    axios
-      .get(`/api/reports/${selectedUser}/${startDate}/${endDate}`)
-      .then((response) => {
-        setReports(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching reports:", error);
-      });
-  };
+  // const handleFetchReports = () => {
+  //   axios
+  //     .get("/api/inspections")
+  //     .then((response) => {
+  //       setReports(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching inspections:", error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   handleFetchReports();
+  // }, []);
 
   const filteredReports = reports.filter((report) =>
     report.id.toString().includes(filterID)

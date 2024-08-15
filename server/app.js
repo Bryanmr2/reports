@@ -12,7 +12,10 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: "https://inspections-git-main-bryanmr2s-projects.vercel.app",
+    origin: [
+      "https://inspections-git-main-bryanmr2s-projects.vercel.app",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
