@@ -21,10 +21,12 @@ const InspectionView = () => {
     axios
       .get("/api/inspections")
       .then((response) => {
-        setReports(response.data); // Asegúrate de que response.data es un array de objetos
+        console.log(response.data);
+        setReports(response.data);
       })
       .catch((error) => {
         console.error("Error fetching inspections:", error);
+        setReports([]);
       });
   };
 
@@ -57,13 +59,22 @@ const InspectionView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {reports.map((report) => (
-                <TableRow key={report.id}>
-                  <TableCell>{report.id}</TableCell>
-                  <TableCell>{report.name}</TableCell>
-                  <TableCell>{report.date}</TableCell>
+              {Array.isArray(reports) && reports.length > 0 ? (
+                reports.map((report) => (
+                  <TableRow key={report.id}>
+                    <TableCell>{report.id}</TableCell>
+                    <TableCell>{report.name}</TableCell>{" "}
+                    {/* Ajusta "name" si el campo es diferente */}
+                    <TableCell>{report.date}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} align="center">
+                    No hay datos disponibles
+                  </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
