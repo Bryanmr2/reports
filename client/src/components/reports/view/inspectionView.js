@@ -22,7 +22,7 @@ const InspectionView = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reports, setReports] = useState([]);
-  const [filterID, setFilterID] = useState("");
+  // const [filterID, setFilterID] = useState("");
 
   const handleFetchReports = () => {
     axios
@@ -45,7 +45,7 @@ const InspectionView = () => {
 
   return (
     <div>
-      <h2 style={{ marginLeft: "10px" }}>Consultar Inspecciones</h2>
+      {/* <h2 style={{ marginLeft: "10px" }}>Consultar Inspecciones</h2>
       <div>
         <div className="view-container">
           <Box>
@@ -102,44 +102,44 @@ const InspectionView = () => {
               Consultar
             </Button>
           </Box>
-        </div>
+        </div> */}
 
-        <Box sx={{ marginTop: "40px", padding: "1%" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "10px",
-            }}
-          >
-            <h3>Inspecciones:</h3>
-            <Button variant="outlined" component={Link} to="/inspections/new">
-              Crear Nueva Inspección
-            </Button>
-          </div>
-          <TableContainer component={Paper}>
-            <Table aria-label="table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Título</TableCell>
-                  <TableCell>Fecha</TableCell>
+      <Box sx={{ marginTop: "40px", padding: "1%" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "10px",
+          }}
+        >
+          <h3>Inspecciones:</h3>
+          <Button variant="outlined" component={Link} to="/inspections/new">
+            Crear Nueva Inspección
+          </Button>
+        </div>
+        <TableContainer component={Paper}>
+          <Table aria-label="table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Título</TableCell>
+                <TableCell>Fecha</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredReports.map((report) => (
+                <TableRow key={report.id}>
+                  <TableCell>{report.id}</TableCell>
+                  <TableCell>{report.title}</TableCell>
+                  <TableCell>{report.date}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredReports.map((report) => (
-                  <TableRow key={report.id}>
-                    <TableCell>{report.id}</TableCell>
-                    <TableCell>{report.title}</TableCell>
-                    <TableCell>{report.date}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </div>
+    // </div>
   );
 };
 
