@@ -16,18 +16,18 @@ import "./inspectionView.css";
 
 const InspectionView = () => {
   const [reports, setReports] = useState([]);
+  const [filteredReports, setFilteredReports] = useState([]);
 
-  const handleFetchReports = () => {
-    axios
-      .get("/api/inspections")
-      .then((response) => {
-        console.log(response.data);
-        setReports(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching inspections:", error);
-        setReports([]);
-      });
+  const handleFetchReports = async () => {
+    try {
+      const response = await axios.get(
+        "https://reports-production.up.railway.app/api/inspections"
+      );
+      setReports(response.data);
+      setFilteredReports(response.data);
+    } catch (error) {
+      console.error("Error al obtener inspecciones:", error);
+    }
   };
 
   useEffect(() => {
@@ -59,12 +59,11 @@ const InspectionView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.isArray(reports) && reports.length > 0 ? (
-                reports.map((report) => (
+              {filteredReports.length > 0 ? (
+                filteredReports.map((report) => (
                   <TableRow key={report.id}>
                     <TableCell>{report.id}</TableCell>
                     <TableCell>{report.name}</TableCell>{" "}
-                    {/* Ajusta "name" si el campo es diferente */}
                     <TableCell>{report.date}</TableCell>
                   </TableRow>
                 ))
