@@ -39,9 +39,9 @@ const InspectionView = () => {
     handleFetchReports();
   }, []);
 
-  const filteredReports = reports.filter((report) =>
-    report.id.toString().includes(filterID)
-  );
+  // const filteredReports = reports.filter((report) =>
+  //   report.id.toString().includes(filterID)
+  // );
 
   return (
     <div>
