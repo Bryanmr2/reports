@@ -14,7 +14,7 @@ const createInspection = async (inspection) => {
       date: newInspection.date,
       dog_name: newInspection.dogName,
       shift: newInspection.shift,
-      description: newInspection.description,
+      inspection_description: newInspection.description,
       plant: newInspection.plant,
     };
 
