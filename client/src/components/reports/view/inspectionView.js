@@ -53,18 +53,24 @@ const InspectionView = () => {
           <Table aria-label="table">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Título</TableCell>
                 <TableCell>Fecha</TableCell>
+                <TableCell>Manejador</TableCell>
+                <TableCell>K9</TableCell>
+                <TableCell>Turno</TableCell>
+                <TableCell>Planta</TableCell>
+                <TableCell>Descripción</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredReports.length > 0 ? (
                 filteredReports.map((report) => (
                   <TableRow key={report.id}>
-                    <TableCell>{report.id}</TableCell>
-                    <TableCell>{report.name}</TableCell>{" "}
                     <TableCell>{report.date}</TableCell>
+                    <TableCell>{report.name}</TableCell>
+                    <TableCell>{report.dog_name}</TableCell>
+                    <TableCell>{report.shift}</TableCell>
+                    <TableCell>{report.plant}</TableCell>
+                    <TableCell>{report.inspection_description}</TableCell>
                   </TableRow>
                 ))
               ) : (
