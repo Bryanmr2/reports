@@ -24,20 +24,20 @@ const InspectionView = () => {
   const [reports, setReports] = useState([]);
   const [filterID, setFilterID] = useState("");
 
-  // const handleFetchReports = () => {
-  //   axios
-  //     .get("/api/inspections")
-  //     .then((response) => {
-  //       setReports(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching inspections:", error);
-  //     });
-  // };
+  const handleFetchReports = () => {
+    axios
+      .get("/api/inspections")
+      .then((response) => {
+        setReports(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching inspections:", error);
+      });
+  };
 
-  // useEffect(() => {
-  //   handleFetchReports();
-  // }, []);
+  useEffect(() => {
+    handleFetchReports();
+  }, []);
 
   const filteredReports = reports.filter((report) =>
     report.id.toString().includes(filterID)
@@ -95,7 +95,7 @@ const InspectionView = () => {
             <Button
               variant="contained"
               color="primary"
-              // onClick={handleFetchReports}
+              onClick={handleFetchReports}
               fullWidth
               style={{ marginTop: "70px" }}
             >
