@@ -1,6 +1,7 @@
 const {
   createInspection,
   getInspection,
+  deleteInspection,
 } = require("../services/inspectionService");
 
 const postInspectionHandler = async (req, res) => {
@@ -30,7 +31,22 @@ const getInspectionHandler = async (req, res) => {
   }
 };
 
+const deleteInspectionHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await deleteInspection(id);
+
+    res
+      .status(200)
+      .json({ message: `Inspección con ID ${id} eliminada`, data: response });
+  } catch (err) {
+    console.error("Error al eliminar la inspección:", err.message);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
 module.exports = {
   postInspectionHandler,
   getInspectionHandler,
+  deleteInspectionHandler,
 };

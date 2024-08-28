@@ -58,7 +58,27 @@ const getInspection = async () => {
   }
 };
 
+const deleteInspection = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("inspection")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(`Inspección con ID ${id} eliminada`);
+    return data;
+  } catch (error) {
+    console.error("Error al eliminar inspección:", error.message);
+    throw error;
+  }
+};
+
 module.exports = {
   createInspection,
   getInspection,
+  deleteInspection,
 };

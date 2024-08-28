@@ -19,6 +19,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 const App = () => {
   const [session, setSession] = useState(null);
+  const [view, setView] = useState("sign_in");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -79,7 +80,6 @@ const App = () => {
           </Typography>
           <Auth
             supabaseClient={supabase}
-            providers={[]}
             appearance={{
               theme: ThemeSupa,
               variables: {
@@ -88,6 +88,40 @@ const App = () => {
                     brand: "blue",
                     brandAccent: "darkred",
                   },
+                },
+              },
+            }}
+            providers={[]}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: "Correo electrónico",
+                  password_label: "Contraseña",
+                  email_input_placeholder: "Tu correo electrónico",
+                  password_input_placeholder: "Tu contraseña",
+                  button_label: "Iniciar sesión",
+                  forgot_password_link: "¿Olvidaste tu contraseña?",
+                  link_text: "¿Ya tienes una cuenta? Inicia Sesión",
+                },
+                sign_up: {
+                  email_label: "Correo electrónico",
+                  password_label: "Contraseña",
+                  email_input_placeholder: "Tu correo electrónico",
+                  password_input_placeholder: "Tu contraseña",
+                  button_label: "Regístrate",
+                  link_text: "¿No tienes una cuenta? Crea una",
+                },
+                forgotten_password: {
+                  email_label: "Correo electrónico",
+                  button_label:
+                    "Enviar instrucciones para restablecer la contraseña",
+                  back_to_sign_in_link: "Volver a iniciar sesión",
+                  link_text: "¿Olvidaste tu contraseña?",
+                },
+                update_password: {
+                  password_label: "Nueva contraseña",
+                  password_input_placeholder: "Tu nueva contraseña",
+                  button_label: "Actualizar contraseña",
                 },
               },
             }}
