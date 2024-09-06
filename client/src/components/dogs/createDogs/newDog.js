@@ -25,7 +25,7 @@ const NewDog = ({ setIsLoggedIn }) => {
 
     try {
       const response = await axios.post(
-        "https://reports-production.up.railway.app/api/dog",
+        `${process.env.REACT_APP_BASE_URL}/api/dog`,
         {
           name,
           breed,

@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: [
       "https://inspections-git-main-bryanmr2s-projects.vercel.app",
-      "http://localhost:3000",
+      "http://localhost:4000",
     ],
     credentials: true,
   })
