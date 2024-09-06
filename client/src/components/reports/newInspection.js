@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import InspectionRow from "./InspectionRow";
 import GeneratePDF from "../pdf/GeneratePDF";
+import baseUrl from "../../config";
 
 const NewInspection = () => {
   const {
@@ -67,9 +68,7 @@ const NewInspection = () => {
   useEffect(() => {
     const fetchOperatorNames = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/operator`
-        );
+        const response = await axios.get(`${baseUrl}/api/operator`);
         setOperatorNames(response.data.map((operator) => operator.name));
       } catch (error) {
         console.error("Error al obtener manejadores:", error);
@@ -78,9 +77,7 @@ const NewInspection = () => {
 
     const fetchDogNames = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/dog`
-        );
+        const response = await axios.get(`${baseUrl}/api/dog`);
         setDogNames(response.data.map((dog) => dog.name));
       } catch (error) {
         console.error("Error al obtener perros:", error);
@@ -98,7 +95,7 @@ const NewInspection = () => {
       setSuccessMessageVisible(true);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/createInspection`,
+        `${baseUrl}/api/createInspection`,
         data
       );
 

@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import axios from "axios";
+import baseUrl from "../../../config";
 
 const NewOperator = ({ setIsLoggedIn }) => {
   const {
@@ -21,17 +22,14 @@ const NewOperator = ({ setIsLoggedIn }) => {
     const { name, last_name, birth, number, adress, curp } = data;
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/operator`,
-        {
-          name,
-          last_name,
-          curp,
-          birth,
-          number,
-          adress,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/api/operator`, {
+        name,
+        last_name,
+        curp,
+        birth,
+        number,
+        adress,
+      });
       console.log("Registro exitoso: ", response.data);
       reset();
       setSuccessMessageVisible(true);

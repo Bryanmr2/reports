@@ -36,7 +36,8 @@ const CustomAppBar = () => {
         </Typography>
 
         <Button
-          variant="contained"
+          variant="outlined"
+          sx={{ color: "white" }}
           className="logout-button"
           onClick={() => onLogout()}
         >

@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import "./operatorView.css";
+import baseUrl from "../../config";
 
 const OperatorView = () => {
   const [operators, setOperators] = useState([]);
@@ -34,9 +35,7 @@ const OperatorView = () => {
 
   const handleFetchOperators = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/operator`
-      );
+      const response = await axios.get(`${baseUrl}/api/operator`);
       setOperators(response.data);
     } catch (error) {
       console.error("Error al obtener manejadores:", error);
@@ -61,9 +60,7 @@ const OperatorView = () => {
 
   const handleDeleteOperator = async (id) => {
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/api/operator/${id}`
-      );
+      await axios.delete(`${baseUrl}/api/operator/${id}`);
       handleFetchOperators();
     } catch (error) {
       console.error("Error al eliminar manejador:", error);
@@ -100,7 +97,7 @@ const OperatorView = () => {
   const handleEditOperator = async () => {
     try {
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/operator/${editedOperator.id}`,
+        `${baseUrl}/api/operator/${editedOperator.id}`,
         editedOperator
       );
       handleFetchOperators();

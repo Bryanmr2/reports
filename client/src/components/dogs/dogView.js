@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import baseUrl from "../../config";
 import "./dogsView.css";
 
 const DogView = () => {
@@ -34,9 +35,7 @@ const DogView = () => {
 
   const handleFetchDogs = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/dog`
-      );
+      const response = await axios.get(`${baseUrl}/api/dog`);
       setDogs(response.data);
     } catch (error) {
       console.error("Error al obtener perros:", error);
@@ -59,7 +58,7 @@ const DogView = () => {
 
   const handleDeleteDog = async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/dog/${id}`);
+      await axios.delete(`${baseUrl}/api/dog/${id}`);
       handleFetchDogs();
     } catch (error) {
       console.error("Error al eliminar perro:", error);
@@ -95,10 +94,7 @@ const DogView = () => {
 
   const handleEditDog = async () => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/dog/${editedDog.id}`,
-        editedDog
-      );
+      await axios.put(`${baseUrl}/api/dog/${editedDog.id}`, editedDog);
       handleFetchDogs();
       closeEditDialog();
     } catch (error) {

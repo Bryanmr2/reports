@@ -8,6 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import baseUrl from "../../config";
 import "./newUser.css";
 
 const NewUser = () => {
@@ -34,7 +35,7 @@ const NewUser = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.baseUrl}/api/register`,
+        `${baseUrl}/api/register`,
         {
           name,
           email,

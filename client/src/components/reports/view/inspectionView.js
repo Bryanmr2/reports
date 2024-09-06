@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
+import baseUrl from "../../../config";
 
 const InspectionView = () => {
   const [reports, setReports] = useState([]);
@@ -30,9 +31,7 @@ const InspectionView = () => {
 
   const handleFetchReports = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/inspections`
-      );
+      const response = await axios.get(`${baseUrl}/api/inspections`);
       setReports(response.data);
     } catch (error) {
       console.error("Error al obtener inspecciones:", error);
@@ -41,9 +40,7 @@ const InspectionView = () => {
 
   const handleDeleteReport = async (id) => {
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/api/inspections/${id}`
-      );
+      await axios.delete(`${baseUrl}/api/inspections/${id}`);
       handleFetchReports();
       handleClose();
     } catch (error) {

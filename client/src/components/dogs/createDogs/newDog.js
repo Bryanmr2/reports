@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import { Box } from "@mui/material";
+import baseUrl from "../../../config";
 import axios from "axios";
 
 const NewDog = ({ setIsLoggedIn }) => {
@@ -24,16 +25,13 @@ const NewDog = ({ setIsLoggedIn }) => {
     const { name, breed, age, gender, color } = data;
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/dog`,
-        {
-          name,
-          breed,
-          age,
-          gender,
-          color,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/api/dog`, {
+        name,
+        breed,
+        age,
+        gender,
+        color,
+      });
       console.log("Registro exitoso: ", response.data);
       reset();
       setSuccessMessageVisible(true);
