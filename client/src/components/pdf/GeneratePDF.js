@@ -347,7 +347,14 @@ const GeneratePDF = ({ data }) => {
           )
         }
       </PDFDownloadLink>
-      <div style={{ height: "500px", marginTop: "20px" }}>
+      <div
+        style={{
+          height: "41vh",
+          width: "73vw",
+          maxWidth: "100%",
+          marginTop: "50px",
+        }}
+      >
         <PDFViewer style={{ width: "100%", height: "100%" }}>
           <PDFDocument data={transformedData} />
         </PDFViewer>
