@@ -211,6 +211,7 @@ const NewInspection = () => {
               flexDirection: "column",
               alignItems: "center",
               marginTop: "6%",
+              width: "100%",
             }}
           >
             <Button
