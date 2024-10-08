@@ -329,6 +329,7 @@ const GeneratePDF = ({ data }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        overflowX: "hidden",
       }}
     >
       <PDFDownloadLink
@@ -349,13 +350,20 @@ const GeneratePDF = ({ data }) => {
       </PDFDownloadLink>
       <div
         style={{
-          height: "41vh",
-          width: "73vw",
+          height: "127vh",
+          width: "50vw",
           maxWidth: "100%",
           marginTop: "50px",
+          overflowX: "hidden",
+          ...(window.innerWidth <= 1024 && {
+            height: "41vh",
+            width: "73vw",
+          }),
         }}
       >
-        <PDFViewer style={{ width: "100%", height: "100%" }}>
+        <PDFViewer
+          style={{ width: "100%", height: "100%", overflowX: "hidden" }}
+        >
           <PDFDocument data={transformedData} />
         </PDFViewer>
       </div>

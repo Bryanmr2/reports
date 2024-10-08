@@ -1,3 +1,16 @@
-body, p, h1, h2, h3, h4, h5, h6, span, div {
-    font-family: 'Helvetica', Arial, sans-serif;
-  }
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+div {
+  font-family: "Helvetica", Arial, sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
