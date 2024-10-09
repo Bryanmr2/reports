@@ -12,10 +12,7 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: [
-      "https://inspections-git-main-bryanmr2s-projects.vercel.app",
-      "http://localhost:4000",
-    ],
+    origin: ["www.siipccsp.com", "http://localhost:4000"],
     credentials: true,
   })
 );
