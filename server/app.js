@@ -12,7 +12,7 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: ["www.siipccsp.com", "http://localhost:4000"],
+    origin: ["https://www.siipccsp.com", "http://localhost:4000"],
     credentials: true,
   })
 );
