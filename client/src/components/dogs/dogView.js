@@ -111,7 +111,7 @@ const DogView = () => {
     <div>
       <h2 style={{ marginLeft: "10px" }}>Consultar Perros</h2>
       <div>
-        <div className="dog-filters">
+        {/* <div className="dog-filters">
           <TextField
             label="Filtrar por ID"
             value={filterID}
@@ -127,7 +127,7 @@ const DogView = () => {
           >
             Consultar
           </Button>
-        </div>
+        </div> */}
 
         <div
           style={{
@@ -137,7 +137,7 @@ const DogView = () => {
           }}
         >
           <h3>Perros:</h3>
-          <Button variant="outlined" component={Link} to="/dogs/new">
+          <Button variant="contained" component={Link} to="/dogs/new">
             Crear Nuevo Perro
           </Button>
         </div>

@@ -116,7 +116,7 @@ const OperatorView = () => {
     <div>
       <h2 style={{ marginLeft: "10px" }}>Consultar Manejadores</h2>
       <div>
-        <div className="operator-filters">
+        {/* <div className="operator-filters">
           <TextField
             label="Filtrar por ID"
             value={filterID}
@@ -132,7 +132,7 @@ const OperatorView = () => {
           >
             Consultar
           </Button>
-        </div>
+        </div> */}
         <div
           style={{
             display: "flex",
@@ -142,7 +142,7 @@ const OperatorView = () => {
           }}
         >
           <h3>Manejadores:</h3>
-          <Button variant="outlined" component={Link} to="/operators/new">
+          <Button variant="contained" component={Link} to="/handlers/new">
             Crear Nuevo Manejador
           </Button>
         </div>
