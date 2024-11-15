@@ -61,7 +61,7 @@ const App = () => {
     }
   }, [location, navigate]);
 
-  if (!session) {
+  if (!session && location.pathname !== "/update-password") {
     return (
       <Box
         width="100vw"
