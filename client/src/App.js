@@ -22,7 +22,6 @@ import { Box, Container } from "@mui/material";
 import supabase from "./config/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import UpdatePassword from "./components/password/UpdatePassword";
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -43,30 +42,15 @@ const App = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (!session && location.pathname !== "/update-password") {
+      if (!session) {
         navigate("/");
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [location, navigate]);
+  }, [navigate]);
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.hash.replace("#", "?"));
-    const accessToken = searchParams.get("access_token");
-
-    if (accessToken) {
-      supabase.auth
-        .setSession({ access_token: accessToken })
-        .then(() => {
-          window.history.replaceState(null, "", window.location.pathname);
-          navigate("/update-password");
-        })
-        .catch((error) => console.error("Error setting session:", error));
-    }
-  }, [location.hash, navigate]);
-
-  if (!session && location.pathname !== "/update-password") {
+  if (!session) {
     return (
       <Box
         width="100vw"
@@ -160,13 +144,16 @@ const App = () => {
         </Container>
       </Box>
     );
-  } else
+  } else {
     return (
       <div>
         <CustomAppBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route
+            path="/update-password"
+            element={<Auth supabaseClient={supabase} />}
+          />
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/inspections" element={<InspectionView />} />
           <Route path="/inspections/new" element={<NewInspection />} />
@@ -177,6 +164,7 @@ const App = () => {
         </Routes>
       </div>
     );
+  }
 };
 
 export default App;
