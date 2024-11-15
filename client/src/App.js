@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./global.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import CustomAppBar from "./components/appbar/CustomAppBar";
 import HomePage from "./components/home/HomePage";
 import NewUser from "./components/createUser/newUser";
@@ -16,24 +22,44 @@ import { Box, Container } from "@mui/material";
 import supabase from "./config/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import UpdatePassword from "./components/password/UpdatePassword";
 
 const App = () => {
   const [session, setSession] = useState(null);
-  const [view, setView] = useState("sign_in");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       setSession(session);
-    });
+    };
+
+    fetchSession();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (!session && location.pathname !== "/update-password") {
+        navigate("/");
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [location, navigate]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.hash.replace("#", "?"));
+    const accessToken = searchParams.get("access_token");
+
+    if (accessToken) {
+      supabase.auth.setSession({ access_token: accessToken });
+      navigate("/update-password");
+    }
+  }, [location, navigate]);
 
   if (!session) {
     return (
@@ -132,19 +158,18 @@ const App = () => {
   } else
     return (
       <div>
-        <Router>
-          <CustomAppBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/newuser" element={<NewUser />} />
-            <Route path="/inspections" element={<InspectionView />} />
-            <Route path="/inspections/new" element={<NewInspection />} />
-            <Route path="/handlers" element={<OperatorView />} />
-            <Route path="/handlers/new" element={<NewOperator />} />
-            <Route path="/dogs" element={<DogView />} />
-            <Route path="/dogs/new" element={<NewDog />} />
-          </Routes>
-        </Router>
+        <CustomAppBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/newuser" element={<NewUser />} />
+          <Route path="/inspections" element={<InspectionView />} />
+          <Route path="/inspections/new" element={<NewInspection />} />
+          <Route path="/handlers" element={<OperatorView />} />
+          <Route path="/handlers/new" element={<NewOperator />} />
+          <Route path="/dogs" element={<DogView />} />
+          <Route path="/dogs/new" element={<NewDog />} />
+        </Routes>
       </div>
     );
 };

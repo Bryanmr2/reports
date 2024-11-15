@@ -68,4 +68,42 @@ const loginUser = async ({ email, password }) => {
   }
 };
 
-module.exports = { saveUserInDb, loginUser };
+const requestResetPassword = async (email) => {
+  try {
+    const { error } = await supabase.auth.api.resetPasswordForEmail(email);
+    if (error) {
+      console.error(
+        "Error al solicitar restablecimiento de contraseña:",
+        error.message
+      );
+      throw new Error(error.message);
+    }
+    return { message: "Correo de restablecimiento de contraseña enviado." };
+  } catch (err) {
+    console.error("Error en requestResetPassword:", err.message);
+    throw err;
+  }
+};
+
+const updatePassword = async (accessToken, newPassword) => {
+  try {
+    const { error } = await supabase.auth.api.updateUser(accessToken, {
+      password: newPassword,
+    });
+    if (error) {
+      console.error("Error al actualizar la contraseña:", error.message);
+      throw new Error(error.message);
+    }
+    return { message: "Contraseña actualizada correctamente." };
+  } catch (err) {
+    console.error("Error en updatePassword:", err.message);
+    throw err;
+  }
+};
+
+module.exports = {
+  saveUserInDb,
+  loginUser,
+  requestResetPassword,
+  updatePassword,
+};

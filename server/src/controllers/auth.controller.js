@@ -1,4 +1,9 @@
-const { saveUserInDb, loginUser } = require("../services/authService");
+const {
+  saveUserInDb,
+  loginUser,
+  requestResetPassword,
+  updatePassword,
+} = require("../services/authService");
 
 const registerUser = async (req, res) => {
   try {
@@ -32,4 +37,46 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, login };
+const requestResetPasswordController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res
+        .status(400)
+        .json({ message: "Correo electrónico es requerido" });
+    }
+
+    const result = await requestResetPassword(email);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(
+      "Error al solicitar restablecimiento de contraseña:",
+      err.message
+    );
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+const updatePasswordController = async (req, res) => {
+  try {
+    const { accessToken, newPassword } = req.body;
+    if (!accessToken || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Token de acceso y nueva contraseña son requeridos" });
+    }
+
+    const result = await updatePassword(accessToken, newPassword);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error("Error al actualizar la contraseña:", err.message);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+module.exports = {
+  registerUser,
+  login,
+  requestResetPasswordController,
+  updatePasswordController,
+};
