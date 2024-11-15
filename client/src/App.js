@@ -50,7 +50,9 @@ const App = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  if (!session) {
+  const isUpdatePasswordFlow = location.hash.includes("access_token");
+
+  if (isUpdatePasswordFlow) {
     return (
       <Box
         width="100vw"
