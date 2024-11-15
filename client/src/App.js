@@ -56,10 +56,15 @@ const App = () => {
     const accessToken = searchParams.get("access_token");
 
     if (accessToken) {
-      supabase.auth.setSession({ access_token: accessToken });
-      navigate("/update-password");
+      supabase.auth
+        .setSession({ access_token: accessToken })
+        .then(() => {
+          window.history.replaceState(null, "", window.location.pathname);
+          navigate("/update-password");
+        })
+        .catch((error) => console.error("Error setting session:", error));
     }
-  }, [location, navigate]);
+  }, [location.hash, navigate]);
 
   if (!session && location.pathname !== "/update-password") {
     return (
