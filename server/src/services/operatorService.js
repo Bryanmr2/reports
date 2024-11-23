@@ -25,7 +25,7 @@ const postOperator = async (operator) => {
         curp: operator.curp,
         birth: operator.birth,
         number: operator.number,
-        adress: operator.adress,
+        social_number: operator.social_number,
       },
     ]);
 

@@ -151,24 +151,24 @@ const OperatorView = () => {
             <Table aria-label="table">
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
                   <TableCell>Nombre(s)</TableCell>
                   <TableCell>Apellidos</TableCell>
                   <TableCell>CURP</TableCell>
                   <TableCell>Fecha de nacimiento</TableCell>
                   <TableCell>Telefono</TableCell>
+                  <TableCell>Número de SS</TableCell>
                   <TableCell>Acciones</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {filteredOperators.map((operator) => (
                   <TableRow key={operator.id}>
-                    <TableCell>{operator.id}</TableCell>
                     <TableCell>{operator.name}</TableCell>
                     <TableCell>{operator.last_name}</TableCell>
                     <TableCell>{operator.curp}</TableCell>
                     <TableCell>{operator.birth}</TableCell>
                     <TableCell>{operator.number}</TableCell>
+                    <TableCell>{operator.social_number}</TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"

@@ -19,7 +19,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
   const onSubmit = async (data) => {
     console.log("Submit button clicked");
     console.log("Form data:", data);
-    const { name, last_name, birth, number, adress, curp } = data;
+    const { name, last_name, birth, number, curp, social_number } = data;
 
     try {
       const response = await axios.post(`${baseUrl}/api/operator`, {
@@ -28,7 +28,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
         curp,
         birth,
         number,
-        adress,
+        social_number,
       });
       console.log("Registro exitoso: ", response.data);
       reset();
@@ -56,7 +56,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "50%",
+              marginTop: "10%",
             }}
           >
             <h2>Registro generado con éxito</h2>
@@ -75,7 +75,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
             <h2 style={{ marginBottom: "40px" }}>Registrar Manejador</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <InputLabel htmlFor="name">Nombre</InputLabel>
+                <InputLabel htmlFor="name">Nombre(s)</InputLabel>
                 <OutlinedInput
                   type="text"
                   {...register("name", {
@@ -121,19 +121,14 @@ const NewOperator = ({ setIsLoggedIn }) => {
                   CURP
                 </InputLabel>
                 <OutlinedInput
+                  id="curp"
                   type="text"
                   {...register("curp", {
-                    required: {
-                      value: true,
-                      message: "El CURP es requerido",
-                    },
-                    minLength: {
-                      value: 18,
-                      message: "El CURP debe tener 18 caracteres",
-                    },
-                    maxLength: {
-                      value: 18,
-                      message: "El CURP debe tener 18 caracteres",
+                    required: "El CURP es requerido",
+                    pattern: {
+                      value: /^[A-Z0-9]{18}$/,
+                      message:
+                        "El CURP debe tener exactamente 18 caracteres alfanuméricos",
                     },
                   })}
                 />
@@ -143,13 +138,11 @@ const NewOperator = ({ setIsLoggedIn }) => {
                   Fecha de nacimiento
                 </InputLabel>
                 <OutlinedInput
+                  id="birth"
                   type="date"
                   sx={{ width: "100%" }}
                   {...register("birth", {
-                    required: {
-                      value: true,
-                      message: "La fecha de nacimiento es requerida",
-                    },
+                    required: "La fecha de nacimiento es requerida",
                   })}
                 />
                 {errors.birth && <span>{errors.birth.message}</span>}
@@ -158,33 +151,39 @@ const NewOperator = ({ setIsLoggedIn }) => {
                   Número de teléfono
                 </InputLabel>
                 <OutlinedInput
-                  type="tel"
+                  id="number"
+                  type="text"
                   {...register("number", {
-                    required: {
-                      value: true,
-                      message: "El número de teléfono es requerido",
-                    },
                     pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "El número de teléfono debe tener 10 dígitos",
+                      value: /^\d{10}$/,
+                      message:
+                        "El número de teléfono debe tener exactamente 10 dígitos",
                     },
                   })}
                 />
                 {errors.number && <span>{errors.number.message}</span>}
 
-                <InputLabel htmlFor="adress" sx={{ marginTop: "10%" }}>
-                  Dirección
+                <InputLabel htmlFor="social_number" sx={{ marginTop: "10%" }}>
+                  Número de seguro social
                 </InputLabel>
                 <OutlinedInput
+                  id="social_number"
                   type="text"
-                  {...register("adress", {
+                  {...register("social_number", {
                     required: {
                       value: true,
-                      message: "La dirección es requerida",
+                      message: "El número de seguro social es obligatorio",
+                    },
+                    pattern: {
+                      value: /^\d{11}$/,
+                      message:
+                        "El número de seguro social debe tener exactamente 11 dígitos",
                     },
                   })}
                 />
-                {errors.adress && <span>{errors.adress.message}</span>}
+                {errors.social_number && (
+                  <span>{errors.social_number.message}</span>
+                )}
               </div>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Button

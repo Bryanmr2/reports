@@ -16,7 +16,7 @@ const getOperatorsHandler = async (req, res) => {
 };
 
 const postOperatorsHandler = async (req, res) => {
-  const { id, name, last_name, curp, birth, number, adress } = req.body;
+  const { id, name, last_name, curp, birth, number, social_number } = req.body;
   try {
     const newOperator = await postOperator({
       id,
@@ -25,7 +25,7 @@ const postOperatorsHandler = async (req, res) => {
       curp,
       birth,
       number,
-      adress,
+      social_number,
     });
     res.status(201).json(newOperator);
   } catch (error) {
@@ -47,7 +47,7 @@ const deleteOperatorHandler = async (req, res) => {
 
 const editOperatorHandler = async (req, res) => {
   const operatorId = req.params.id;
-  const { name, last_name, curp, birth, number, address } = req.body;
+  const { name, last_name, curp, birth, number, social_number } = req.body;
   try {
     const newData = {
       name: name,
@@ -55,7 +55,7 @@ const editOperatorHandler = async (req, res) => {
       curp: curp,
       birth: birth,
       number: number,
-      address: address,
+      social_number: social_number,
     };
     await editOperator(operatorId, newData);
     res.status(200).json({ message: "Manejador actualizado correctamente" });

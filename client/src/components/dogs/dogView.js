@@ -136,7 +136,7 @@ const DogView = () => {
             padding: "10px",
           }}
         >
-          <h3>Perros:</h3>
+          <h3>K9:</h3>
           <Button variant="contained" component={Link} to="/dogs/new">
             Crear Nuevo Perro
           </Button>
@@ -147,7 +147,6 @@ const DogView = () => {
             <Table aria-label="table">
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
                   <TableCell>Nombre</TableCell>
                   <TableCell>Raza</TableCell>
                   <TableCell>Edad</TableCell>
@@ -159,7 +158,6 @@ const DogView = () => {
               <TableBody>
                 {filteredDogs.map((dog) => (
                   <TableRow key={dog.id}>
-                    <TableCell>{dog.id}</TableCell>
                     <TableCell>{dog.name}</TableCell>
                     <TableCell>{dog.breed}</TableCell>
                     <TableCell>{dog.age}</TableCell>

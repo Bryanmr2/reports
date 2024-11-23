@@ -59,7 +59,7 @@ const HomePage = () => {
               color="primary"
               className="option-buttons"
             >
-              Perros
+              K9
             </Button>
           </Link>
         </div>
