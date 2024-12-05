@@ -19,6 +19,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import baseUrl from "../../config";
@@ -38,7 +39,7 @@ const DogView = () => {
       const response = await axios.get(`${baseUrl}/api/dog`);
       setDogs(response.data);
     } catch (error) {
-      console.error("Error al obtener perros:", error);
+      console.error("Error al obtener k9:", error);
     }
   };
 
@@ -109,7 +110,7 @@ const DogView = () => {
 
   return (
     <div>
-      <h2 style={{ marginLeft: "10px" }}>Consultar Perros</h2>
+      <h2 style={{ marginLeft: "10px" }}>Consultar K9</h2>
       <div>
         {/* <div className="dog-filters">
           <TextField
@@ -164,6 +165,32 @@ const DogView = () => {
                     <TableCell>{dog.gender}</TableCell>
                     <TableCell>{dog.color}</TableCell>
                     <TableCell>
+                      <TableCell>
+                        {dog.pdf_url ? (
+                          <Box display="flex" alignItems="center">
+                            <IconButton
+                              color="primary"
+                              component="a"
+                              href={dog.pdf_url}
+                              target="_blank"
+                              style={{ padding: 4 }}
+                            >
+                              <PictureAsPdfIcon style={{ color: "red" }} />
+                            </IconButton>
+                            <Typography
+                              variant="caption"
+                              color="textPrimary"
+                              style={{ marginLeft: 4 }}
+                            >
+                              Vacunación
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Typography variant="body2" color="textSecondary">
+                            Sin documento
+                          </Typography>
+                        )}
+                      </TableCell>
                       <IconButton
                         color="primary"
                         onClick={() => openEditDialog(dog)}

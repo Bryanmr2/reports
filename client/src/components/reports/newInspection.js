@@ -80,7 +80,7 @@ const NewInspection = () => {
         const response = await axios.get(`${baseUrl}/api/dog`);
         setDogNames(response.data.map((dog) => dog.name));
       } catch (error) {
-        console.error("Error al obtener perros:", error);
+        console.error("Error al obtener k9:", error);
       }
     };
 

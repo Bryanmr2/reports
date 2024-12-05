@@ -10,15 +10,24 @@ const getDogHandler = async (req, res) => {
     const dogs = await getDogs();
     res.status(200).json(dogs);
   } catch (error) {
-    console.error("Error al obtener perros:", error.message);
+    console.error("Error al obtener k9:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
 
 const postDogHandler = async (req, res) => {
-  const { id, name, breed, age, gender, color } = req.body;
+  const { name, breed, age, gender, color } = req.body;
+  const file = req.file;
+
   try {
-    const newDog = await postDogs({ id, name, breed, age, gender, color });
+    const newDog = await postDogs({
+      name,
+      breed,
+      age,
+      gender,
+      color,
+      file,
+    });
     res.status(201).json(newDog);
   } catch (error) {
     console.error("Error al insertar perro:", error.message);

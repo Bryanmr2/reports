@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
 const userRouter = require("./src/routes/users.routes");
 const operatorRoutes = require("./src/routes/operator.routes");
 const dogRoutes = require("./src/routes/dog.routes");
@@ -8,6 +9,10 @@ const inspectionRoutes = require("./src/routes/inspection.routes");
 
 // Inicializaciones
 const app = express();
+
+// Configuración de Multer
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Configuración de CORS
 app.use(
@@ -26,6 +31,7 @@ app.get("/", (req, res) => res.status(200).send("App is working"));
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
+app.use("/api", upload.single("file"));
 app.use("/api", userRouter);
 app.use("/api", operatorRoutes);
 app.use("/api", dogRoutes);

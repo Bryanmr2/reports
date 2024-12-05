@@ -20,17 +20,20 @@ const NewDog = ({ setIsLoggedIn }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log("Submit button clicked");
-    console.log("Form data:", data);
-    const { name, breed, age, gender, color } = data;
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("breed", data.breed);
+    formData.append("age", data.age);
+    formData.append("gender", data.gender);
+    formData.append("color", data.color);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
+      console.log("Archivo PDF:", data.file[0]);
+    }
 
     try {
-      const response = await axios.post(`${baseUrl}/api/dog`, {
-        name,
-        breed,
-        age,
-        gender,
-        color,
+      const response = await axios.post(`${baseUrl}/api/dog`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Registro exitoso: ", response.data);
       reset();
@@ -54,7 +57,7 @@ const NewDog = ({ setIsLoggedIn }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "50%",
+              marginTop: "10%",
             }}
           >
             <h2>Registro generado con éxito</h2>
@@ -63,19 +66,20 @@ const NewDog = ({ setIsLoggedIn }) => {
               variant="contained"
               style={{ marginTop: "15px" }}
             >
-              Registrar un nuevo perro
+              Registrar un nuevo k9
             </Button>
           </Box>
         </>
       ) : (
         <div>
           <div className="create-container">
-            <h2>Registro de Perro</h2>
+            <h2>Registro de k9</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <InputLabel htmlFor="name">Nombre</InputLabel>
                 <OutlinedInput
                   type="text"
+                  sx={{ width: "100%" }}
                   {...register("name", {
                     required: {
                       value: true,
@@ -90,6 +94,7 @@ const NewDog = ({ setIsLoggedIn }) => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
+                  sx={{ width: "100%" }}
                   {...register("breed", {
                     required: {
                       value: true,
@@ -104,6 +109,7 @@ const NewDog = ({ setIsLoggedIn }) => {
                 </InputLabel>
                 <OutlinedInput
                   type="number"
+                  sx={{ width: "100%" }}
                   {...register("age", {
                     required: {
                       value: true,
@@ -138,6 +144,7 @@ const NewDog = ({ setIsLoggedIn }) => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
+                  sx={{ width: "100%" }}
                   {...register("color", {
                     required: {
                       value: true,
@@ -146,6 +153,11 @@ const NewDog = ({ setIsLoggedIn }) => {
                   })}
                 />
                 {errors.color && <span>{errors.color.message}</span>}
+
+                <InputLabel htmlFor="file" style={{ marginTop: "10%" }}>
+                  Tarjeta de Vacunación (opcional)
+                </InputLabel>
+                <OutlinedInput type="file" {...register("file")} />
               </div>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Button
