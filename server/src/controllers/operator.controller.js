@@ -17,6 +17,7 @@ const getOperatorsHandler = async (req, res) => {
 
 const postOperatorsHandler = async (req, res) => {
   const { id, name, last_name, curp, birth, number, social_number } = req.body;
+  const file = req.file;
   try {
     const newOperator = await postOperator({
       id,
@@ -26,10 +27,11 @@ const postOperatorsHandler = async (req, res) => {
       birth,
       number,
       social_number,
+      file,
     });
     res.status(201).json(newOperator);
   } catch (error) {
-    console.error("Error al insertar manejadores:", error.message);
+    console.error("Error al insertar manejador:", error.message);
     res.status(500).json({ error: error.message });
   }
 };

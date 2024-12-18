@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import "./operatorView.css";
 import baseUrl from "../../config";
 
@@ -116,23 +117,6 @@ const OperatorView = () => {
     <div>
       <h2 style={{ marginLeft: "10px" }}>Consultar Manejadores</h2>
       <div>
-        {/* <div className="operator-filters">
-          <TextField
-            label="Filtrar por ID"
-            value={filterID}
-            onChange={(e) => setFilterID(e.target.value)}
-            className="operator-filter-id"
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleFetchOperators}
-            className="operator-consult"
-          >
-            Consultar
-          </Button>
-        </div> */}
         <div
           style={{
             display: "flex",
@@ -157,6 +141,7 @@ const OperatorView = () => {
                   <TableCell>Fecha de nacimiento</TableCell>
                   <TableCell>Telefono</TableCell>
                   <TableCell>Número de SS</TableCell>
+                  <TableCell>Documento</TableCell>
                   <TableCell>Acciones</TableCell>
                 </TableRow>
               </TableHead>
@@ -170,9 +155,26 @@ const OperatorView = () => {
                     <TableCell>{operator.number}</TableCell>
                     <TableCell>{operator.social_number}</TableCell>
                     <TableCell>
+                      {operator.pdf_url ? (
+                        <IconButton
+                          color="primary"
+                          component="a"
+                          href={operator.pdf_url}
+                          target="_blank"
+                        >
+                          <PictureAsPdfIcon />
+                        </IconButton>
+                      ) : (
+                        <Typography variant="body2" color="textSecondary">
+                          Sin documento
+                        </Typography>
+                      )}
+                    </TableCell>
+
+                    <TableCell>
                       <IconButton
                         color="primary"
-                        onClick={() => openEditDialog(operator)}
+                        onClick={() => setEditDialogOpen(true)}
                       >
                         <EditIcon />
                       </IconButton>
