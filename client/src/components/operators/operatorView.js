@@ -69,7 +69,7 @@ const OperatorView = () => {
             size="small"
             sx={{ height: "40px" }}
             component={Link}
-            to="/operators/new"
+            to="/handlers/new"
           >
             Crear Nuevo Manejador
           </Button>
