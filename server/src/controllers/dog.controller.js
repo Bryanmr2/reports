@@ -3,6 +3,7 @@ const {
   postDogs,
   deleteDog,
   editDog,
+  getDogById,
 } = require("../services/dogsService");
 
 const getDogHandler = async (req, res) => {
@@ -11,6 +12,20 @@ const getDogHandler = async (req, res) => {
     res.status(200).json(dogs);
   } catch (error) {
     console.error("Error al obtener k9:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getDogByIdHandler = async (req, res) => {
+  const dogId = req.params.id;
+  try {
+    const dog = await getDogById(dogId);
+    if (!dog) {
+      return res.status(404).json({ message: "Perro no encontrado" });
+    }
+    res.status(200).json(dog);
+  } catch (error) {
+    console.error("Error al obtener el perro:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -66,6 +81,7 @@ const editDogHandler = async (req, res) => {
 };
 
 module.exports = {
+  getDogByIdHandler,
   getDogHandler,
   postDogHandler,
   deleteDogHandler,

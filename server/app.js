@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use("/api", upload.single("file"));
+
 app.use("/api", userRouter);
 app.use("/api", operatorRoutes);
 app.use("/api", dogRoutes);

@@ -1,5 +1,24 @@
 const supabase = require("../config/supabase");
 
+const getDogById = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("dog")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error al obtener el perro:", error.message);
+    throw error;
+  }
+};
+
 const getDogs = async () => {
   try {
     const { data, error } = await supabase.from("dog").select("*");
@@ -109,4 +128,4 @@ const editDog = async (dogId, newData) => {
   }
 };
 
-module.exports = { getDogs, postDogs, deleteDog, editDog };
+module.exports = { getDogs, postDogs, deleteDog, editDog, getDogById };

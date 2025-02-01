@@ -16,6 +16,7 @@ import OperatorView from "./components/operators/operatorView";
 import NewOperator from "./components/operators/createOperator/newOperator";
 import NewDog from "./components/dogs/createDogs/newDog";
 import DogView from "./components/dogs/dogView";
+import DogInfo from "./components/dogs/dogInfo";
 import Typography from "@mui/material/Typography";
 import Logo from "./images/logo.jpg";
 import { Box, Container } from "@mui/material";
@@ -161,6 +162,7 @@ const App = () => {
           <Route path="/handlers/new" element={<NewOperator />} />
           <Route path="/dogs" element={<DogView />} />
           <Route path="/dogs/new" element={<NewDog />} />
+          <Route path="/dogs/:id" element={<DogInfo />} />
         </Routes>
       </div>
     );

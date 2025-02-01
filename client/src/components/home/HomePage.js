@@ -24,7 +24,6 @@ const HomePage = () => {
         }}
       />
       <div className="home-container">
-        <h2>Elige una opción</h2>
         <div className="options">
           {/* <Link to="/inspections/new">
             <Button
