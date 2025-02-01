@@ -13,6 +13,7 @@ import NewUser from "./components/createUser/newUser";
 import NewInspection from "./components/reports/newInspection";
 import InspectionView from "./components/reports/view/inspectionView";
 import OperatorView from "./components/operators/operatorView";
+import OperatorInfo from "./components/operators/operatorInfo";
 import NewOperator from "./components/operators/createOperator/newOperator";
 import NewDog from "./components/dogs/createDogs/newDog";
 import DogView from "./components/dogs/dogView";
@@ -156,10 +157,14 @@ const App = () => {
             element={<Auth supabaseClient={supabase} />}
           />
           <Route path="/newuser" element={<NewUser />} />
+
           <Route path="/inspections" element={<InspectionView />} />
           <Route path="/inspections/new" element={<NewInspection />} />
+
           <Route path="/handlers" element={<OperatorView />} />
           <Route path="/handlers/new" element={<NewOperator />} />
+          <Route path="/handlers/:id" element={<OperatorInfo />} />
+
           <Route path="/dogs" element={<DogView />} />
           <Route path="/dogs/new" element={<NewDog />} />
           <Route path="/dogs/:id" element={<DogInfo />} />

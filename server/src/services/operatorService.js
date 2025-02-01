@@ -1,5 +1,24 @@
 const supabase = require("../config/supabase");
 
+const getOperatorById = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("operator")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error al obtener el manejador:", error.message);
+    throw error;
+  }
+};
+
 const getOperator = async () => {
   try {
     const { data, error } = await supabase.from("operator").select("*");
@@ -115,4 +134,10 @@ const editOperator = async (operatorId, newData) => {
   }
 };
 
-module.exports = { getOperator, postOperator, deleteOperator, editOperator };
+module.exports = {
+  getOperator,
+  getOperatorById,
+  postOperator,
+  deleteOperator,
+  editOperator,
+};

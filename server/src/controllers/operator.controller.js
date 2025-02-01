@@ -1,5 +1,6 @@
 const {
   getOperator,
+  getOperatorById,
   postOperator,
   deleteOperator,
   editOperator,
@@ -11,6 +12,22 @@ const getOperatorsHandler = async (req, res) => {
     res.status(200).json(operator);
   } catch (error) {
     console.error("Error al obtener manejadores:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getOperatorByIdHandler = async (req, res) => {
+  const operatorId = req.params.id;
+  console.log(`Handler: obteniendo operador con ID: ${operatorId}`);
+  try {
+    const operator = await getOperatorById(operatorId);
+    if (!operator) {
+      console.log(`Operador con ID: ${operatorId} no encontrado`);
+      return res.status(404).json({ message: "Manejador no encontrado" });
+    }
+    res.status(200).json(operator);
+  } catch (error) {
+    console.error("Error al obtener el manejador:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -68,6 +85,7 @@ const editOperatorHandler = async (req, res) => {
 };
 
 module.exports = {
+  getOperatorByIdHandler,
   getOperatorsHandler,
   postOperatorsHandler,
   deleteOperatorHandler,
