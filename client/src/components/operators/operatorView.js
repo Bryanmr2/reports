@@ -80,8 +80,8 @@ const OperatorView = () => {
             <Table aria-label="table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Nombre</TableCell>
-                  <TableCell>Apellido</TableCell>
+                  <TableCell>Nombre(s)</TableCell>
+                  <TableCell>Apellido(s)</TableCell>
                   <TableCell align="right">Acciones</TableCell>
                 </TableRow>
               </TableHead>
