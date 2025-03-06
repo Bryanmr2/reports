@@ -93,6 +93,105 @@ const postOperator = async (operator) => {
       }
     }
 
+    // Subir archivo de certificación
+    if (operator.certificacion) {
+      const filePathCert = `handlers/certificacion/${operatorId}_certificacion.pdf`;
+      console.log("Subiendo certificación a:", filePathCert);
+
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(filePathCert, operator.certificacion.buffer, {
+          contentType: operator.certificacion.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(filePathCert);
+
+      const certificacionUrl = publicUrlData.publicUrl;
+
+      const { error: updateError } = await supabase
+        .from("operator")
+        .update({ certificacion_url: certificacionUrl })
+        .eq("id", operatorId);
+
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+    }
+
+    // Subir archivo de constancia
+    if (operator.constancia) {
+      const filePathConst = `handlers/constancia/${operatorId}_constancia.pdf`;
+      console.log("Subiendo constancia a:", filePathConst);
+
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(filePathConst, operator.constancia.buffer, {
+          contentType: operator.constancia.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(filePathConst);
+
+      const constanciaUrl = publicUrlData.publicUrl;
+
+      const { error: updateError } = await supabase
+        .from("operator")
+        .update({ constancia_url: constanciaUrl })
+        .eq("id", operatorId);
+
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+    }
+
+    // Subir archivo de INE
+    if (operator.ine) {
+      const filePathIne = `handlers/ine/${operatorId}_ine.pdf`;
+      console.log("Subiendo INE a:", filePathIne);
+
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(filePathIne, operator.ine.buffer, {
+          contentType: operator.ine.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(filePathIne);
+
+      const ineUrl = publicUrlData.publicUrl;
+
+      const { error: updateError } = await supabase
+        .from("operator")
+        .update({ ine_url: ineUrl })
+        .eq("id", operatorId);
+
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+    }
+
     return { message: "Manejador creado correctamente", operatorId };
   } catch (error) {
     console.error("Error al insertar manejador:", error.message);

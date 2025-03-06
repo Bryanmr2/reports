@@ -34,7 +34,13 @@ const getOperatorByIdHandler = async (req, res) => {
 
 const postOperatorsHandler = async (req, res) => {
   const { id, name, last_name, curp, birth, number, social_number } = req.body;
-  const file = req.file;
+
+  const file = req.files?.file ? req.files.file[0] : null;
+  const certificacion = req.files?.certificacion
+    ? req.files.certificacion[0]
+    : null;
+  const constancia = req.files?.constancia ? req.files.constancia[0] : null;
+  const ine = req.files?.ine ? req.files.ine[0] : null;
   try {
     const newOperator = await postOperator({
       id,
@@ -45,6 +51,9 @@ const postOperatorsHandler = async (req, res) => {
       number,
       social_number,
       file,
+      certificacion,
+      constancia,
+      ine,
     });
     res.status(201).json(newOperator);
   } catch (error) {

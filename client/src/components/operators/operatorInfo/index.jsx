@@ -179,7 +179,7 @@ const OperatorInfo = () => {
             sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
           >
             <Typography variant="body1">
-              <strong>Documento:</strong>
+              <strong>Antidoping:</strong>
             </Typography>
             {operator.pdf_url ? (
               <Box display="flex" alignItems="center" ml={1}>
@@ -192,13 +192,93 @@ const OperatorInfo = () => {
                 >
                   <PictureAsPdfIcon style={{ color: "red" }} />
                 </IconButton>
-                <Typography
-                  variant="caption"
-                  color="textPrimary"
-                  style={{ marginLeft: 4 }}
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Certificación:</strong>
+            </Typography>
+            {operator.certificacion_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.certificacion_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
                 >
-                  ANTIDOPING
-                </Typography>
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Constancia:</strong>
+            </Typography>
+            {operator.constancia_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.constancia_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>INE:</strong>
+            </Typography>
+            {operator.ine_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.ine_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
               </Box>
             ) : (
               <Typography variant="body2" color="textSecondary" ml={1}>
@@ -251,7 +331,7 @@ const OperatorInfo = () => {
           />
           <TextField
             margin="dense"
-            label="Telefono"
+            label="Teléfono"
             type="text"
             name="number"
             value={editedOperator ? editedOperator.number : ""}
@@ -273,6 +353,42 @@ const OperatorInfo = () => {
             type="file"
             name="file"
             onChange={handleFileChange}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="Certificación (opcional)"
+            type="file"
+            name="certificacion"
+            onChange={(e) =>
+              setEditedOperator({
+                ...editedOperator,
+                certificacion: e.target.files[0],
+              })
+            }
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="Constancia (opcional)"
+            type="file"
+            name="constancia"
+            onChange={(e) =>
+              setEditedOperator({
+                ...editedOperator,
+                constancia: e.target.files[0],
+              })
+            }
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="INE (opcional)"
+            type="file"
+            name="ine"
+            onChange={(e) =>
+              setEditedOperator({ ...editedOperator, ine: e.target.files[0] })
+            }
             fullWidth
           />
         </DialogContent>

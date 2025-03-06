@@ -30,6 +30,18 @@ const NewOperator = ({ setIsLoggedIn }) => {
       formData.append("file", data.file[0]);
     }
 
+    if (data.ine && data.ine[0]) {
+      formData.append("ine", data.ine[0]);
+    }
+
+    if (data.constancia && data.constancia[0]) {
+      formData.append("constancia", data.constancia[0]);
+    }
+
+    if (data.certificacion && data.certificacion[0]) {
+      formData.append("certificacion", data.certificacion[0]);
+    }
+
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": ", pair[1]);
     }
@@ -173,7 +185,23 @@ const NewOperator = ({ setIsLoggedIn }) => {
                 {errors.social_number && (
                   <span>{errors.social_number.message}</span>
                 )}
+                <InputLabel htmlFor="ine" style={{ marginTop: "10%" }}>
+                  INE
+                </InputLabel>
+                <OutlinedInput type="file" {...register("ine")} />
 
+                <InputLabel htmlFor="constancia" style={{ marginTop: "10%" }}>
+                  Constancia
+                </InputLabel>
+                <OutlinedInput type="file" {...register("constancia")} />
+
+                <InputLabel
+                  htmlFor="certificacion"
+                  style={{ marginTop: "10%" }}
+                >
+                  Certificación
+                </InputLabel>
+                <OutlinedInput type="file" {...register("certificacion")} />
                 <InputLabel htmlFor="file" style={{ marginTop: "10%" }}>
                   Documento (opcional)
                 </InputLabel>

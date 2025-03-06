@@ -31,7 +31,15 @@ app.get("/", (req, res) => res.status(200).send("App is working"));
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
-app.use("/api", upload.single("file"));
+app.use(
+  "/api",
+  upload.fields([
+    { name: "file", maxCount: 1 },
+    { name: "certificacion", maxCount: 1 },
+    { name: "constancia", maxCount: 1 },
+    { name: "ine", maxCount: 1 },
+  ])
+);
 
 app.use("/api", userRouter);
 app.use("/api", operatorRoutes);
