@@ -30,7 +30,6 @@ const DogInfo = () => {
   useEffect(() => {
     const fetchDogInfo = async () => {
       try {
-        console.log(`Fetching details for dog ID: ${id}`); // Log adicional
         const response = await axios.get(`${baseUrl}/api/dog/${id}`);
         console.log("Dog details fetched successfully:", response.data); // Log adicional
         setDog(response.data);

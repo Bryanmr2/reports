@@ -36,7 +36,6 @@ const OperatorView = () => {
   const handleFetchOperators = async () => {
     try {
       const response = await axios.get(`${baseUrl}/api/operator`);
-      console.log("Operators fetched successfully:", response.data); // Log adicional
       setOperators(response.data);
     } catch (error) {
       console.error("Error fetching operators:", error);
@@ -48,7 +47,6 @@ const OperatorView = () => {
   }, []);
 
   const handleViewDetails = (operator) => {
-    console.log(`Navigating to details for operator ID: ${operator.id}`);
     navigate(`/handlers/${operator.id}`);
   };
 

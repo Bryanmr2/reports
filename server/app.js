@@ -38,6 +38,7 @@ app.use(
     { name: "certificacion", maxCount: 1 },
     { name: "constancia", maxCount: 1 },
     { name: "ine", maxCount: 1 },
+    { name: "antecedentes", maxCount: 1 },
   ])
 );
 

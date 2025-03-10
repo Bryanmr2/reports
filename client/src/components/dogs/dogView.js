@@ -46,7 +46,6 @@ const DogView = () => {
   }, []);
 
   const handleViewDetails = (dog) => {
-    console.log(`Navigating to details for dog ID: ${dog.id}`);
     navigate(`/dogs/${dog.id}`);
   };
 

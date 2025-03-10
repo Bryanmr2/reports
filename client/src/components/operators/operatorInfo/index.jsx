@@ -16,6 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import baseUrl from "../../../config";
 
 const OperatorInfo = () => {
@@ -25,12 +26,16 @@ const OperatorInfo = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [editedOperator, setEditedOperator] = useState(null);
   const [error, setError] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: "",
+    docType: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOperatorInfo = async () => {
       try {
-        console.log(`Fetching details for operator ID: ${id}`);
         const response = await axios.get(`${baseUrl}/api/operator/${id}`);
         console.log("Operator details fetched successfully:", response.data);
         setOperator(response.data);
@@ -56,11 +61,88 @@ const OperatorInfo = () => {
   };
 
   const handleEditOperator = async () => {
+    const formData = new FormData();
+    formData.append("name", editedOperator.name);
+    formData.append("last_name", editedOperator.last_name);
+    formData.append("curp", editedOperator.curp);
+    formData.append("birth", editedOperator.birth);
+    formData.append("number", editedOperator.number);
+    formData.append("social_number", editedOperator.social_number);
+
+    // Documento (Antidoping)
+    if (editedOperator.file) {
+      console.log(
+        "Nuevo archivo de antidoping seleccionado:",
+        editedOperator.file
+      );
+      formData.append("file", editedOperator.file);
+    } else if (editedOperator.pdf_url === null) {
+      console.log("Flag delete_file enviado");
+      formData.append("delete_file", "true");
+    }
+
+    // Certificación
+    if (editedOperator.certificacion) {
+      console.log(
+        "Nuevo archivo de certificación seleccionado:",
+        editedOperator.certificacion
+      );
+      formData.append("certificacion", editedOperator.certificacion);
+    } else if (editedOperator.certificacion_url === null) {
+      console.log("Flag delete_certificacion enviado");
+      formData.append("delete_certificacion", "true");
+    }
+
+    // Constancia
+    if (editedOperator.constancia) {
+      console.log(
+        "Nuevo archivo de constancia seleccionado:",
+        editedOperator.constancia
+      );
+      formData.append("constancia", editedOperator.constancia);
+    } else if (editedOperator.constancia_url === null) {
+      console.log("Flag delete_constancia enviado");
+      formData.append("delete_constancia", "true");
+    }
+
+    // INE
+    if (editedOperator.ine) {
+      console.log("Nuevo archivo de INE seleccionado:", editedOperator.ine);
+      formData.append("ine", editedOperator.ine);
+    } else if (editedOperator.ine_url === null) {
+      console.log("Flag delete_ine enviado");
+      formData.append("delete_ine", "true");
+    }
+
+    // Antecedentes
+    if (editedOperator.antecedentes) {
+      console.log(
+        "Nuevo archivo de antecedentes seleccionado:",
+        editedOperator.antecedentes
+      );
+      formData.append("antecedentes", editedOperator.antecedentes);
+    } else if (editedOperator.antecedentes_url === null) {
+      console.log("Flag delete_antecedentes enviado");
+      formData.append("delete_antecedentes", "true");
+    }
+
+    // Log de las entradas del FormData para verificar
+    console.log("Contenido del FormData:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key + ": ", value);
+    }
+
     try {
       await axios.put(
         `${baseUrl}/api/operator/${editedOperator.id}`,
-        editedOperator
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+      // Actualizamos el estado del operador con la información editada, que ahora incluye el URL temporal del PDF
       setOperator(editedOperator);
       closeEditDialog();
     } catch (error) {
@@ -71,10 +153,6 @@ const OperatorInfo = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedOperator({ ...editedOperator, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
-    setEditedOperator({ ...editedOperator, file: e.target.files[0] });
   };
 
   const openConfirmDialog = () => {
@@ -161,7 +239,7 @@ const OperatorInfo = () => {
         <Grid item xs={12} sm={6}>
           <Box sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}>
             <Typography variant="body1">
-              <strong>Telefono:</strong> {operator.number}
+              <strong>Teléfono:</strong> {operator.number}
             </Typography>
           </Box>
         </Grid>
@@ -172,6 +250,7 @@ const OperatorInfo = () => {
             </Typography>
           </Box>
         </Grid>
+        {/* Antidoping */}
         <Grid item xs={12} sm={6}>
           <Box
             display="flex"
@@ -200,7 +279,7 @@ const OperatorInfo = () => {
             )}
           </Box>
         </Grid>
-
+        {/* Certificación */}
         <Grid item xs={12} sm={6}>
           <Box
             display="flex"
@@ -229,7 +308,7 @@ const OperatorInfo = () => {
             )}
           </Box>
         </Grid>
-
+        {/* Constancia */}
         <Grid item xs={12} sm={6}>
           <Box
             display="flex"
@@ -258,7 +337,7 @@ const OperatorInfo = () => {
             )}
           </Box>
         </Grid>
-
+        {/* INE */}
         <Grid item xs={12} sm={6}>
           <Box
             display="flex"
@@ -274,6 +353,35 @@ const OperatorInfo = () => {
                   color="primary"
                   component="a"
                   href={operator.ine_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+        {/* Antecedentes */}
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Antecedentes:</strong>
+            </Typography>
+            {operator.antecedentes_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.antecedentes_url}
                   target="_blank"
                   style={{ padding: 4 }}
                 >
@@ -347,50 +455,301 @@ const OperatorInfo = () => {
             onChange={handleInputChange}
             fullWidth
           />
-          <TextField
-            margin="dense"
-            label="Documento (opcional)"
-            type="file"
-            name="file"
-            onChange={handleFileChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Certificación (opcional)"
-            type="file"
-            name="certificacion"
-            onChange={(e) =>
-              setEditedOperator({
-                ...editedOperator,
-                certificacion: e.target.files[0],
-              })
-            }
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Constancia (opcional)"
-            type="file"
-            name="constancia"
-            onChange={(e) =>
-              setEditedOperator({
-                ...editedOperator,
-                constancia: e.target.files[0],
-              })
-            }
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="INE (opcional)"
-            type="file"
-            name="ine"
-            onChange={(e) =>
-              setEditedOperator({ ...editedOperator, ine: e.target.files[0] })
-            }
-            fullWidth
-          />
+
+          {/* Documento (Antidoping) */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.pdf_url
+                ? "Reemplazar antidoping"
+                : "Subir documento (opcional)"}
+              <input
+                type="file"
+                name="file"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    file: file,
+                    pdf_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.pdf_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "antidoping",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "antidoping",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* Certificación */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.certificacion_url
+                ? "Reemplazar certificación"
+                : "Subir certificación (opcional)"}
+              <input
+                type="file"
+                name="certificacion"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    certificacion: file,
+                    certificacion_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.certificacion_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "certificacion",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "certificacion",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* Constancia */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.constancia_url
+                ? "Reemplazar constancia"
+                : "Subir constancia (opcional)"}
+              <input
+                type="file"
+                name="constancia"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    constancia: file,
+                    constancia_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.constancia_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "constancia",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "constancia",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* INE */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.ine_url
+                ? "Reemplazar INE"
+                : "Subir INE (opcional)"}
+              <input
+                type="file"
+                name="ine"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    ine: file,
+                    ine_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.ine_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "ine",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "ine",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* Antecedentes */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.antecedentes_url
+                ? "Reemplazar antecedentes"
+                : "Subir antecedentes (opcional)"}
+              <input
+                type="file"
+                name="antecedentes"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    antecedentes: file,
+                    antecedentes_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.antecedentes_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "antecedentes",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "antecedentes",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeEditDialog} color="primary">
@@ -402,19 +761,99 @@ const OperatorInfo = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={confirmDialogOpen} onClose={closeConfirmDialog}>
-        <DialogTitle>Confirmar eliminación</DialogTitle>
+      <Dialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ ...confirmDialog, open: false })}
+      >
+        <DialogTitle>
+          {confirmDialog.action === "view"
+            ? "Confirmar visualización"
+            : "Confirmar eliminación"}
+        </DialogTitle>
         <DialogContent>
           <Typography>
-            ¿Estás seguro de que deseas eliminar este operador?
+            {confirmDialog.action === "view"
+              ? `¿Deseas ver el documento de ${confirmDialog.docType} actual?`
+              : `¿Estás seguro de que deseas eliminar el documento de ${confirmDialog.docType}?`}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeConfirmDialog} color="primary">
+          <Button
+            onClick={() => setConfirmDialog({ ...confirmDialog, open: false })}
+            color="primary"
+          >
             Cancelar
           </Button>
-          <Button onClick={confirmDeleteOperator} color="error">
-            Eliminar
+          <Button
+            onClick={() => {
+              if (confirmDialog.action === "view") {
+                // Abrir el documento según docType
+                switch (confirmDialog.docType) {
+                  case "antidoping":
+                    window.open(editedOperator.pdf_url, "_blank");
+                    break;
+                  case "certificacion":
+                    window.open(editedOperator.certificacion_url, "_blank");
+                    break;
+                  case "constancia":
+                    window.open(editedOperator.constancia_url, "_blank");
+                    break;
+                  case "ine":
+                    window.open(editedOperator.ine_url, "_blank");
+                    break;
+                  case "antecedentes":
+                    window.open(editedOperator.antecedentes_url, "_blank");
+                    break;
+                  default:
+                    break;
+                }
+              } else if (confirmDialog.action === "delete") {
+                // Eliminar el documento según docType
+                switch (confirmDialog.docType) {
+                  case "antidoping":
+                    setEditedOperator({
+                      ...editedOperator,
+                      pdf_url: null,
+                      file: null,
+                    });
+                    break;
+                  case "certificacion":
+                    setEditedOperator({
+                      ...editedOperator,
+                      certificacion_url: null,
+                      certificacion: null,
+                    });
+                    break;
+                  case "constancia":
+                    setEditedOperator({
+                      ...editedOperator,
+                      constancia_url: null,
+                      constancia: null,
+                    });
+                    break;
+                  case "ine":
+                    setEditedOperator({
+                      ...editedOperator,
+                      ine_url: null,
+                      ine: null,
+                    });
+                    break;
+                  case "antecedentes":
+                    setEditedOperator({
+                      ...editedOperator,
+                      antecedentes_url: null,
+                      antecedentes: null,
+                    });
+                    break;
+                  default:
+                    break;
+                }
+              }
+              setConfirmDialog({ ...confirmDialog, open: false });
+            }}
+            color={confirmDialog.action === "view" ? "primary" : "error"}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>
