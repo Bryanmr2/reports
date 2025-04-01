@@ -156,13 +156,17 @@ const NewInspection = () => {
     setShipmentInspections(updatedShipments);
     setShipmentInspectionData({
       shipment_type: "",
-      hour: "",
       tractor_number: "",
       plates: "",
       company: "",
       driver: "",
       box_number: "",
       seal_number: "",
+      start_time: "", // New field for start time
+      end_time: "", // New field for end time
+      guide_number: "", // New field for guide number
+      pallet_count: "", // New field for pallet count
+      box_count: "",
       incidence: "",
     });
     handleCloseModal();
@@ -246,7 +250,18 @@ const NewInspection = () => {
               defaultValue=""
               rules={{ required: "Selecciona un nombre" }}
               render={({ field }) => (
-                <Select {...field} fullWidth>
+                <Select
+                  {...field}
+                  fullWidth
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 250,
+                        overflow: "auto",
+                      },
+                    },
+                  }}
+                >
                   <MenuItem value="" disabled>
                     Seleccione un nombre
                   </MenuItem>
@@ -268,7 +283,18 @@ const NewInspection = () => {
               defaultValue=""
               rules={{ required: "Selecciona un nombre del K9" }}
               render={({ field }) => (
-                <Select {...field} fullWidth>
+                <Select
+                  {...field}
+                  fullWidth
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 250,
+                        overflow: "auto",
+                      },
+                    },
+                  }}
+                >
                   <MenuItem value="" disabled>
                     Seleccione un K9
                   </MenuItem>
@@ -292,14 +318,48 @@ const NewInspection = () => {
               defaultValue=""
               rules={{ required: "Selecciona una planta" }}
               render={({ field }) => (
-                <Select {...field} fullWidth>
+                <Select
+                  {...field}
+                  fullWidth
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 250,
+                        overflow: "auto",
+                      },
+                    },
+                  }}
+                >
                   <MenuItem value="" disabled>
                     Seleccione una planta
                   </MenuItem>
                   <MenuItem value="TE Connectivy">TE Connectivy</MenuItem>
+                  <MenuItem value="TE Connectivy 2">TE Connectivy 2</MenuItem>
+                  <MenuItem value="TE Connectivy 3">TE Connectivy 3</MenuItem>
+                  <MenuItem value="TE Connectivy 4">TE Connectivy 4</MenuItem>
+                  <MenuItem value="TE Connectivy 5">TE Connectivy 5</MenuItem>
+                  <MenuItem value="TE Connectivy ICT">
+                    TE Connectivy ICT
+                  </MenuItem>
+                  <MenuItem value="TE Connectivy Medical">
+                    TE Connectivy Medical
+                  </MenuItem>
+                  <MenuItem value="TE Connectivy Automotriz">
+                    TE Connectivy Automotriz
+                  </MenuItem>
+                  <MenuItem value="TE Connectivy Industrial">
+                    TE Connectivy Industrial
+                  </MenuItem>
+                  <MenuItem value="TE Connectivy Aeroespacial">
+                    TE Connectivy Aeroespacial
+                  </MenuItem>
                   <MenuItem value="Leoni">Leoni</MenuItem>
+                  <MenuItem value="Leoni Quiroga">Leoni Quiroga</MenuItem>
+                  <MenuItem value="Leoni Labor">Leoni Labor</MenuItem>
                   <MenuItem value="BD Medical">BD Medical</MenuItem>
                   <MenuItem value="EDS mfg México">EDS mfg México</MenuItem>
+                  <MenuItem value="EDS Magdalena">EDS Magdalena</MenuItem>
+                  <MenuItem value="EDS Hermosillo">EDS Hermosillo</MenuItem>
                   <MenuItem value="Latécoere México">Latécoere México</MenuItem>
                   <MenuItem value="The ILS Company">The ILS Company</MenuItem>
                 </Select>
@@ -421,7 +481,7 @@ const NewInspection = () => {
                       <MenuItem value="Exportación">Exportación</MenuItem>
                     </Select>
                   </Box>
-                  <Box my={2}>
+                  {/* <Box my={2}>
                     <InputLabel htmlFor="hour">Hora</InputLabel>
                     <TextField
                       id="hour"
@@ -430,7 +490,7 @@ const NewInspection = () => {
                       onChange={handleChange}
                       fullWidth
                     />
-                  </Box>
+                  </Box> */}
                   <Box my={2}>
                     <InputLabel htmlFor="tractor_number">Tracto</InputLabel>
                     <TextField
@@ -487,6 +547,78 @@ const NewInspection = () => {
                       id="seal_number"
                       name="seal_number"
                       value={shipmentInspectionData.seal_number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+
+                  {/* Add guide number field */}
+                  <Box my={2}>
+                    <InputLabel htmlFor="guide_number">
+                      Número de Guía
+                    </InputLabel>
+                    <TextField
+                      id="guide_number"
+                      name="guide_number"
+                      value={shipmentInspectionData.guide_number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+
+                  {/* Add start time field */}
+                  <Box my={2}>
+                    <InputLabel htmlFor="start_time">Hora de Inicio</InputLabel>
+                    <TextField
+                      id="start_time"
+                      name="start_time"
+                      type="time"
+                      value={shipmentInspectionData.start_time}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+
+                  {/* Add end time field */}
+                  <Box my={2}>
+                    <InputLabel htmlFor="end_time">
+                      Hora de Finalización
+                    </InputLabel>
+                    <TextField
+                      id="end_time"
+                      name="end_time"
+                      type="time"
+                      value={shipmentInspectionData.end_time}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+
+                  {/* Add pallet count field */}
+                  <Box my={2}>
+                    <InputLabel htmlFor="pallet_count">
+                      Cantidad de Tarimas/Pallets (opcional)
+                    </InputLabel>
+                    <TextField
+                      id="pallet_count"
+                      name="pallet_count"
+                      type="number"
+                      value={shipmentInspectionData.pallet_count}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+
+                  {/* Add box count field */}
+                  <Box my={2}>
+                    <InputLabel htmlFor="box_count">
+                      Cantidad de Bultos/Cajas (opcional)
+                    </InputLabel>
+                    <TextField
+                      id="box_count"
+                      name="box_count"
+                      type="number"
+                      value={shipmentInspectionData.box_count}
                       onChange={handleChange}
                       fullWidth
                     />

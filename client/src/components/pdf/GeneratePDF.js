@@ -55,8 +55,6 @@ const renderShipmentDetails = (shipment) => (
     <Text>
       Tipo de Embarque: {shipment.shipment_type}
       {"\n"}
-      Hora: {shipment.hour}
-      {"\n"}
       Número de Tractor: {shipment.tractor_number}
       {"\n"}
       Placas: {shipment.plates}
@@ -68,6 +66,16 @@ const renderShipmentDetails = (shipment) => (
       Número de Caja: {shipment.box_number}
       {"\n"}
       Número de Sello: {shipment.seal_number}
+      {"\n"}
+      Número de Guía: {shipment.guide_number || "No especificado"}
+      {"\n"}
+      Hora de Inicio: {shipment.start_time || "No especificado"}
+      {"\n"}
+      Hora de Finalización: {shipment.end_time || "No especificado"}
+      {"\n"}
+      Tarimas/Pallets: {shipment.pallet_count || "0"}
+      {"\n"}
+      Bultos/Cajas: {shipment.box_count || "0"}
     </Text>
   </View>
 );
