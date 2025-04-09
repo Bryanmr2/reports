@@ -227,7 +227,7 @@ const PDFDocument = ({ data }) => (
         <View style={styles.plantWrapper}>
           <View style={styles.plantOne}>
             <Text style={styles.plantBold}>{data.plant}.-</Text>
-            <Text>Atención: {data.name}</Text>
+            <Text>Atención: {data.contact_person || "No especificado"}</Text>
             <Text>K9: {data.dog_name}</Text>
           </View>
           <View style={styles.plantTwo}>

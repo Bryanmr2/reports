@@ -18,6 +18,7 @@ import axios from "axios";
 import InspectionRow from "./InspectionRow";
 import GeneratePDF from "../pdf/GeneratePDF";
 import baseUrl from "../../config";
+import plantContactMap from "../../utils/plantConact";
 
 const NewInspection = () => {
   const {
@@ -47,6 +48,13 @@ const NewInspection = () => {
     setValue("inspection_type", "shipment");
   }, [setValue]);
 
+  const selectedPlant = watch("plant");
+  useEffect(() => {
+    if (selectedPlant && plantContactMap[selectedPlant]) {
+      setValue("contact_person", plantContactMap[selectedPlant]);
+    }
+  }, [selectedPlant, setValue]);
+
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [operatorNames, setOperatorNames] = useState([]);
   const [dogNames, setDogNames] = useState([]);
@@ -57,6 +65,7 @@ const NewInspection = () => {
     hour: "",
     tractor_number: "",
     plates: "",
+    contact_person: "",
     company: "",
     driver: "",
     box_number: "",
@@ -90,6 +99,9 @@ const NewInspection = () => {
 
   const onSubmit = async (data) => {
     try {
+      if (!data.contact_person && data.plant) {
+        data.contact_person = plantContactMap[data.plant] || "";
+      }
       console.log("Submit button clicked");
       console.log("Form data:", data);
       setSuccessMessageVisible(true);
@@ -333,35 +345,11 @@ const NewInspection = () => {
                   <MenuItem value="" disabled>
                     Seleccione una planta
                   </MenuItem>
-                  <MenuItem value="TE Connectivy">TE Connectivy</MenuItem>
-                  <MenuItem value="TE Connectivy 2">TE Connectivy 2</MenuItem>
-                  <MenuItem value="TE Connectivy 3">TE Connectivy 3</MenuItem>
-                  <MenuItem value="TE Connectivy 4">TE Connectivy 4</MenuItem>
-                  <MenuItem value="TE Connectivy 5">TE Connectivy 5</MenuItem>
-                  <MenuItem value="TE Connectivy ICT">
-                    TE Connectivy ICT
-                  </MenuItem>
-                  <MenuItem value="TE Connectivy Medical">
-                    TE Connectivy Medical
-                  </MenuItem>
-                  <MenuItem value="TE Connectivy Automotriz">
-                    TE Connectivy Automotriz
-                  </MenuItem>
-                  <MenuItem value="TE Connectivy Industrial">
-                    TE Connectivy Industrial
-                  </MenuItem>
-                  <MenuItem value="TE Connectivy Aeroespacial">
-                    TE Connectivy Aeroespacial
-                  </MenuItem>
-                  <MenuItem value="Leoni">Leoni</MenuItem>
-                  <MenuItem value="Leoni Quiroga">Leoni Quiroga</MenuItem>
-                  <MenuItem value="Leoni Labor">Leoni Labor</MenuItem>
-                  <MenuItem value="BD Medical">BD Medical</MenuItem>
-                  <MenuItem value="EDS mfg México">EDS mfg México</MenuItem>
-                  <MenuItem value="EDS Magdalena">EDS Magdalena</MenuItem>
-                  <MenuItem value="EDS Hermosillo">EDS Hermosillo</MenuItem>
-                  <MenuItem value="Latécoere México">Latécoere México</MenuItem>
-                  <MenuItem value="The ILS Company">The ILS Company</MenuItem>
+                  {Object.keys(plantContactMap).map((plant) => (
+                    <MenuItem key={plant} value={plant}>
+                      {plant}
+                    </MenuItem>
+                  ))}
                 </Select>
               )}
             />
@@ -386,6 +374,7 @@ const NewInspection = () => {
               )}
             />
           </Box>
+          <input type="hidden" {...register("contact_person")} />
           <Box>
             <InputLabel htmlFor="inspection_type" variant="standard">
               Tipo de Inspección
