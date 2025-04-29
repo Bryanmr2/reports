@@ -541,7 +541,6 @@ const NewInspection = () => {
                     />
                   </Box>
 
-                  {/* Add guide number field */}
                   <Box my={2}>
                     <InputLabel htmlFor="guide_number">
                       Número de Guía
@@ -555,7 +554,6 @@ const NewInspection = () => {
                     />
                   </Box>
 
-                  {/* Add start time field */}
                   <Box my={2}>
                     <InputLabel htmlFor="start_time">Hora de Inicio</InputLabel>
                     <TextField
@@ -568,7 +566,6 @@ const NewInspection = () => {
                     />
                   </Box>
 
-                  {/* Add end time field */}
                   <Box my={2}>
                     <InputLabel htmlFor="end_time">
                       Hora de Finalización
@@ -583,7 +580,6 @@ const NewInspection = () => {
                     />
                   </Box>
 
-                  {/* Add pallet count field */}
                   <Box my={2}>
                     <InputLabel htmlFor="pallet_count">
                       Cantidad de Tarimas/Pallets (opcional)
@@ -598,7 +594,6 @@ const NewInspection = () => {
                     />
                   </Box>
 
-                  {/* Add box count field */}
                   <Box my={2}>
                     <InputLabel htmlFor="box_count">
                       Cantidad de Bultos/Cajas (opcional)

@@ -49,37 +49,33 @@ const formatDate = (dateString) => {
 
   return `${day} de ${month} del ${year}`;
 };
+const renderShipmentDetails = (shipment) => {
+  const details = [
+    ["Tipo de Embarque", shipment.shipment_type],
+    ["Número de Tractor", shipment.tractor_number],
+    ["Placas", shipment.plates],
+    ["Compañía", shipment.company],
+    ["Conductor", shipment.driver],
+    ["Número de Caja", shipment.box_number],
+    ["Número de Sello", shipment.seal_number],
+    // Opcionales: sólo incluir si tienen valor
+    ["Número de Guía", shipment.guide_number],
+    ["Hora de Inicio", shipment.start_time],
+    ["Hora de Finalización", shipment.end_time],
+    ["Tarimas/Pallets", shipment.pallet_count],
+    ["Bultos/Cajas", shipment.box_count],
+  ].filter(([, value]) => value);
 
-const renderShipmentDetails = (shipment) => (
-  <View>
-    <Text>
-      Tipo de Embarque: {shipment.shipment_type}
-      {"\n"}
-      Número de Tractor: {shipment.tractor_number}
-      {"\n"}
-      Placas: {shipment.plates}
-      {"\n"}
-      Compañía: {shipment.company}
-      {"\n"}
-      Conductor: {shipment.driver}
-      {"\n"}
-      Número de Caja: {shipment.box_number}
-      {"\n"}
-      Número de Sello: {shipment.seal_number}
-      {"\n"}
-      Número de Guía: {shipment.guide_number || "No especificado"}
-      {"\n"}
-      Hora de Inicio: {shipment.start_time || "No especificado"}
-      {"\n"}
-      Hora de Finalización: {shipment.end_time || "No especificado"}
-      {"\n"}
-      Tarimas/Pallets: {shipment.pallet_count || "0"}
-      {"\n"}
-      Bultos/Cajas: {shipment.box_count || "0"}
-    </Text>
-  </View>
-);
-
+  return (
+    <View>
+      {details.map(([label, value], i) => (
+        <Text key={i}>
+          {label}: {value}
+        </Text>
+      ))}
+    </View>
+  );
+};
 Font.register({
   family: "Helvetica",
   fonts: [
@@ -232,7 +228,7 @@ const PDFDocument = ({ data }) => (
           </View>
           <View style={styles.plantTwo}>
             <Text>Turno: {data.shift}</Text>
-            <Text>Planta: Por definir</Text>
+            {/* <Text>Planta: Por definir</Text> */}
           </View>
         </View>
       </View>
@@ -276,9 +272,9 @@ const PDFDocument = ({ data }) => (
             {data.shipment_inspections.map((shipment, index) => (
               <View style={styles.tableRow} key={index}>
                 <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>
+                  <View style={styles.tableCell}>
                     {renderShipmentDetails(shipment)}
-                  </Text>
+                  </View>
                 </View>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>{shipment.incidence}</Text>
