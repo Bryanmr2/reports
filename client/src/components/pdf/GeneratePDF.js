@@ -51,6 +51,7 @@ const formatDate = (dateString) => {
 };
 const renderShipmentDetails = (shipment) => {
   const details = [
+    ["Hora de Inicio", shipment.start_time],
     ["Tipo de Embarque", shipment.shipment_type],
     ["Número de Tractor", shipment.tractor_number],
     ["Placas", shipment.plates],
@@ -58,12 +59,10 @@ const renderShipmentDetails = (shipment) => {
     ["Conductor", shipment.driver],
     ["Número de Caja", shipment.box_number],
     ["Número de Sello", shipment.seal_number],
-    // Opcionales: sólo incluir si tienen valor
     ["Número de Guía", shipment.guide_number],
-    ["Hora de Inicio", shipment.start_time],
-    ["Hora de Finalización", shipment.end_time],
     ["Tarimas/Pallets", shipment.pallet_count],
     ["Bultos/Cajas", shipment.box_count],
+    ["Hora de Finalización", shipment.end_time],
   ].filter(([, value]) => value);
 
   return (
@@ -228,7 +227,7 @@ const PDFDocument = ({ data }) => (
           </View>
           <View style={styles.plantTwo}>
             <Text>Turno: {data.shift}</Text>
-            {/* <Text>Planta: Por definir</Text> */}
+            <Text>Manejador: {data.name} </Text>
           </View>
         </View>
       </View>

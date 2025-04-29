@@ -70,7 +70,7 @@ const NewInspection = () => {
     driver: "",
     box_number: "",
     seal_number: "",
-    incidence: "",
+    incidence: "Ninguna",
   });
   const [shipmentInspections, setShipmentInspections] = useState([]);
 
@@ -255,12 +255,12 @@ const NewInspection = () => {
             {errors.date && <span>{errors.date.message}</span>}
           </Box>
           <Box>
-            <InputLabel htmlFor="name">Nombre</InputLabel>
+            <InputLabel htmlFor="name">Manejador</InputLabel>
             <Controller
               name="name"
               control={control}
               defaultValue=""
-              rules={{ required: "Selecciona un nombre" }}
+              rules={{ required: "Selecciona un Manejador" }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -275,7 +275,7 @@ const NewInspection = () => {
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Seleccione un nombre
+                    Seleccione un manejador
                   </MenuItem>
                   {operatorNames.map((name, index) => (
                     <MenuItem key={index} value={name}>
@@ -288,12 +288,12 @@ const NewInspection = () => {
             {errors.name && <span>{errors.name.message}</span>}
           </Box>
           <Box>
-            <InputLabel htmlFor="dog_name">Nombre del K9</InputLabel>
+            <InputLabel htmlFor="dog_name">K9</InputLabel>
             <Controller
               name="dog_name"
               control={control}
               defaultValue=""
-              rules={{ required: "Selecciona un nombre del K9" }}
+              rules={{ required: "Selecciona un K9" }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -409,8 +409,10 @@ const NewInspection = () => {
                 {shipmentInspections.map((inspection, index) => (
                   <div style={{ display: "flex" }}>
                     <div key={index}>
+                      <Typography>
+                        Hora de Inicio: {inspection.start_time}
+                      </Typography>
                       <Typography>Tipo: {inspection.shipment_type}</Typography>
-                      <Typography>Hora: {inspection.hour}</Typography>
                       <Typography>
                         Tracto: {inspection.tractor_number}
                       </Typography>
@@ -419,6 +421,18 @@ const NewInspection = () => {
                       <Typography>Chofer: {inspection.driver}</Typography>
                       <Typography>Caja: {inspection.box_number}</Typography>
                       <Typography>Sello: {inspection.seal_number}</Typography>
+                      <Typography>
+                        Número de Guía: {inspection.guide_number}
+                      </Typography>
+                      <Typography>
+                        Cantidad de Tarimas/Pallets: {inspection.pallet_count}
+                      </Typography>
+                      <Typography>
+                        Cantidad de Bultos/Cajas: {inspection.box_count}
+                      </Typography>
+                      <Typography>
+                        Hora de Finalización: {inspection.end_time}
+                      </Typography>
                       <Typography>
                         Incidencia: {inspection.incidence}
                       </Typography>
@@ -454,6 +468,17 @@ const NewInspection = () => {
                   <Typography variant="h6" id="modal-title">
                     Áreas de Inspección
                   </Typography>
+                  <Box my={2}>
+                    <InputLabel htmlFor="start_time">Hora de Inicio</InputLabel>
+                    <TextField
+                      id="start_time"
+                      name="start_time"
+                      type="time"
+                      value={shipmentInspectionData.start_time}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
                   <Box my={2}>
                     <InputLabel htmlFor="shipment_type">Tipo</InputLabel>
                     <Select
@@ -555,32 +580,6 @@ const NewInspection = () => {
                   </Box>
 
                   <Box my={2}>
-                    <InputLabel htmlFor="start_time">Hora de Inicio</InputLabel>
-                    <TextField
-                      id="start_time"
-                      name="start_time"
-                      type="time"
-                      value={shipmentInspectionData.start_time}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </Box>
-
-                  <Box my={2}>
-                    <InputLabel htmlFor="end_time">
-                      Hora de Finalización
-                    </InputLabel>
-                    <TextField
-                      id="end_time"
-                      name="end_time"
-                      type="time"
-                      value={shipmentInspectionData.end_time}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </Box>
-
-                  <Box my={2}>
                     <InputLabel htmlFor="pallet_count">
                       Cantidad de Tarimas/Pallets (opcional)
                     </InputLabel>
@@ -593,7 +592,6 @@ const NewInspection = () => {
                       fullWidth
                     />
                   </Box>
-
                   <Box my={2}>
                     <InputLabel htmlFor="box_count">
                       Cantidad de Bultos/Cajas (opcional)
@@ -603,6 +601,19 @@ const NewInspection = () => {
                       name="box_count"
                       type="number"
                       value={shipmentInspectionData.box_count}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <InputLabel htmlFor="end_time">
+                      Hora de Finalización
+                    </InputLabel>
+                    <TextField
+                      id="end_time"
+                      name="end_time"
+                      type="time"
+                      value={shipmentInspectionData.end_time}
                       onChange={handleChange}
                       fullWidth
                     />
