@@ -192,36 +192,73 @@ const postOperator = async (operator) => {
       }
     }
 
-    if (operator.antecedentes) {
-      const filePathAnte = `handlers/antecedentes/${operatorId}_antecedentes.pdf`;
-      console.log("Subiendo antecedentes a:", filePathAnte);
+    // POST: Antecedentes2
+    if (operator.antecedentes2) {
+      const path2 = `handlers/antecedentes2/${operatorId}_antecedentes2.pdf`;
+      const { error: uploadErr } = await supabase.storage
+        .from("k9-docs")
+        .upload(path2, operator.antecedentes2.buffer, {
+          contentType: operator.antecedentes2.mimetype,
+          upsert: true,
+        });
+      if (uploadErr) throw uploadErr;
 
+      const { data: urlData, error: urlErr } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(path2);
+      if (urlErr) throw urlErr;
+
+      const { error: updateErr } = await supabase
+        .from("operator")
+        .update({ antecedentes2_url: urlData.publicUrl })
+        .eq("id", operatorId);
+      if (updateErr) throw updateErr;
+    }
+
+    // POST: Domicilio
+    if (operator.domicilio) {
+      const pathDom = `handlers/domicilio/${operatorId}_domicilio.pdf`;
       const { error: uploadError } = await supabase.storage
         .from("k9-docs")
-        .upload(filePathAnte, operator.antecedentes.buffer, {
-          contentType: operator.antecedentes.mimetype,
+        .upload(pathDom, operator.domicilio.buffer, {
+          contentType: operator.domicilio.mimetype,
           cacheControl: "3600",
           upsert: true,
         });
+      if (uploadError) throw new Error(uploadError.message);
 
-      if (uploadError) {
-        throw new Error(uploadError.message);
-      }
-
-      const { data: publicUrlData } = supabase.storage
+      const { data: publicUrlData, error: urlError } = supabase.storage
         .from("k9-docs")
-        .getPublicUrl(filePathAnte);
+        .getPublicUrl(pathDom);
+      if (urlError) throw new Error(urlError.message);
 
-      const antecedentesUrl = publicUrlData.publicUrl;
-
-      const { error: updateError } = await supabase
+      await supabase
         .from("operator")
-        .update({ antecedentes_url: antecedentesUrl })
+        .update({ domicilio_url: publicUrlData.publicUrl })
         .eq("id", operatorId);
+    }
 
-      if (updateError) {
-        throw new Error(updateError.message);
-      }
+    // POST: CURP (PDF)
+    if (operator.curp_doc) {
+      const pathCurp = `handlers/curp_doc/${operatorId}_curp_doc.pdf`;
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(pathCurp, operator.curp_doc.buffer, {
+          contentType: operator.curp_doc.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (uploadError) throw new Error(uploadError.message);
+
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathCurp);
+      if (urlError) throw new Error(urlError.message);
+
+      await supabase
+        .from("operator")
+        .update({ curp_doc_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
     }
 
     return { message: "Manejador creado correctamente", operatorId };
@@ -248,7 +285,6 @@ const deleteOperator = async (operatorId) => {
 
 const editOperator = async (operatorId, newData, files) => {
   try {
-    // Actualiza primero los campos de texto
     const { data, error } = await supabase
       .from("operator")
       .update(newData)
@@ -361,30 +397,61 @@ const editOperator = async (operatorId, newData, files) => {
         .eq("id", operatorId);
     }
 
-    // Procesa Antecedentes
-    if (files.antecedentes) {
-      const filePathAnte = `handlers/antecedentes/${operatorId}_antecedentes.pdf`;
-      console.log("Subiendo antecedentes a:", filePathAnte);
-      const { error: uploadError } = await supabase.storage
+    // Antecedentes2
+    if (files.antecedentes2) {
+      const path2 = `handlers/antecedentes2/${operatorId}_antecedentes2.pdf`;
+      await supabase.storage
         .from("k9-docs")
-        .upload(filePathAnte, files.antecedentes.buffer, {
-          contentType: files.antecedentes.mimetype,
+        .upload(path2, files.antecedentes2.buffer, {
+          contentType: files.antecedentes2.mimetype,
           cacheControl: "3600",
           upsert: true,
         });
-      if (uploadError) throw new Error(uploadError.message);
-      const { data: publicUrlData } = supabase.storage
+      const { data: publicUrlData, error: urlError } = supabase.storage
         .from("k9-docs")
-        .getPublicUrl(filePathAnte);
-      const antecedentesUrl = publicUrlData.publicUrl;
+        .getPublicUrl(path2);
+      if (urlError) throw new Error(urlError.message);
       await supabase
         .from("operator")
-        .update({ antecedentes_url: antecedentesUrl })
+        .update({ antecedentes2_url: publicUrlData.publicUrl })
         .eq("id", operatorId);
-    } else if (files.delete_antecedentes === "true") {
+    }
+
+    if (files.domicilio) {
+      const pathDom = `handlers/domicilio/${operatorId}_domicilio.pdf`;
+      await supabase.storage
+        .from("k9-docs")
+        .upload(pathDom, files.domicilio.buffer, {
+          contentType: files.domicilio.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathDom);
+      if (urlError) throw new Error(urlError.message);
       await supabase
         .from("operator")
-        .update({ antecedentes_url: null })
+        .update({ domicilio_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    }
+
+    if (files.curp_doc) {
+      const pathCurp = `handlers/curp_doc/${operatorId}_curp_doc.pdf`;
+      await supabase.storage
+        .from("k9-docs")
+        .upload(pathCurp, files.curp_doc.buffer, {
+          contentType: files.curp_doc.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathCurp);
+      if (urlError) throw new Error(urlError.message);
+      await supabase
+        .from("operator")
+        .update({ curp_doc_url: publicUrlData.publicUrl })
         .eq("id", operatorId);
     }
 

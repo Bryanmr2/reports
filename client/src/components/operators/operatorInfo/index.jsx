@@ -116,14 +116,30 @@ const OperatorInfo = () => {
 
     // Antecedentes
     if (editedOperator.antecedentes) {
-      console.log(
-        "Nuevo archivo de antecedentes seleccionado:",
-        editedOperator.antecedentes
-      );
       formData.append("antecedentes", editedOperator.antecedentes);
     } else if (editedOperator.antecedentes_url === null) {
-      console.log("Flag delete_antecedentes enviado");
       formData.append("delete_antecedentes", "true");
+    }
+
+    // Añadido para Antecedentes2
+    if (editedOperator.antecedentes2) {
+      formData.append("antecedentes2", editedOperator.antecedentes2);
+    } else if (editedOperator.antecedentes2_url === null) {
+      formData.append("delete_antecedentes2", "true");
+    }
+
+    // Añadido para Domicilio
+    if (editedOperator.domicilio) {
+      formData.append("domicilio", editedOperator.domicilio);
+    } else if (editedOperator.domicilio_url === null) {
+      formData.append("delete_domicilio", "true");
+    }
+
+    // Añadido para CURP (PDF)
+    if (editedOperator.curp_doc) {
+      formData.append("curp_doc", editedOperator.curp_doc);
+    } else if (editedOperator.curp_doc_url === null) {
+      formData.append("delete_curp_doc", "true");
     }
 
     // Log de las entradas del FormData para verificar
@@ -366,7 +382,6 @@ const OperatorInfo = () => {
             )}
           </Box>
         </Grid>
-        {/* Antecedentes */}
         <Grid item xs={12} sm={6}>
           <Box
             display="flex"
@@ -376,12 +391,70 @@ const OperatorInfo = () => {
             <Typography variant="body1">
               <strong>Antecedentes:</strong>
             </Typography>
-            {operator.antecedentes_url ? (
+            {operator.antecedentes2_url ? (
               <Box display="flex" alignItems="center" ml={1}>
                 <IconButton
                   color="primary"
                   component="a"
-                  href={operator.antecedentes_url}
+                  href={operator.antecedentes2_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Domicilio:</strong>
+            </Typography>
+            {operator.domicilio_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.domicilio_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>CURP:</strong>
+            </Typography>
+            {operator.curp_doc_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.curp_doc_url}
                   target="_blank"
                   style={{ padding: 4 }}
                 >
@@ -692,7 +765,7 @@ const OperatorInfo = () => {
             )}
           </Box>
 
-          {/* Antecedentes */}
+          {/* Antecedentes2 */}
           <Box
             mt={2}
             sx={{
@@ -702,24 +775,24 @@ const OperatorInfo = () => {
             }}
           >
             <Button variant="contained" component="label">
-              {editedOperator?.antecedentes_url
-                ? "Reemplazar antecedentes"
-                : "Subir antecedentes (opcional)"}
+              {editedOperator?.antecedentes2_url
+                ? "Reemplazar antecedentes 2"
+                : "Subir antecedentes 2 (opcional)"}
               <input
                 type="file"
-                name="antecedentes"
+                name="antecedentes2"
                 hidden
                 onChange={(e) => {
                   const file = e.target.files[0];
                   setEditedOperator({
                     ...editedOperator,
-                    antecedentes: file,
-                    antecedentes_url: URL.createObjectURL(file),
+                    antecedentes2: file,
+                    antecedentes2_url: URL.createObjectURL(file),
                   });
                 }}
               />
             </Button>
-            {editedOperator?.antecedentes_url && (
+            {editedOperator?.antecedentes2_url && (
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
                   color="primary"
@@ -727,7 +800,7 @@ const OperatorInfo = () => {
                     setConfirmDialog({
                       open: true,
                       action: "view",
-                      docType: "antecedentes",
+                      docType: "antecedentes2",
                     })
                   }
                   sx={{ ml: 2 }}
@@ -740,7 +813,125 @@ const OperatorInfo = () => {
                     setConfirmDialog({
                       open: true,
                       action: "delete",
-                      docType: "antecedentes",
+                      docType: "antecedentes2",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* Domicilio */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.domicilio_url
+                ? "Reemplazar domicilio"
+                : "Subir domicilio (opcional)"}
+              <input
+                type="file"
+                name="domicilio"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    domicilio: file,
+                    domicilio_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.domicilio_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "domicilio",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "domicilio",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+
+          {/* CURP (PDF) */}
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.curp_doc_url
+                ? "Reemplazar CURP (PDF)"
+                : "Subir CURP (PDF) (opcional)"}
+              <input
+                type="file"
+                name="curp_doc"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    curp_doc: file,
+                    curp_doc_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.curp_doc_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "curp_doc",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "curp_doc",
                     })
                   }
                   sx={{ ml: 1 }}
@@ -787,7 +978,6 @@ const OperatorInfo = () => {
           <Button
             onClick={() => {
               if (confirmDialog.action === "view") {
-                // Abrir el documento según docType
                 switch (confirmDialog.docType) {
                   case "antidoping":
                     window.open(editedOperator.pdf_url, "_blank");
@@ -801,14 +991,17 @@ const OperatorInfo = () => {
                   case "ine":
                     window.open(editedOperator.ine_url, "_blank");
                     break;
-                  case "antecedentes":
-                    window.open(editedOperator.antecedentes_url, "_blank");
+                  case "antecedentes2":
+                    window.open(editedOperator.antecedentes2_url, "_blank");
                     break;
-                  default:
+                  case "domicilio":
+                    window.open(editedOperator.domicilio_url, "_blank");
+                    break;
+                  case "curp_doc":
+                    window.open(editedOperator.curp_doc_url, "_blank");
                     break;
                 }
               } else if (confirmDialog.action === "delete") {
-                // Eliminar el documento según docType
                 switch (confirmDialog.docType) {
                   case "antidoping":
                     setEditedOperator({
@@ -838,11 +1031,25 @@ const OperatorInfo = () => {
                       ine: null,
                     });
                     break;
-                  case "antecedentes":
+                  case "antecedentes2":
                     setEditedOperator({
                       ...editedOperator,
-                      antecedentes_url: null,
-                      antecedentes: null,
+                      antecedentes2: null,
+                      antecedentes2_url: null,
+                    });
+                    break;
+                  case "domicilio":
+                    setEditedOperator({
+                      ...editedOperator,
+                      domicilio: null,
+                      domicilio_url: null,
+                    });
+                    break;
+                  case "curp_doc":
+                    setEditedOperator({
+                      ...editedOperator,
+                      curp_doc: null,
+                      curp_doc_url: null,
                     });
                     break;
                   default:

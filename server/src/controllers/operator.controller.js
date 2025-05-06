@@ -34,25 +34,17 @@ const getOperatorByIdHandler = async (req, res) => {
 
 const postOperatorsHandler = async (req, res) => {
   const { id, name, last_name, curp, birth, number, social_number } = req.body;
-
-  // Se obtienen los archivos enviados, incluyendo antecedentes
   const file = req.files?.file ? req.files.file[0] : null;
   const certificacion = req.files?.certificacion
     ? req.files.certificacion[0]
     : null;
   const constancia = req.files?.constancia ? req.files.constancia[0] : null;
   const ine = req.files?.ine ? req.files.ine[0] : null;
-  const antecedentes = req.files?.antecedentes
-    ? req.files.antecedentes[0]
-    : null; // Nota: revisar ortografía si es necesario
-  console.log("Archivo de antecedentes recibido:", antecedentes ? "SÍ" : "NO");
-  if (antecedentes) {
-    console.log("Detalles del archivo:", {
-      nombre: antecedentes.originalname,
-      tamaño: antecedentes.size,
-      tipo: antecedentes.mimetype,
-    });
-  }
+  const antecedentes2 = req.files?.antecedentes2
+    ? req.files.antecedentes2[0]
+    : null;
+  const domicilio = req.files?.domicilio ? req.files.domicilio[0] : null;
+  const curp_doc = req.files?.curp_doc ? req.files.curp_doc[0] : null;
 
   try {
     const newOperator = await postOperator({
@@ -67,7 +59,9 @@ const postOperatorsHandler = async (req, res) => {
       certificacion,
       constancia,
       ine,
-      antecedentes: antecedentes, // se envía el archivo de antecedentes
+      antecedentes2,
+      domicilio,
+      curp_doc,
     });
     console.log("Archivos recibidos en req.files:", req.files);
     res.status(201).json(newOperator);
@@ -91,11 +85,7 @@ const deleteOperatorHandler = async (req, res) => {
 const editOperatorHandler = async (req, res) => {
   const operatorId = req.params.id;
   const { name, last_name, curp, birth, number, social_number } = req.body;
-
-  // Preparamos los datos de texto
   const newData = { name, last_name, curp, birth, number, social_number };
-
-  // Preparamos un objeto para los archivos a partir de req.files
   const files = {};
   if (req.files) {
     if (req.files.file) files.file = req.files.file[0];
@@ -103,18 +93,24 @@ const editOperatorHandler = async (req, res) => {
       files.certificacion = req.files.certificacion[0];
     if (req.files.constancia) files.constancia = req.files.constancia[0];
     if (req.files.ine) files.ine = req.files.ine[0];
-    if (req.files.antecedentes) files.antecedentes = req.files.antecedentes[0]; // archivo de antecedentes
+    if (req.files.antecedentes2)
+      files.antecedentes2 = req.files.antecedentes2[0];
+    if (req.files.domicilio) files.domicilio = req.files.domicilio[0];
+    if (req.files.curp_doc) files.curp_doc = req.files.curp_doc[0];
   }
 
-  // Si en el FormData se envían flags para eliminar archivos, se incluyen
   if (req.body.delete_file) files.delete_file = req.body.delete_file;
   if (req.body.delete_certificacion)
     files.delete_certificacion = req.body.delete_certificacion;
   if (req.body.delete_constancia)
     files.delete_constancia = req.body.delete_constancia;
   if (req.body.delete_ine) files.delete_ine = req.body.delete_ine;
-  if (req.body.delete_antecedentes)
-    files.delete_antecedentes = req.body.delete_antecedentes; // flag para eliminar antecedentes
+  if (req.body.delete_antecedentes2)
+    files.delete_antecedentes2 = req.body.delete_antecedentes2;
+  if (req.body.delete_domicilio)
+    files.delete_domicilio = req.body.delete_domicilio;
+  if (req.body.delete_curp_doc)
+    files.delete_curp_doc = req.body.delete_curp_doc;
 
   try {
     const result = await editOperator(operatorId, newData, files);

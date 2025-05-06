@@ -38,10 +38,12 @@ const NewOperator = ({ setIsLoggedIn }) => {
     if (data.certificacion && data.certificacion[0]) {
       formData.append("certificacion", data.certificacion[0]);
     }
-    if (data.antecedentes && data.antecedentes[0]) {
-      formData.append("antecedentes", data.antecedentes[0]);
-    }
-
+    if (data.antecedentes2 && data.antecedentes2[0])
+      formData.append("antecedentes2", data.antecedentes2[0]);
+    if (data.domicilio && data.domicilio[0])
+      formData.append("domicilio", data.domicilio[0]);
+    if (data.curp_doc && data.curp_doc[0])
+      formData.append("curp_doc", data.curp_doc[0]);
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": ", pair[1]);
     }
@@ -197,10 +199,20 @@ const NewOperator = ({ setIsLoggedIn }) => {
               </InputLabel>
               <OutlinedInput type="file" {...register("file")} />
 
-              <InputLabel htmlFor="antecedentes" style={{ marginTop: "10%" }}>
+              <InputLabel htmlFor="antecedentes2" style={{ marginTop: "10%" }}>
                 Antecedentes (PDF)
               </InputLabel>
-              <OutlinedInput type="file" {...register("antecedentes")} />
+              <OutlinedInput type="file" {...register("antecedentes2")} />
+
+              <InputLabel htmlFor="domicilio" style={{ marginTop: "10%" }}>
+                Domicilio (PDF)
+              </InputLabel>
+              <OutlinedInput type="file" {...register("domicilio")} />
+
+              <InputLabel htmlFor="curp_doc" style={{ marginTop: "10%" }}>
+                CURP (PDF)
+              </InputLabel>
+              <OutlinedInput type="file" {...register("curp_doc")} />
             </div>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Button

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
@@ -38,7 +39,9 @@ app.use(
     { name: "certificacion", maxCount: 1 },
     { name: "constancia", maxCount: 1 },
     { name: "ine", maxCount: 1 },
-    { name: "antecedentes", maxCount: 1 },
+    { name: "antecedentes2", maxCount: 1 },
+    { name: "domicilio", maxCount: 1 },
+    { name: "curp_doc", maxCount: 1 },
   ])
 );
 
