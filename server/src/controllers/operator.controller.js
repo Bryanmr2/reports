@@ -43,7 +43,7 @@ const postOperatorsHandler = async (req, res) => {
   const antecedentes2 = req.files?.antecedentes2
     ? req.files.antecedentes2[0]
     : null;
-  const domicilio = req.files?.domicilio ? req.files.domicilio[0] : null;
+  const acta = req.files?.acta ? req.files.acta[0] : null;
   const curp_doc = req.files?.curp_doc ? req.files.curp_doc[0] : null;
 
   try {
@@ -60,7 +60,7 @@ const postOperatorsHandler = async (req, res) => {
       constancia,
       ine,
       antecedentes2,
-      domicilio,
+      acta,
       curp_doc,
     });
     console.log("Archivos recibidos en req.files:", req.files);
@@ -95,7 +95,7 @@ const editOperatorHandler = async (req, res) => {
     if (req.files.ine) files.ine = req.files.ine[0];
     if (req.files.antecedentes2)
       files.antecedentes2 = req.files.antecedentes2[0];
-    if (req.files.domicilio) files.domicilio = req.files.domicilio[0];
+    if (req.files.acta) files.acta = req.files.acta[0];
     if (req.files.curp_doc) files.curp_doc = req.files.curp_doc[0];
   }
 
@@ -107,8 +107,7 @@ const editOperatorHandler = async (req, res) => {
   if (req.body.delete_ine) files.delete_ine = req.body.delete_ine;
   if (req.body.delete_antecedentes2)
     files.delete_antecedentes2 = req.body.delete_antecedentes2;
-  if (req.body.delete_domicilio)
-    files.delete_domicilio = req.body.delete_domicilio;
+  if (req.body.delete_acta) files.delete_acta = req.body.delete_acta;
   if (req.body.delete_curp_doc)
     files.delete_curp_doc = req.body.delete_curp_doc;
 

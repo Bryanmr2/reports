@@ -215,13 +215,13 @@ const postOperator = async (operator) => {
       if (updateErr) throw updateErr;
     }
 
-    // POST: Domicilio
-    if (operator.domicilio) {
-      const pathDom = `handlers/domicilio/${operatorId}_domicilio.pdf`;
+    // POST: Acta
+    if (operator.acta) {
+      const pathDom = `handlers/acta/${operatorId}_acta.pdf`;
       const { error: uploadError } = await supabase.storage
         .from("k9-docs")
-        .upload(pathDom, operator.domicilio.buffer, {
-          contentType: operator.domicilio.mimetype,
+        .upload(pathDom, operator.acta.buffer, {
+          contentType: operator.acta.mimetype,
           cacheControl: "3600",
           upsert: true,
         });
@@ -234,7 +234,7 @@ const postOperator = async (operator) => {
 
       await supabase
         .from("operator")
-        .update({ domicilio_url: publicUrlData.publicUrl })
+        .update({ acta_url: publicUrlData.publicUrl })
         .eq("id", operatorId);
     }
 
@@ -417,12 +417,12 @@ const editOperator = async (operatorId, newData, files) => {
         .eq("id", operatorId);
     }
 
-    if (files.domicilio) {
-      const pathDom = `handlers/domicilio/${operatorId}_domicilio.pdf`;
+    if (files.acta) {
+      const pathDom = `handlers/acta/${operatorId}_acta.pdf`;
       await supabase.storage
         .from("k9-docs")
-        .upload(pathDom, files.domicilio.buffer, {
-          contentType: files.domicilio.mimetype,
+        .upload(pathDom, files.acta.buffer, {
+          contentType: files.acta.mimetype,
           cacheControl: "3600",
           upsert: true,
         });
@@ -432,7 +432,7 @@ const editOperator = async (operatorId, newData, files) => {
       if (urlError) throw new Error(urlError.message);
       await supabase
         .from("operator")
-        .update({ domicilio_url: publicUrlData.publicUrl })
+        .update({ acta_url: publicUrlData.publicUrl })
         .eq("id", operatorId);
     }
 

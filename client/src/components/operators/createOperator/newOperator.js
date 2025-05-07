@@ -40,8 +40,7 @@ const NewOperator = ({ setIsLoggedIn }) => {
     }
     if (data.antecedentes2 && data.antecedentes2[0])
       formData.append("antecedentes2", data.antecedentes2[0]);
-    if (data.domicilio && data.domicilio[0])
-      formData.append("domicilio", data.domicilio[0]);
+    if (data.acta && data.acta[0]) formData.append("acta", data.acta[0]);
     if (data.curp_doc && data.curp_doc[0])
       formData.append("curp_doc", data.curp_doc[0]);
     for (let pair of formData.entries()) {
@@ -204,10 +203,10 @@ const NewOperator = ({ setIsLoggedIn }) => {
               </InputLabel>
               <OutlinedInput type="file" {...register("antecedentes2")} />
 
-              <InputLabel htmlFor="domicilio" style={{ marginTop: "10%" }}>
-                Domicilio (PDF)
+              <InputLabel htmlFor="acta" style={{ marginTop: "10%" }}>
+                Acta (PDF)
               </InputLabel>
-              <OutlinedInput type="file" {...register("domicilio")} />
+              <OutlinedInput type="file" {...register("acta")} />
 
               <InputLabel htmlFor="curp_doc" style={{ marginTop: "10%" }}>
                 CURP (PDF)

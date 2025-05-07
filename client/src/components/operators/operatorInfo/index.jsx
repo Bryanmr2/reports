@@ -128,11 +128,11 @@ const OperatorInfo = () => {
       formData.append("delete_antecedentes2", "true");
     }
 
-    // Añadido para Domicilio
-    if (editedOperator.domicilio) {
-      formData.append("domicilio", editedOperator.domicilio);
-    } else if (editedOperator.domicilio_url === null) {
-      formData.append("delete_domicilio", "true");
+    // Añadido para Acta
+    if (editedOperator.acta) {
+      formData.append("acta", editedOperator.acta);
+    } else if (editedOperator.acta_url === null) {
+      formData.append("delete_acta", "true");
     }
 
     // Añadido para CURP (PDF)
@@ -418,14 +418,14 @@ const OperatorInfo = () => {
             sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
           >
             <Typography variant="body1">
-              <strong>Domicilio:</strong>
+              <strong>Acta:</strong>
             </Typography>
-            {operator.domicilio_url ? (
+            {operator.acta_url ? (
               <Box display="flex" alignItems="center" ml={1}>
                 <IconButton
                   color="primary"
                   component="a"
-                  href={operator.domicilio_url}
+                  href={operator.acta_url}
                   target="_blank"
                   style={{ padding: 4 }}
                 >
@@ -824,7 +824,7 @@ const OperatorInfo = () => {
             )}
           </Box>
 
-          {/* Domicilio */}
+          {/* Acta */}
           <Box
             mt={2}
             sx={{
@@ -834,24 +834,24 @@ const OperatorInfo = () => {
             }}
           >
             <Button variant="contained" component="label">
-              {editedOperator?.domicilio_url
-                ? "Reemplazar domicilio"
-                : "Subir domicilio (opcional)"}
+              {editedOperator?.acta_url
+                ? "Reemplazar acta"
+                : "Subir acta (opcional)"}
               <input
                 type="file"
-                name="domicilio"
+                name="acta"
                 hidden
                 onChange={(e) => {
                   const file = e.target.files[0];
                   setEditedOperator({
                     ...editedOperator,
-                    domicilio: file,
-                    domicilio_url: URL.createObjectURL(file),
+                    acta: file,
+                    acta_url: URL.createObjectURL(file),
                   });
                 }}
               />
             </Button>
-            {editedOperator?.domicilio_url && (
+            {editedOperator?.acta_url && (
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
                   color="primary"
@@ -859,7 +859,7 @@ const OperatorInfo = () => {
                     setConfirmDialog({
                       open: true,
                       action: "view",
-                      docType: "domicilio",
+                      docType: "acta",
                     })
                   }
                   sx={{ ml: 2 }}
@@ -872,7 +872,7 @@ const OperatorInfo = () => {
                     setConfirmDialog({
                       open: true,
                       action: "delete",
-                      docType: "domicilio",
+                      docType: "acta",
                     })
                   }
                   sx={{ ml: 1 }}
@@ -994,8 +994,8 @@ const OperatorInfo = () => {
                   case "antecedentes2":
                     window.open(editedOperator.antecedentes2_url, "_blank");
                     break;
-                  case "domicilio":
-                    window.open(editedOperator.domicilio_url, "_blank");
+                  case "acta":
+                    window.open(editedOperator.acta_url, "_blank");
                     break;
                   case "curp_doc":
                     window.open(editedOperator.curp_doc_url, "_blank");
@@ -1038,11 +1038,11 @@ const OperatorInfo = () => {
                       antecedentes2_url: null,
                     });
                     break;
-                  case "domicilio":
+                  case "acta":
                     setEditedOperator({
                       ...editedOperator,
-                      domicilio: null,
-                      domicilio_url: null,
+                      acta: null,
+                      acta_url: null,
                     });
                     break;
                   case "curp_doc":
