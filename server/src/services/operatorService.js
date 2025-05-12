@@ -261,6 +261,52 @@ const postOperator = async (operator) => {
         .eq("id", operatorId);
     }
 
+    // POST: Domicilio
+    if (operator.domicilio) {
+      const pathDomicilio = `handlers/domicilio/${operatorId}_domicilio.pdf`;
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(pathDomicilio, operator.domicilio.buffer, {
+          contentType: operator.domicilio.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (uploadError) throw new Error(uploadError.message);
+
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathDomicilio);
+      if (urlError) throw new Error(urlError.message);
+
+      await supabase
+        .from("operator")
+        .update({ domicilio_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    }
+
+    // POST: Estudios
+    if (operator.estudios) {
+      const pathEstudios = `handlers/estudios/${operatorId}_estudios.pdf`;
+      const { error: uploadError } = await supabase.storage
+        .from("k9-docs")
+        .upload(pathEstudios, operator.estudios.buffer, {
+          contentType: operator.estudios.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (uploadError) throw new Error(uploadError.message);
+
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathEstudios);
+      if (urlError) throw new Error(urlError.message);
+
+      await supabase
+        .from("operator")
+        .update({ estudios_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    }
+
     return { message: "Manejador creado correctamente", operatorId };
   } catch (error) {
     console.error("Error al insertar manejador:", error.message);
@@ -452,6 +498,54 @@ const editOperator = async (operatorId, newData, files) => {
       await supabase
         .from("operator")
         .update({ curp_doc_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    }
+
+    if (files.domicilio) {
+      const pathDomicilio = `handlers/domicilio/${operatorId}_domicilio.pdf`;
+      await supabase.storage
+        .from("k9-docs")
+        .upload(pathDomicilio, files.domicilio.buffer, {
+          contentType: files.domicilio.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathDomicilio);
+      if (urlError) throw new Error(urlError.message);
+      await supabase
+        .from("operator")
+        .update({ domicilio_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    } else if (files.delete_domicilio === "true") {
+      await supabase
+        .from("operator")
+        .update({ domicilio_url: null })
+        .eq("id", operatorId);
+    }
+
+    if (files.estudios) {
+      const pathEstudios = `handlers/estudios/${operatorId}_estudios.pdf`;
+      await supabase.storage
+        .from("k9-docs")
+        .upload(pathEstudios, files.estudios.buffer, {
+          contentType: files.estudios.mimetype,
+          cacheControl: "3600",
+          upsert: true,
+        });
+      const { data: publicUrlData, error: urlError } = supabase.storage
+        .from("k9-docs")
+        .getPublicUrl(pathEstudios);
+      if (urlError) throw new Error(urlError.message);
+      await supabase
+        .from("operator")
+        .update({ estudios_url: publicUrlData.publicUrl })
+        .eq("id", operatorId);
+    } else if (files.delete_estudios === "true") {
+      await supabase
+        .from("operator")
+        .update({ estudios_url: null })
         .eq("id", operatorId);
     }
 

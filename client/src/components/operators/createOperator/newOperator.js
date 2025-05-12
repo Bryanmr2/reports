@@ -46,6 +46,10 @@ const NewOperator = ({ setIsLoggedIn }) => {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": ", pair[1]);
     }
+    if (data.domicilio && data.domicilio[0])
+      formData.append("domicilio", data.domicilio[0]);
+    if (data.estudios && data.estudios[0])
+      formData.append("estudios", data.estudios[0]);
 
     try {
       const response = await axios.post(`${baseUrl}/api/operator`, formData, {
@@ -212,6 +216,16 @@ const NewOperator = ({ setIsLoggedIn }) => {
                 CURP (PDF)
               </InputLabel>
               <OutlinedInput type="file" {...register("curp_doc")} />
+
+              <InputLabel htmlFor="domicilio" style={{ marginTop: "10%" }}>
+                Domicilio (PDF)
+              </InputLabel>
+              <OutlinedInput type="file" {...register("domicilio")} />
+
+              <InputLabel htmlFor="estudios" style={{ marginTop: "10%" }}>
+                Estudios (PDF)
+              </InputLabel>
+              <OutlinedInput type="file" {...register("estudios")} />
             </div>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Button

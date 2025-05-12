@@ -142,6 +142,18 @@ const OperatorInfo = () => {
       formData.append("delete_curp_doc", "true");
     }
 
+    if (editedOperator.domicilio) {
+      formData.append("domicilio", editedOperator.domicilio);
+    } else if (editedOperator.domicilio_url === null) {
+      formData.append("delete_domicilio", "true");
+    }
+
+    if (editedOperator.estudios) {
+      formData.append("estudios", editedOperator.estudios);
+    } else if (editedOperator.estudios_url === null) {
+      formData.append("delete_estudios", "true");
+    }
+
     // Log de las entradas del FormData para verificar
     console.log("Contenido del FormData:");
     for (let [key, value] of formData.entries()) {
@@ -455,6 +467,63 @@ const OperatorInfo = () => {
                   color="primary"
                   component="a"
                   href={operator.curp_doc_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Domicilio:</strong>
+            </Typography>
+            {operator.domicilio_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.domicilio_url}
+                  target="_blank"
+                  style={{ padding: 4 }}
+                >
+                  <PictureAsPdfIcon style={{ color: "red" }} />
+                </IconButton>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                Sin documento
+              </Typography>
+            )}
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{ borderBottom: 1, borderColor: "divider", pb: 1 }}
+          >
+            <Typography variant="body1">
+              <strong>Estudios:</strong>
+            </Typography>
+            {operator.estudios_url ? (
+              <Box display="flex" alignItems="center" ml={1}>
+                <IconButton
+                  color="primary"
+                  component="a"
+                  href={operator.estudios_url}
                   target="_blank"
                   style={{ padding: 4 }}
                 >
@@ -941,6 +1010,121 @@ const OperatorInfo = () => {
               </Box>
             )}
           </Box>
+
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.domicilio_url
+                ? "Reemplazar domicilio"
+                : "Subir domicilio (opcional)"}
+              <input
+                type="file"
+                name="domicilio"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    domicilio: file,
+                    domicilio_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.domicilio_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "domicilio",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "domicilio",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+          <Box
+            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="contained" component="label">
+              {editedOperator?.estudios_url
+                ? "Reemplazar estudios"
+                : "Subir estudios (opcional)"}
+              <input
+                type="file"
+                name="estudios"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEditedOperator({
+                    ...editedOperator,
+                    estudios: file,
+                    estudios_url: URL.createObjectURL(file),
+                  });
+                }}
+              />
+            </Button>
+            {editedOperator?.estudios_url && (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "view",
+                      docType: "estudios",
+                    })
+                  }
+                  sx={{ ml: 2 }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <IconButton
+                  color="error"
+                  onClick={() =>
+                    setConfirmDialog({
+                      open: true,
+                      action: "delete",
+                      docType: "estudios",
+                    })
+                  }
+                  sx={{ ml: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeEditDialog} color="primary">
@@ -1000,6 +1184,12 @@ const OperatorInfo = () => {
                   case "curp_doc":
                     window.open(editedOperator.curp_doc_url, "_blank");
                     break;
+                  case "domicilio":
+                    window.open(editedOperator.domicilio_url, "_blank");
+                    break;
+                  case "estudios":
+                    window.open(editedOperator.estudios_url, "_blank");
+                    break;
                 }
               } else if (confirmDialog.action === "delete") {
                 switch (confirmDialog.docType) {
@@ -1050,6 +1240,20 @@ const OperatorInfo = () => {
                       ...editedOperator,
                       curp_doc: null,
                       curp_doc_url: null,
+                    });
+                    break;
+                  case "domicilio":
+                    setEditedOperator({
+                      ...editedOperator,
+                      domicilio_url: null,
+                      domicilio: null,
+                    });
+                    break;
+                  case "estudios":
+                    setEditedOperator({
+                      ...editedOperator,
+                      estudios_url: null,
+                      estudios: null,
                     });
                     break;
                   default:

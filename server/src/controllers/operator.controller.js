@@ -45,6 +45,8 @@ const postOperatorsHandler = async (req, res) => {
     : null;
   const acta = req.files?.acta ? req.files.acta[0] : null;
   const curp_doc = req.files?.curp_doc ? req.files.curp_doc[0] : null;
+  const domicilio = req.files?.domicilio ? req.files.domicilio[0] : null;
+  const estudios = req.files?.estudios ? req.files.estudios[0] : null;
 
   try {
     const newOperator = await postOperator({
@@ -62,6 +64,8 @@ const postOperatorsHandler = async (req, res) => {
       antecedentes2,
       acta,
       curp_doc,
+      domicilio,
+      estudios,
     });
     console.log("Archivos recibidos en req.files:", req.files);
     res.status(201).json(newOperator);
@@ -97,6 +101,8 @@ const editOperatorHandler = async (req, res) => {
       files.antecedentes2 = req.files.antecedentes2[0];
     if (req.files.acta) files.acta = req.files.acta[0];
     if (req.files.curp_doc) files.curp_doc = req.files.curp_doc[0];
+    if (req.files.domicilio) files.domicilio = req.files.domicilio[0];
+    if (req.files.estudios) files.estudios = req.files.estudios[0];
   }
 
   if (req.body.delete_file) files.delete_file = req.body.delete_file;
@@ -110,6 +116,10 @@ const editOperatorHandler = async (req, res) => {
   if (req.body.delete_acta) files.delete_acta = req.body.delete_acta;
   if (req.body.delete_curp_doc)
     files.delete_curp_doc = req.body.delete_curp_doc;
+  if (req.body.delete_domicilio)
+    files.delete_domicilio = req.body.delete_domicilio;
+  if (req.body.delete_estudios)
+    files.delete_estudios = req.body.delete_estudios;
 
   try {
     const result = await editOperator(operatorId, newData, files);

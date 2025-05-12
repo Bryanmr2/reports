@@ -42,6 +42,8 @@ app.use(
     { name: "antecedentes2", maxCount: 1 },
     { name: "acta", maxCount: 1 },
     { name: "curp_doc", maxCount: 1 },
+    { name: "domicilio", maxCount: 1 },
+    { name: "estudios", maxCount: 1 },
   ])
 );
 
