@@ -1,0 +1,17 @@
+{
+    "name": "reports",
+    "private": true,
+    "workspaces": [
+      "client",
+      "server"
+    ],
+    "scripts": {
+      "build": "yarn workspace client build && yarn workspace server build",
+      "start": "concurrently \"yarn workspace server start\" \"serve -s client/build -l 3000\""
+    },
+    "devDependencies": {
+      "concurrently": "^7.6.0",
+      "serve": "^14.2.0"
+    }
+  }
+  
