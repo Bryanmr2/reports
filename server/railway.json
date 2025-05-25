@@ -1,13 +1,13 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "./server/Dockerfile"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm ci --prefix server && npm run build --prefix server"
   },
   "deploy": {
     "startCommand": "node app.js",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
-    "restartPolicyType": "always"
+    "restartPolicyType": "ALWAYS"
   }
 }
